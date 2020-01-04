@@ -42,6 +42,7 @@ function showPreview() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					let obj = JSON.parse(xhr.responseText);
+					let timestamp = moment(obj.created_at).format('LLLL');
 					let e = document.createElement("div");
 					e.setAttribute("class","toot");
 					let tmp = "";

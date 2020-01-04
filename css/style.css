@@ -38,17 +38,18 @@ html {
 }
 */
 
-.display-name{
+.display-name, .create-at {
   font-weight: bold;
+  display: inline-block;
 }
 
-.display-name span{
+.display-name span, .create-at {
   font-weight: normal;
   color: #c0c0c0;
   font-size: smaller;
 }
 
-.display-name span:before{
+.display-name span:before, .create-at:before {
   white-space: pre-wrap;
   content: "  ";
 }

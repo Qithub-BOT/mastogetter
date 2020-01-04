@@ -22,6 +22,7 @@ function showPreview() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
 				let obj = JSON.parse(xhr.responseText);
+				let timestamp = moment(obj.created_at).format('LLLL');
 				let tmp = "";
 				for (let i = 0; i < obj.media_attachments.length; i++) {
 					tmp += "<a href='"+ obj.media_attachments[i].url +"'><img class='thumbs' src='"+ obj.media_attachments[i].preview_url +"'></a>";
