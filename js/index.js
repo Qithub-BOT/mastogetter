@@ -29,7 +29,7 @@ function showPreview() {
 				for (let i = 0; i < obj.media_attachments.length; i++) {
 					target_div.innerHTML += "<a href='"+ obj.media_attachments[i].url +"'><img class='thumbs' src='"+ obj.media_attachments[i].preview_url +"'></a>";
 				}
-				target_div.innerHTML += '</div></div>';
+				target_div.innerHTML += '</div></div></div>';
 			} else {
 				console.error(xhr.statusText);
 			}
