@@ -25,7 +25,11 @@ function showPreview() {
 				target_div.innerHTML = '<div class="toot"><div class="box"><img width="48" height="48" alt="" class="u-photo" src="'+ obj.account.avatar +'"></div>'
 					+ '<div class="box"><span class="display-name">'+ obj.account.display_name
 					+ '<span>@'+ obj.account.username +'@'+ instance +'</span></span>'
-					+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>'+ obj.content +'</p></div></div></div>';
+					+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>'+ obj.content +'</p></div></div>';
+				for (let i = 0; i < obj.media_attachments.length; i++) {
+					target_div.innerHTML += "<a href='"+ obj.media_attachments[i].url +"'><img class='thumbs' src='"+ obj.media_attachments[i].preview_url +"'></a>";
+				}
+				target_div.innerHTML += '</div>';
 			} else {
 				console.error(xhr.statusText);
 			}
