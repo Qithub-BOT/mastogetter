@@ -6,13 +6,14 @@ function $(id) {
 }
 
 function showPreview() {
-	let instance = $("instance").value;
-	if (instance.trim() == "") {
-		instance = "https://qiitadon.com";
-		$("instance").value = instance;
+	let instance_full = $("instance").value;
+	if (instance_full.trim() == "") {
+		instance_full = "https://qiitadon.com";
+		$("instance").value = instance_full;
 	}
+	let instance = instance_full.split("//")[1];
 	let toot_id = $("toot-id").value;
-	let toot_url = instance + "/api/v1/statuses/" + toot_id;
+	let toot_url = instance_full + "/api/v1/statuses/" + toot_id;
 	let target_div = $("card-preview");
 
 	let xhr = new XMLHttpRequest();
