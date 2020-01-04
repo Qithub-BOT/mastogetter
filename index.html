@@ -15,12 +15,16 @@
 		<div class="area">
 			<form>
 				<div>
+					<label for="load">パーマリンク読込:</label><input type="text" placeholder="パーマリンクを貼り付けて下さい" id="load">
+					<input type="button" value="読込" onclick="loadPermalink()">
+				</div>
+				<div>
 					<label for="instance">インスタンス名:</label><input type="text" placeholder="https://qiitadon.com" id="instance"><br>
 					<label for="toot-id">トゥートID:</label><input type="text" placeholder="トゥートID（数字のみ）を入力して下さい" id="toot-id"><br>
 					<a href="https://github.com/hidao80/mastogetter/blob/master/README.md">使い方</a>
+					<input type="button" value="プレビュー" onclick="showPreview()">
+					<input type="button" value="追加" onclick="addCard()">
 				</div>
-				<input type="button" value="プレビュー" onclick="showPreview()">
-				<input type="button" value="追加" onclick="addCard()">
 			</form>
 			<div id="card-preview">
 				埋め込みカードのプレビューが表示されます
