@@ -28,15 +28,26 @@ html {
   border-radius: 5px;
 }
 
-/*
+/* 
 バルーンのスタイル
 .e-content {
-  margin-top: 10px;
+  margin-top: 10px;	
   border: solid 1px gray;
   border-radius: 10px;
   padding: 0px 10px 0px 10px;
 }
 */
+
+.e-content p{
+  word-break: break-word;
+}
+
+img.thumbs {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
 
 .display-name, .create-at {
   font-weight: bold;
@@ -64,3 +75,4 @@ html {
   color: #c0c0c0;
   font-size: smaller;
 }
+
