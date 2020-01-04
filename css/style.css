@@ -1,5 +1,6 @@
 .toot {
   display: flex;
+  padding: 10px;
 }
 
 .container {
@@ -8,4 +9,23 @@
 
 .area {
 	width: 48vw;
+}
+
+.box:last-of-type {
+  padding-left: 10px;
+}
+
+.box img{
+  border-radius: 10px;
+}
+
+.e-content {
+  margin-top: 10px;
+  border: solid 1px gray;
+  border-radius: 10px;
+  padding: 0px 10px 0px 10px;
+}
+
+.display-name{
+  font-weight: bold;
 }
