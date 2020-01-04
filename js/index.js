@@ -47,7 +47,7 @@ function showPreview() {
 function addCard() {
 	let clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
-	clone.setAttribute("onclick", "deleteCard('"+ max_index +"')");
+	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
 	card_list[max_index] = $("toot-id").value;
 	max_index++;
 
