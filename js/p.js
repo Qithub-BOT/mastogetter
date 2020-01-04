@@ -16,11 +16,12 @@ var get_url_vars = (function() {
 })();
 
 function showPreview() {
-	console.log(get_url_vars);
-	let instance = get_url_vars["i"];
-	if (instance.trim() == "") {
-		instance = "https://qiitadon.com";
+	let instance_full = get_url_vars["i"];
+	if (instance_full.trim() == "") {
+		instance_full = "https://qiitadon.com";
+		$("instance").value = instance_full;
 	}
+	let instance = instance_full.split("//")[1];
 	let toot_id = get_url_vars["t"];
 	let toot_ids = toot_id.split(',');
 	if (toot_ids[toot_ids.length-1] < "1000000000000000") {
@@ -36,7 +37,7 @@ function showPreview() {
 
 	console.log(toot_ids);
 	for (let i = 0; i < toot_ids.length; i++) {
-		toot_url = instance + "/api/v1/statuses/" + toot_ids[i];
+		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
 		xhr.open("GET", toot_url, false);
 		xhr.onload = function (e) {
 			console.log(toot_url);
