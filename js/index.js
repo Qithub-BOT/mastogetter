@@ -45,8 +45,8 @@ function addCard() {
 	let clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
 	clone.setAttribute("onclick", "deleteCard('"+ max_index +"')");
-	max_index++;
 	card_list[max_index] = $("toot-id").value;
+	max_index++;
 
 	$("cards").appendChild(clone);
 	genPermalink();
@@ -54,9 +54,7 @@ function addCard() {
 
 function deleteCard(index) {
 	$("cards").removeChild($(index));
-	console.log(card_list);
 	delete card_list[index];
-	console.log(card_list);
 	genPermalink();
 }
 
