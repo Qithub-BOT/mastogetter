@@ -49,10 +49,11 @@ function showPreview() {
 					for (let i = 0; i < obj.media_attachments.length; i++) {
 						tmp += "<a href='"+ obj.media_attachments[i].url +"'><img class='thumbs' src='"+ obj.media_attachments[i].preview_url +"'></a>";
 					}
+					let toot_time = new Date(obj.created_at);
 					e.innerHTML = '<div class="box"><img width="48" height="48" alt="" class="u-photo" src="'+ obj.account.avatar +'"></div>'
 						+ '<div class="box"><span class="display-name">'+ obj.account.display_name
 						+ '<span>@'+ obj.account.username +'@'+ instance +'</span></span>'
-						+ '<span class="create-at">' + timestamp + '</span>'
+						+ '<span class="toot-time">' + toot_time + '</span>'
 						+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>'+ obj.content +'</p></div>'
 						+ tmp + '</div>';
 					target_div.appendChild(e);
