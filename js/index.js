@@ -55,7 +55,7 @@ function addCard() {
 function deleteCard(index) {
 	$("cards").removeChild($(index));
 	console.log(card_list);
-	delete card_list.index;
+	delete card_list[index];
 	console.log(card_list);
 	genPermalink();
 }
