@@ -12,7 +12,7 @@ function showPreview() {
 		$("instance").value = instance_full;
 	}
 	let instance = instance_full.split("//")[1];
-	let toot_id = $("toot-id").value;
+	let toot_id = $("toot-id").value.split("/").reverse()[0];
 	let toot_url = instance_full + "/api/v1/statuses/" + toot_id;
 	let target_div = $("card-preview");
 
@@ -48,7 +48,7 @@ function addCard() {
 	let clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
 	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
-	card_list[max_index] = $("toot-id").value;
+	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
 	max_index++;
 
 	$("cards").appendChild(clone);
