@@ -52,3 +52,14 @@ html {
   white-space: pre-wrap;
   content: "  ";
 }
+
+.toot-time:before{
+  white-space: pre-wrap;
+  content: "  ";
+}
+
+.toot-time{
+  font-weight: normal;
+  color: #c0c0c0;
+  font-size: smaller;
+}
