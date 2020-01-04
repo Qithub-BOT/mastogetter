@@ -35,12 +35,10 @@ function showPreview() {
 	let target_div = $("cards");
 	let xhr = new XMLHttpRequest();
 
-	console.log(toot_ids);
 	for (let i = 0; i < toot_ids.length; i++) {
 		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
 		xhr.open("GET", toot_url, false);
 		xhr.onload = function (e) {
-			console.log(toot_url);
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					let obj = JSON.parse(xhr.responseText);
