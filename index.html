@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>mogetter - もげったー</title>
+	<script src="https://qiitadon.com/embed.js"></script>
+	<script src="./js/index.js"></script>
+</head>
+<body>
+	<div class="input-area">
+		<form>
+			<div>
+				<label for="instance">インスタンス名:</label><input type="text" placeholder="https://mstdn.jp" id="instance"><br>
+				<label for="toot-id">トゥートID:</label><input type="text" placeholder="トゥートID（数字のみ）を入力して下さい" id="toot-id">
+			</div>
+			<input type="button" value="preview" onclick="showPreview()">
+			<input type="button" value="add" onclick="addCard()">
+		</form>
+		<div id="card-preview">
+			埋め込みカードのプレビューが表示されます
+		</div>
+	</div>
+	<div class="card-area">
+		<div class="permalink">
+		</div>
+		<div class="cards">
+		</div>
+	</div>
+</body>
+</html>
