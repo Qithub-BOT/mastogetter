@@ -13,11 +13,11 @@ body {
 
 .container {
   display: flex;
-  width: 70vw;
+  width: 80vw;
 }
 
 .area {
-	width: 48vw;
+  width: 95%;
 }
 
 .box:last-of-type {
