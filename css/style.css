@@ -49,5 +49,6 @@ html {
 }
 
 .display-name span:before{
-  content: "\b\b";
+  white-space: pre-wrap;
+  content: "  ";
 }
