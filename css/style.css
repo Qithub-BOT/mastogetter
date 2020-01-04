@@ -1,3 +1,7 @@
+body {
+  margin: 0 auto;
+}
+
 .toot {
   display: flex;
   padding: 10px;
