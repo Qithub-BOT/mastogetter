@@ -5,6 +5,7 @@
 
 .container {
   display: flex;
+  width: 70vw;
 }
 
 .area {
@@ -13,6 +14,7 @@
 
 .box:last-of-type {
   padding-left: 10px;
+  flex-grow: 1;
 }
 
 .box img{
