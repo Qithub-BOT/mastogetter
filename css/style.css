@@ -5,6 +5,8 @@ html {
 .toot {
   display: flex;
   padding: 10px;
+  /*区切り線のスタイル*/
+  border-bottom: solid 1px #c0c0c0;
 }
 
 .container {
@@ -23,16 +25,30 @@ html {
 }
 
 .box img{
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
+/*
+バルーンのスタイル
 .e-content {
   margin-top: 10px;
   border: solid 1px gray;
   border-radius: 10px;
   padding: 0px 10px 0px 10px;
 }
+*/
 
 .display-name{
   font-weight: bold;
+}
+
+.display-name span{
+  font-weight: normal;
+  color: #c0c0c0;
+  font-size: smaller;
+}
+
+.display-name span:before{
+  white-space: pre-wrap;
+  content: "  ";
 }
