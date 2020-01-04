@@ -28,6 +28,16 @@ html {
   border-radius: 5px;
 }
 
+/* 
+バルーンのスタイル
+.e-content {
+  margin-top: 10px;	
+  border: solid 1px gray;
+  border-radius: 10px;
+  padding: 0px 10px 0px 10px;
+}
+*/
+
 .e-content p{
   word-break: break-word;
 }
