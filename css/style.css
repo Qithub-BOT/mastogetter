@@ -2,10 +2,6 @@ html {
     width: 100%;  
 } 
 
-body {
-  margin: 0 auto;
-}
-
 .toot {
   display: flex;
   padding: 10px;
@@ -14,6 +10,7 @@ body {
 .container {
   display: flex;
   width: 80vw;
+  margin: 0 auto;
 }
 
 .area {
