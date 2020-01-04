@@ -42,6 +42,7 @@ function showPreview() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					let obj = JSON.parse(xhr.responseText);
+					let timestamp = moment(obj.created_at).format('LLLL');
 					let e = document.createElement("div");
 					e.setAttribute("class","toot");
 					let tmp = "";
@@ -51,6 +52,7 @@ function showPreview() {
 					e.innerHTML = '<div class="box"><img width="48" height="48" alt="" class="u-photo" src="'+ obj.account.avatar +'"></div>'
 						+ '<div class="box"><span class="display-name">'+ obj.account.display_name
 						+ '<span>@'+ obj.account.username +'@'+ instance +'</span></span>'
+						+ '<span class="create-at">' + timestamp + '</span>'
 						+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>'+ obj.content +'</p></div>'
 						+ tmp + '</div>';
 					target_div.appendChild(e);
