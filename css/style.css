@@ -1,0 +1,11 @@
+.toot {
+  display: flex;
+}
+
+.container {
+  display: flex;
+}
+
+.area {
+	width: 48vw;
+}
