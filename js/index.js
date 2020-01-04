@@ -61,9 +61,9 @@ function deleteCard(index) {
 	genPermalink();
 }
 
-function genPermalink(toot_list) {
+function genPermalink(toot_list = undefined) {
 	let permalink = "https://hidao80.github.io/mastogetter/p.html?i="+ $("instance").value +"&t=";
-	if (toot_list === undefind) {
+	if (toot_list === undefined) {
 		Object.keys(card_list).forEach(function (key) {
 			permalink += card_list[key] + ",";
 		});
