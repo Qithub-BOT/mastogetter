@@ -12,7 +12,7 @@ function showPreview() {
 		$("instance").value = instance_full;
 	}
 	let instance = instance_full.split("//")[1];
-	let toot_id = $("toot-id").value;
+	let toot_id = $("toot-id").value.split("/").reverse()[0];
 	let toot_url = instance_full + "/api/v1/statuses/" + toot_id;
 	let target_div = $("card-preview");
 
@@ -47,8 +47,8 @@ function showPreview() {
 function addCard() {
 	let clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
-	clone.setAttribute("onclick", "deleteCard('"+ max_index +"')");
-	card_list[max_index] = $("toot-id").value;
+	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
+	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
 	max_index++;
 
 	$("cards").appendChild(clone);
@@ -61,9 +61,9 @@ function deleteCard(index) {
 	genPermalink();
 }
 
-function genPermalink(toot_list) {
+function genPermalink(toot_list = undefined) {
 	let permalink = "https://hidao80.github.io/mastogetter/p.html?i="+ $("instance").value +"&t=";
-	if (toot_list === undefind) {
+	if (toot_list === undefined) {
 		Object.keys(card_list).forEach(function (key) {
 			permalink += card_list[key] + ",";
 		});
