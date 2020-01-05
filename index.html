@@ -17,8 +17,8 @@
 	<div class="container flex-center">
 		<div class="area container flex-column">
       <div>
-        <p><input type="text" id="load" placeholder="https://hidao80.github.io/mastogetter/p.html?hoge"><label for="load">パーマリンク</label></p>
-        <input type="button" value="リンク先のまとめを読み込む" onclick="loadPermalink()">
+        <p><input type="text" id="load" placeholder="https://hidao80.github.io/mastogetter/p.html?hoge"><label for="load">インポートするまとめのリンク</label></p>
+        <input type="button" value="まとめを読み込む" onclick="loadPermalink()">
       </div>
       <div id="domainid">
         <p><input type="text" id="instance" placeholder="https://qiitadon.com"><label for="instance">インスタンス名</label></p>
@@ -35,7 +35,7 @@
 		</div>
 		<div class="area">
 			<div>
-        <p><input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly"><label for="permalink">パーマリンク</label>
+        <p><input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly"><label for="permalink">このまとめのリンク</label>
           <input id="copylink" type="button" value="コピー" onclick="copyPermalink()"></p>
 			</div>
 			<div id="cards">
