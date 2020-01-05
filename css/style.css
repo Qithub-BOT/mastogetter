@@ -15,6 +15,11 @@ html {
   margin: 0 auto;
 }
 
+@media screen and (max-width: 899px) { 
+  /* width for mobile view */
+  .container {width: 100vw;}
+}
+
 .area {
   width: 95%;
 }
