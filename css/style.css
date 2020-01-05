@@ -2,26 +2,73 @@ html {
     width: 100%;  
 } 
 
+input, button, textarea, select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 .toot {
   display: flex;
   padding: 10px;
+  width: 100%;
   /*区切り線のスタイル*/
   border-bottom: solid 1px #c0c0c0;
 }
 
 .container {
   display: flex;
-  width: 80vw;
-  margin: 0 auto;
 }
 
-@media screen and (max-width: 899px) { 
-  /* width for mobile view */
-  .container {width: 100vw;}
+.flex-center{
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.flex-column{
+  flex-direction: column;
 }
 
 .area {
-  width: 95%;
+  width: 45vw;
+  padding: 1vw;
+}
+
+div.area>div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-top:2rem;
+}
+
+div.area>div p, div.area>div p input[type="text"]{
+  width:100%
+}
+div.area>div input:last-child{
+  margin-left:auto;
+}
+
+.area label:after{
+  content: "\a";
+  white-space: pre;
+}
+
+#domainid p{
+  flex-basis: 48%;
+}
+
+#copylink {
+  margin-left: 10px;
+}
+.area input[type="button"]{
+  font-size: 15px;
+  padding: .5em;
+  border-style: none;
+  border-radius: .5em;
+  background-color: #52b03b;
+  color: #fff;
+  box-shadow: none;
 }
 
 .box:last-of-type {
@@ -31,6 +78,12 @@ html {
 
 .box img{
   border-radius: 5px;
+}
+
+@media screen and (max-width: 899px) { 
+  /* width for mobile view */
+  .container {width: calc(100vw - 16px);}
+  .area{width: 100vw; height: auto;}
 }
 
 /* 
@@ -65,12 +118,7 @@ img.thumbs {
   font-size: smaller;
 }
 
-.display-name span:before, .create-at:before {
-  white-space: pre-wrap;
-  content: "  ";
-}
-
-.toot-time:before{
+.display-name span:before, .create-at:before, .toot-time:before{
   white-space: pre-wrap;
   content: "  ";
 }
@@ -80,4 +128,30 @@ img.thumbs {
   color: #c0c0c0;
   font-size: smaller;
 }
+
+/* アニメーションつきinput */
+/* コピペstart */
+div.area>div p {
+  position: relative;
+  display: flex;
+}
+input[type="text"]{
+  font-size: 15px;
+  flex-grow: 1;
+  padding: .5em .5em .5em .5em;
+  border: 1px solid #aaa;
+  background: #fff;
+  border-radius: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #333;
+}
+label {
+  position: absolute;
+  top: -1.5em;
+  left: 0em;
+  color: #000;
+  line-height: 1;
+}
+/* end */
 
