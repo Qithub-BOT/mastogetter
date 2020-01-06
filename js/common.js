@@ -1,3 +1,6 @@
+var card_list = {};
+var max_index = 0;
+
 function $(id) {
 	return document.getElementById(id);
 }
@@ -15,11 +18,15 @@ var get_url_vars = (function() {
 	return vars;
 })();
 
+function deleteCard(index) {}
+
 function decodePermalink(get_url_vars) {
 	let instance_full = get_url_vars["i"];
 	if (instance_full.trim() == "") {
 		instance_full = "https://qiitadon.com";
-		$("instance").value = instance_full;
+		if ($("instance") !== null) {
+			$("instance").value = instance_full;
+		}
 	}
 	let instance = instance_full.split("//")[1];
 	let toot_id = get_url_vars["t"];
@@ -34,6 +41,20 @@ function decodePermalink(get_url_vars) {
 	return {"instance_full": instance_full, 
 					"instance": instance,
 					"toot_ids": toot_ids};
+}
+
+function genPermalink(toot_list = undefined) {
+	if ($("permalink") !== null) {
+		let permalink = "https://hidao80.github.io/mastogetter/p.html?i="+ $("instance").value +"&t=";
+		if (toot_list === undefined) {
+			Object.keys(card_list).forEach(function (key) {
+				permalink += card_list[key] + ",";
+			});
+		} else {
+			permalink += toot_list;
+		}
+		$("permalink").value = permalink;
+	}
 }
 
 function showCards(permalink_obj) {
@@ -51,7 +72,7 @@ function showCards(permalink_obj) {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					let obj = JSON.parse(xhr.responseText);
-					let timestamp = moment(obj.created_at).format('LLLL');
+					let timestamp = moment(obj.created_at).format('llll');
 					let e = document.createElement("div");
 					e.setAttribute("class","toot");
 					let tmp = "";
@@ -64,6 +85,9 @@ function showCards(permalink_obj) {
 						+ '<span class="create-at">' + timestamp + '</span>'
 						+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>'+ obj.content +'</p></div>'
 						+ tmp + '</div>';
+					e.setAttribute("id", max_index);
+					e.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
+					max_index++;
 					target_div.appendChild(e);
 				} else {
 					console.error(xhr.statusText);
@@ -75,4 +99,6 @@ function showCards(permalink_obj) {
 		};
 		xhr.send(null); 	
 	}
+	card_list = toot_ids;
+	genPermalink(toot_ids);
 }
