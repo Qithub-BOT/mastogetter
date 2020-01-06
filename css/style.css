@@ -129,8 +129,20 @@ div.area>div input:last-child{
   #matomain {
     width: 100%;
   }
+  .error {
+    font-size: calc(0.1em + 1vw) !important;
+  }
 }
 
+@media screen and (max-width: 669px) { 
+  /* width for mobile view */
+  .error {
+    right: -8vw !important;
+  }
+  label, input[type="text"], input[type="button"], #card-preview, .area a{
+    font-size: 10px !important;
+  }
+}
 /* 
 バルーンのスタイル
 .e-content {
@@ -195,4 +207,38 @@ label {
   line-height: 1;
 }
 /* end */
+
+@keyframes appear{
+  from{
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: transparent;
+  }
+  to{
+    background-color: #f6faf2;
+    border: 1px solid #34830499;
+    color: #348304;
+    font-size: .8rem !important;
+  }
+}
+
+input:hover+.error {
+  display:inline;
+  animation-name: appear;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+}
+
+.error {
+  display:none;
+font-size: calc(9pt + 0.1vw);
+  position: absolute;
+  width: fit-content;
+  bottom:200%;
+  right: 0;
+  padding: .5em 1em .4em;
+  border-radius: 5px;
+  color: transparent;
+}
 
