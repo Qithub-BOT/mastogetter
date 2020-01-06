@@ -111,7 +111,10 @@ function loadPermalink() {
 						+ '<span class="create-at">' + timestamp + '</span>'
 						+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>'+ obj.content +'</p></div>'
 						+ tmp + '</div>';
-					target_div.appendChild(e);
+						e.setAttribute("id", max_index);
+						e.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
+						max_index++;
+						target_div.appendChild(e);
 				} else {
 					console.error(xhr.statusText);
 				}
