@@ -183,7 +183,7 @@ img.thumbs {
 
 /* inputまわり */
 /* start */
-div.area>div p {
+div.area>div>p {
   position: relative;
   display: flex;
 }
