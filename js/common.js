@@ -43,15 +43,15 @@ function decodePermalink(get_url_vars) {
 					"toot_ids": toot_ids};
 }
 
-function genPermalink(toot_list = undefined) {
+function genPermalink(toot_csv = undefined) {
 	if ($("permalink") !== null) {
 		let permalink = "https://hidao80.github.io/mastogetter/p.html?i="+ $("instance").value +"&t=";
-		if (toot_list === undefined) {
+		if (toot_csv === undefined) {
 			Object.keys(card_list).forEach(function (key) {
 				permalink += card_list[key] + ",";
 			});
 		} else {
-			permalink += toot_list;
+			permalink += toot_csv;
 		}
 		$("permalink").value = permalink;
 	}
