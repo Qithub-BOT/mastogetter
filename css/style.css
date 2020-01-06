@@ -1,16 +1,50 @@
-html {  
-    width: 100%;  
-} 
-
 input, button, textarea, select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
+html {  
+  /*font-size: calc(100vw / 32);*/
+} 
+
+body {
+  background-color: #f6f6f4;
+}
+
+p {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+header {
+  width:100%;
+  height: 57px;
+  background-color: #55c500;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 2.3rem;
+  color: white;
+  font-family: 'Baloo Bhai', cursive;
+}
+
+header>div, header+div{
+  width: 80%;
+  margin: auto;
+}
+
+header+div{
+  padding-top: 1rem;
+}
+
 .toot {
   display: flex;
   padding: 10px;
+  margin-bottom: 20px;
   width: 100%;
   /*区切り線のスタイル*/
   border-bottom: solid 1px #c0c0c0;
@@ -29,9 +63,14 @@ input, button, textarea, select {
   flex-direction: column;
 }
 
+#matomain {
+  width: 60%;
+}
+
 .area {
-  width: 45vw;
-  padding: 1vw;
+  width: 45%;
+  padding: 2vh 2vw;
+  background-color: white;
 }
 
 div.area>div {
@@ -39,7 +78,6 @@ div.area>div {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 10px;
-  padding-top:2rem;
 }
 
 div.area>div p, div.area>div p input[type="text"]{
@@ -52,6 +90,11 @@ div.area>div input:last-child{
 .area label:after{
   content: "\a";
   white-space: pre;
+}
+
+#domainid {
+  margin-top:1em;
+
 }
 
 #domainid p{
@@ -82,8 +125,10 @@ div.area>div input:last-child{
 
 @media screen and (max-width: 899px) { 
   /* width for mobile view */
-  .container {width: calc(100vw - 16px);}
-  .area{width: 100vw; height: auto;}
+  .area{width: 90vw; height: auto;}
+  #matomain {
+    width: 100%;
+  }
 }
 
 /* 
@@ -112,7 +157,7 @@ img.thumbs {
   display: inline-block;
 }
 
-.display-name span, .create-at {
+.display-name span, .create-at, .toot-time {
   font-weight: normal;
   color: #c0c0c0;
   font-size: smaller;
@@ -123,14 +168,9 @@ img.thumbs {
   content: "  ";
 }
 
-.toot-time{
-  font-weight: normal;
-  color: #c0c0c0;
-  font-size: smaller;
-}
 
-/* アニメーションつきinput */
-/* コピペstart */
+/* inputまわり */
+/* start */
 div.area>div p {
   position: relative;
   display: flex;
@@ -147,6 +187,7 @@ input[type="text"]{
   color: #333;
 }
 label {
+  font-size: 15px;
   position: absolute;
   top: -1.5em;
   left: 0em;
