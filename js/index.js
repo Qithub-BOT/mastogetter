@@ -122,5 +122,7 @@ function loadPermalink() {
 		};
 		xhr.send(null);
 	}
+	card_list = toot_ids;
+	max_index += toot_ids.length;
 	genPermalink(toot_ids.join(","));
 }
