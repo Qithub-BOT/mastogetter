@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>mastogetter - ますとげったー</title>
-  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/style.css">
 	<script src="js/common.js"></script>
@@ -14,34 +14,34 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ja.js"></script>
 </head>
 <body>
-  <header class="container">
-    <div>
-      <h1><a href="./">mastogetter</a></h1>
-    </div>
-  </header>
+	<header class="container">
+		<div>
+			<h1><a href="./">mastogetter</a></h1>
+		</div>
+	</header>
 	<div class="container flex-center">
 		<div class="area container flex-column">
-      <div>
-        <p><input type="text" id="load" placeholder="https://hidao80.github.io/mastogetter/p.html?hoge"><label for="load">インポートするまとめのリンク</label></p>
-        <input type="button" value="まとめを読み込む" onclick="loadPermalink()">
-      </div>
-      <div id="domainid">
-        <p><input type="text" id="instance" placeholder="https://qiitadon.com"><label for="instance">インスタンス名</label></p>
-        <p><input type="text" id="toot-id" placeholder="カーソルをあわせてヒントを表示"><span class="error">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span><label for="toot-id">トゥートID or URL</label></p>
-        <input type="button" value="ID or URLからプレビュー" onclick="showPreview()">
-      </div>
+			<div>
+				<p><input type="text" id="load" placeholder="https://hidao80.github.io/mastogetter/p.html?hoge"><label for="load">インポートするまとめのリンク</label></p>
+				<input type="button" value="まとめを読み込む" onclick="loadPermalink()">
+			</div>
+			<div id="domainid">
+				<p><input type="text" id="instance" placeholder="https://qiitadon.com"><label for="instance">インスタンス名</label></p>
+				<p><input type="text" id="toot-id" placeholder="カーソルをあわせてヒントを表示"><span class="error">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span><label for="toot-id">トゥートID or URL</label></p>
+				<input type="button" value="ID or URLからプレビュー" onclick="showPreview()">
+			</div>
 			<div id="card-preview">
 				埋め込みカードのプレビューが表示されます
 			</div>
-      <div>
-        <a href="https://github.com/hidao80/mastogetter/blob/master/README.md">使い方</a>
-        <input type="button" value="トゥートを追加" onclick="addCard()">
-      </div>
+			<div>
+				<a href="https://github.com/hidao80/mastogetter/blob/master/README.md">使い方</a>
+				<input type="button" value="トゥートを追加" onclick="addCard()">
+			</div>
 		</div>
 		<div class="area">
 			<div>
-        <p><input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly"><label for="permalink">このまとめのリンク</label>
-          <input id="copylink" type="button" value="コピー" onclick="copyPermalink()"></p>
+				<p><input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly"><label for="permalink">このまとめのリンク</label>
+				<input id="copylink" type="button" value="コピー" onclick="copyPermalink()"></p>
 			</div>
 			<div id="cards">
 			</div>
