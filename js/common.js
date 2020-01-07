@@ -38,7 +38,7 @@ function decodePermalink(get_url_vars) {
 		toot_ids.pop();
 	}
 
-	return {"instance_full": instance_full, 
+	return {"instance_full": instance_full,
 					"instance": instance,
 					"toot_ids": toot_ids};
 }
@@ -97,7 +97,7 @@ function showCards(permalink_obj) {
 		xhr.onerror = function (e) {
 			console.error(xhr.statusText);
 		};
-		xhr.send(null); 	
+		xhr.send(null);
 	}
 	card_list = toot_ids;
 	genPermalink(toot_ids);
