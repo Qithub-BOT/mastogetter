@@ -26,10 +26,18 @@ header {
   align-items: center;
 }
 
-header h1 {
+header h1 a {
   font-size: 2.3rem;
   color: white;
   font-family: 'Baloo Bhai', cursive;
+  text-decoration: none;
+}
+
+header h1 a:link,
+header h1 a:visited,
+header h1 a:hover,
+header h1 a:active {
+  color: white;
 }
 
 header>div, header+div{
