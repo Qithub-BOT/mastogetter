@@ -37,7 +37,7 @@ function showPreview() {
 	xhr.onerror = function (e) {
 		console.error(xhr.statusText);
 	};
-	xhr.send(null); 
+	xhr.send(null);
 }
 
 function addCard() {

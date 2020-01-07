@@ -1,252 +1,250 @@
 input, button, textarea, select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }
 
-html {  
-  /*font-size: calc(100vw / 32);*/
-} 
+html {
+	/*font-size: calc(100vw / 32);*/
+}
 
 body {
-  background-color: #f6f6f4;
+	background-color: #f6f6f4;
 }
 
 p {
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
 }
 
 header {
-  width:100%;
-  height: 57px;
-  background-color: #55c500;
-  align-items: center;
+	width:100%;
+	height: 57px;
+	background-color: #55c500;
+	align-items: center;
 }
 
 header h1 a {
-  font-size: 2.3rem;
-  color: white;
-  font-family: 'Baloo Bhai', cursive;
-  text-decoration: none;
+	font-size: 2.3rem;
+	color: white;
+	font-family: 'Baloo Bhai', cursive;
+	text-decoration: none;
 }
 
 header h1 a:link,
 header h1 a:visited,
 header h1 a:hover,
 header h1 a:active {
-  color: white;
+	color: white;
 }
 
-header>div, header+div{
-  width: 80%;
-  margin: auto;
+header>div, header+div {
+	width: 80%;
+	margin: auto;
 }
 
-header+div{
-  padding-top: 1rem;
+header+div {
+	padding-top: 1rem;
 }
 
 .toot {
-  display: flex;
-  padding: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  /*区切り線のスタイル*/
-  border-bottom: solid 1px #c0c0c0;
+	display: flex;
+	padding: 10px;
+	margin-bottom: 20px;
+	width: 100%;
+	/*区切り線のスタイル*/
+	border-bottom: solid 1px #c0c0c0;
 }
 
 .container {
-  display: flex;
+	display: flex;
 }
 
-.flex-center{
-  justify-content: center;
-  flex-wrap: wrap;
+.flex-center {
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
-.flex-column{
-  flex-direction: column;
+.flex-column {
+	flex-direction: column;
 }
 
 #matomain {
-  width: 60%;
+	width: 60%;
 }
 
 .area {
-  width: 44.5%;
-  padding: 2vh 2vw;
-  background-color: white;
+	width: 44.5%;
+	padding: 2vh 2vw;
+	background-color: white;
 }
 
 div.area>div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-bottom: 10px;
 }
 
-div.area>div p, div.area>div p input[type="text"]{
-  width:100%
+div.area>div p, div.area>div p input[type="text"] {
+	width: 100%
 }
-div.area>div input:last-child{
-  margin-left:auto;
+div.area>div input:last-child {
+	margin-left: auto;
 }
 
-.area label:after{
-  content: "\a";
-  white-space: pre;
+.area label:after {
+	content: "\a";
+	white-space: pre;
 }
 
 #domainid {
-  margin-top:1em;
-
+	margin-top: 1em;
 }
 
-#domainid p{
-  flex-basis: 48%;
+#domainid p {
+	flex-basis: 48%;
 }
 
 #copylink {
-  margin-left: 10px;
+	margin-left: 10px;
 }
-.area input[type="button"]{
-  font-size: 15px;
-  padding: .5em;
-  border-style: none;
-  border-radius: .5em;
-  background-color: #52b03b;
-  color: #fff;
-  box-shadow: none;
+.area input[type="button"] {
+	font-size: 15px;
+	padding: .5em;
+	border-style: none;
+	border-radius: .5em;
+	background-color: #52b03b;
+	color: #fff;
+	box-shadow: none;
 }
 
 .box:last-of-type {
-  padding-left: 10px;
-  flex-grow: 1;
+	padding-left: 10px;
+	flex-grow: 1;
 }
 
-.box img{
-  border-radius: 5px;
+.box img {
+	border-radius: 5px;
 }
 
-@media screen and (max-width: 899px) { 
-  /* width for mobile view */
-  .area{width: 90vw; height: auto;}
-  #matomain {
-    width: 100%;
-  }
-  .error {
-    font-size: calc(0.1em + 1vw) !important;
-  }
+@media screen and (max-width: 899px) {
+	/* width for mobile view */
+	.area{width: 90vw; height: auto;}
+	#matomain {
+		width: 100%;
+	}
+	.error {
+		font-size: calc(0.1em + 1vw) !important;
+	}
 }
 
-@media screen and (max-width: 669px) { 
-  /* width for mobile view */
-  .error {
-    right: -8vw !important;
-  }
-  label, input[type="text"], input[type="button"], #card-preview, .area a{
-    font-size: 10px !important;
-  }
+@media screen and (max-width: 669px) {
+	/* width for mobile view */
+	.error {
+		right: -8vw !important;
+	}
+	label, input[type="text"], input[type="button"], #card-preview, .area a {
+		font-size: 10px !important;
+	}
 }
-/* 
+/*
 バルーンのスタイル
 .e-content {
-  margin-top: 10px;	
-  border: solid 1px gray;
-  border-radius: 10px;
-  padding: 0px 10px 0px 10px;
+	margin-top: 10px;
+	border: solid 1px gray;
+	border-radius: 10px;
+	padding: 0px 10px 0px 10px;
 }
 */
 
-.e-content p{
-  word-break: break-word;
+.e-content p {
+	word-break: break-word;
 }
 
 img.thumbs {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .display-name, .create-at {
-  font-weight: bold;
-  display: inline-block;
+	font-weight: bold;
+	display: inline-block;
 }
 
 .display-name span, .create-at, .toot-time {
-  font-weight: normal;
-  color: #c0c0c0;
-  font-size: smaller;
+	font-weight: normal;
+	color: #c0c0c0;
+	font-size: smaller;
 }
 
-.display-name span:before, .create-at:before, .toot-time:before{
-  white-space: pre-wrap;
-  content: "  ";
+.display-name span:before, .create-at:before, .toot-time:before {
+	white-space: pre-wrap;
+	content: "  ";
 }
 
 
 /* inputまわり */
 /* start */
 div.area>div>p {
-  position: relative;
-  display: flex;
+	position: relative;
+	display: flex;
 }
-input[type="text"]{
-  font-size: 15px;
-  flex-grow: 1;
-  padding: .5em .5em .5em .5em;
-  border: 1px solid #aaa;
-  background: #fff;
-  border-radius: 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #333;
+input[type="text"] {
+	font-size: 15px;
+	flex-grow: 1;
+	padding: .5em .5em .5em .5em;
+	border: 1px solid #aaa;
+	background: #fff;
+	border-radius: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	color: #333;
 }
 label {
-  font-size: 15px;
-  position: absolute;
-  top: -1.5em;
-  left: 0em;
-  color: #000;
-  line-height: 1;
+	font-size: 15px;
+	position: absolute;
+	top: -1.5em;
+	left: 0em;
+	color: #000;
+	line-height: 1;
 }
 /* end */
 
-@keyframes appear{
-  from{
-    background-color: transparent;
-    border: 1px solid transparent;
-    color: transparent;
-  }
-  to{
-    background-color: #f6faf2;
-    border: 1px solid #34830499;
-    color: #348304;
-    font-size: .8rem !important;
-  }
+@keyframes appear {
+	from {
+		background-color: transparent;
+		border: 1px solid transparent;
+		color: transparent;
+	}
+	to {
+		background-color: #f6faf2;
+		border: 1px solid #34830499;
+		color: #348304;
+		font-size: .8rem !important;
+	}
 }
 
 input:hover+.error {
-  display:inline;
-  animation-name: appear;
-  animation-duration: 0.3s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
+	display: inline;
+	animation-name: appear;
+	animation-duration: 0.3s;
+	animation-fill-mode: forwards;
+	animation-timing-function: ease-out;
 }
 
 .error {
-  display:none;
-font-size: calc(9pt + 0.1vw);
-  position: absolute;
-  width: fit-content;
-  bottom:200%;
-  right: 0;
-  padding: .5em 1em .4em;
-  border-radius: 5px;
-  color: transparent;
+	display: none;
+	font-size: calc(9pt + 0.1vw);
+	position: absolute;
+	width: fit-content;
+	bottom: 200%;
+	right: 0;
+	padding: .5em 1em .4em;
+	border-radius: 5px;
+	color: transparent;
 }
-
