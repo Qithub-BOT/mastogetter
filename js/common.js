@@ -117,7 +117,7 @@ function showCards(permalink_obj) {
 		xhr.send(null);
 	}
 
-	card_list = toot_ids;
+	card_list = card_list.concat(toot_ids);
 	genPermalink();
 }
 
