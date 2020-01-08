@@ -47,13 +47,14 @@
 		</div>
 		<div class="area">
 			<div>
-				<p>
+				<p><form action="https://git.io/create" method="POST" target="_blank" id="form-gitio">
 					<label for="permalink">このまとめのリンク</label>
 					<span class="container">
-						<input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly">
+						<input id="permalink" name="url" type="text" placeholder="パーマリンクが生成されます" readonly="readonly">
 						<input id="copylink" type="button" value="コピー" onclick="copyPermalink()">
+						<input id="submit-gitio" type="button" value="git.IO" onclick="submitGitIO()" title="短縮 URL を git.io で取得する">
 					</span>
-				</p>
+				</form></p>
 			</div>
 			<div id="cards">
 			</div>

@@ -115,6 +115,11 @@ div.area>div input:last-child {
 #copylink {
 	margin-left: 10px;
 }
+
+#submit-gitio {
+	margin-left: 5px;
+}
+
 .area input[type="button"] {
 	font-size: 15px;
 	padding: .5em;
@@ -191,7 +196,7 @@ input[type="text"] {
 }
 label {
 	font-size: 15px;
-  padding-bottom: 15px;
+	padding-bottom: 15px;
 	color: #000;
 	line-height: 1;
 }

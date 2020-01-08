@@ -71,3 +71,7 @@ function loadPermalink() {
 	showCards(permalink_obj);
 	genPermalink(toot_ids.join(","));
 }
+
+function submitGitIO() {
+	$("form-gitio").submit();
+}
