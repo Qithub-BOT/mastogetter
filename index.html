@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ja.js"></script>
 </head>
+
 <body>
 	<header class="container">
 		<div>
@@ -22,12 +24,17 @@
 	<div class="container flex-center">
 		<div class="area container flex-column">
 			<div>
-				<p><label for="load">インポートするまとめのリンク</label><input type="text" id="load" placeholder="https://hidao80.github.io/mastogetter/p.html?hoge"></p>
+				<p><label for="load">インポートするまとめのリンク</label><input type="text" id="load"
+						placeholder="https://hidao80.github.io/mastogetter/p.html?hoge"></p>
 				<input type="button" value="まとめを読み込む" onclick="loadPermalink()">
 			</div>
 			<div id="domainid">
-				<p><label for="instance">インスタンス名</label><input type="text" id="instance" placeholder="https://qiitadon.com"></p>
-				<p><label for="toot-id">トゥートID or URL</label><input type="text" id="toot-id" placeholder="カーソルをあわせてヒントを表示"><span class="error">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span></p>
+				<p><label for="instance">インスタンス名</label><input type="text" id="instance"
+						placeholder="https://qiitadon.com"></p>
+				<p><label for="toot-id">トゥートID or URL</label><input type="text" id="toot-id"
+						placeholder="カーソルをあわせてヒントを表示"><span
+						class="error">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span>
+				</p>
 				<input type="button" value="ID or URLからプレビュー" onclick="showPreview()">
 			</div>
 			<div id="card-preview">
@@ -39,18 +46,19 @@
 			</div>
 		</div>
 		<div class="area">
-      <div>
-        <p>
-          <label for="permalink">このまとめのリンク</label>
-          <span class="container">
-            <input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly">
-            <input id="copylink" type="button" value="コピー" onclick="copyPermalink()">
-          </span>
-        </p>
-      </div>
-      <div id="cards">
-      </div>
-    </div>
-  </div>
+			<div>
+				<p>
+					<label for="permalink">このまとめのリンク</label>
+					<span class="container">
+						<input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly">
+						<input id="copylink" type="button" value="コピー" onclick="copyPermalink()">
+					</span>
+				</p>
+			</div>
+			<div id="cards">
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>
