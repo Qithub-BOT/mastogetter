@@ -22,13 +22,17 @@ function showPreview() {
 				let timestamp = moment(obj.created_at).format('llll');
 				let tmp = "";
 				for (let i = 0; i < obj.media_attachments.length; i++) {
-					tmp += "<a href='" + obj.media_attachments[i].url + "'><img class='thumbs' src='" + obj.media_attachments[i].preview_url + "'></a>";
+					tmp += `<a href='${obj.media_attachments[i].url}'><img class='thumbs' src='${obj.media_attachments[i].preview_url}'></a>`;
 				}
-				target_div.innerHTML = '<div class="toot"><div class="box"><img width="48" height="48" alt="" class="u-photo" src="' + obj.account.avatar + '"></div>'
-					+ '<div class="box"><span class="display-name">' + obj.account.display_name + '<span>@' + obj.account.username + '@' + instance + '</span></span>'
-					+ '<span class="toot-time">' + timestamp + '</span>'
-					+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>' + obj.content + '</p></div>'
-					+ tmp + '</div></div>';
+				target_div.innerHTML = `
+<div class="toot">
+<div class="box"><a href="${obj.account.url}" target="_blank"><img width="48" height="48" alt="" class="u-photo" src="${obj.account.avatar}"></a></div>
+<div class="box"><a class="display-name" href="${obj.account.url}" target="_blank">${obj.account.display_name}<span>@${obj.account.username}@${instance}</span></a>
+<a class="toot-time" href="${obj.url}" target="_blank">${timestamp}</a>
+<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>${obj.content}</p></div>
+${tmp}</div>
+</div>
+`;
 			} else {
 				console.error(xhr.statusText);
 			}
