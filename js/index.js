@@ -18,19 +18,19 @@ function showPreview() {
 	xhr.onload = function (e) {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
-				let obj = JSON.parse(xhr.responseText);
-				let timestamp = moment(obj.created_at).format('llll');
-				let tmp = "";
-				for (let i = 0; i < obj.media_attachments.length; i++) {
-					tmp += `<a href='${obj.media_attachments[i].url}'><img class='thumbs' src='${obj.media_attachments[i].preview_url}'></a>`;
+				const toot = JSON.parse(xhr.responseText);
+				const timestamp = moment(toot.created_at).format('llll');
+				let media = "";
+				for (let i = 0; i < toot.media_attachments.length; i++) {
+					media += `<a href='${toot.media_attachments[i].url}'><img class='thumbs' src='${toot.media_attachments[i].preview_url}'></a>`;
 				}
 				target_div.innerHTML = `
 <div class="toot">
-<div class="box"><a href="${obj.account.url}" target="_blank"><img width="48" height="48" alt="" class="u-photo" src="${obj.account.avatar}"></a></div>
-<div class="box"><a class="display-name" href="${obj.account.url}" target="_blank">${obj.account.display_name}<span>@${obj.account.username}@${instance}</span></a>
-<a class="toot-time" href="${obj.url}" target="_blank">${timestamp}</a>
-<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>${obj.content}</p></div>
-${tmp}</div>
+<div class="box"><a href="${toot.account.url}" target="_blank"><img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}"></a></div>
+<div class="box"><a class="display-name" href="${toot.account.url}" target="_blank">${toot.account.display_name}<span>@${toot.account.username}@${instance}</span></a>
+<a class="toot-time" href="${toot.url}" target="_blank">${timestamp}</a>
+<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>${toot.content}</p></div>
+${media}</div>
 </div>
 `;
 			} else {
