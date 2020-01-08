@@ -1,18 +1,18 @@
-var card_list = [];
-var max_index = 0;
+let card_list = [];
+let max_index = 0;
 
 function $(id) {
 	return document.getElementById(id);
 }
 
-var get_url_vars = (function () {
-	var vars = {};
-	var param = location.search.substring(1).split('&');
-	for (var i = 0; i < param.length; i++) {
-		var keySearch = param[i].search(/=/);
-		var key = '';
+const get_url_vars = (function () {
+	const vars = {};
+	const param = location.search.substring(1).split('&');
+	for (let i = 0; i < param.length; i++) {
+		const keySearch = param[i].search(/=/);
+		let key = '';
 		if (keySearch != -1) key = param[i].slice(0, keySearch);
-		var val = param[i].slice(param[i].indexOf('=', 0) + 1);
+		const val = param[i].slice(param[i].indexOf('=', 0) + 1);
 		if (key != '') vars[key] = decodeURI(val);
 	}
 	return vars;
@@ -28,9 +28,9 @@ function decodePermalink(get_url_vars) {
 			$("instance").value = instance_full;
 		}
 	}
-	let instance = instance_full.split("//")[1];
-	let toot_id = get_url_vars["t"];
-	let toot_ids = toot_id.split(',');
+	const instance = instance_full.split("//")[1];
+	const toot_id = get_url_vars["t"];
+	const toot_ids = toot_id.split(',');
 	if (toot_ids[toot_ids.length - 1] < "1000000000000000") {
 		// 最後の要素が 1.0+E18より小さければ、
 		// id の途中で url が切れたと判断して最後の項目を
@@ -70,12 +70,12 @@ function addPermalink(toot_csv) {
 }
 
 function showCards(permalink_obj) {
-	let instance_full = permalink_obj["instance_full"];
-	let instance = permalink_obj["instance"];
-	let toot_ids = permalink_obj["toot_ids"];
+	const instance_full = permalink_obj["instance_full"];
+	const instance = permalink_obj["instance"];
+	const toot_ids = permalink_obj["toot_ids"];
+	const xhr = new XMLHttpRequest();
+	const target_div = $("cards");
 	let toot_url = "";
-	let target_div = $("cards");
-	let xhr = new XMLHttpRequest();
 
 	for (let i = 0; i < toot_ids.length; i++) {
 		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
@@ -142,15 +142,15 @@ function handleDrop(e) {
 	while (!node.getAttribute("ondblclick")) {
 		node = node.parentNode;
 	}
-	let src = $(e.dataTransfer.getData('text/plain'));
+	const src = $(e.dataTransfer.getData('text/plain'));
 	if (src.id == node.id) {
 		return;
 	}
-	let cards = $("cards");
-	let children = cards.childNodes;
+	const cards = $("cards");
+	const children = cards.childNodes;
 	let src_index = -1;
 	let node_index = -1;
-	for (var i = 0; i < children.length; i++) {
+	for (let i = 0; i < children.length; i++) {
 		if (children[i] === src) {
 			src_index = i - 1;
 		}
@@ -172,7 +172,7 @@ function handleDrop(e) {
 		card_list.splice(node_index, 0, card_list[src_index]);
 		card_list.splice(src_index, 1);
 	} else {
-		let toot_id = card_list[src_index]
+		const toot_id = card_list[src_index]
 		card_list.splice(src_index, 1);
 		card_list.splice(node_index, 0, toot_id);
 	}

@@ -8,12 +8,12 @@ function showPreview() {
 		instance_full = "https://qiitadon.com";
 		$("instance").value = instance_full;
 	}
-	let instance = instance_full.split("//")[1];
-	let toot_id = $("toot-id").value.split("/").reverse()[0];
-	let toot_url = instance_full + "/api/v1/statuses/" + toot_id;
-	let target_div = $("card-preview");
+	const instance = instance_full.split("//")[1];
+	const toot_id = $("toot-id").value.split("/").reverse()[0];
+	const toot_url = instance_full + "/api/v1/statuses/" + toot_id;
+	const target_div = $("card-preview");
 
-	let xhr = new XMLHttpRequest();
+	const xhr = new XMLHttpRequest();
 	xhr.open("GET", toot_url, true);
 	xhr.onload = function (e) {
 		if (xhr.readyState === 4) {
@@ -45,7 +45,7 @@ ${media}</div>
 }
 
 function addCard() {
-	let clone = $("card-preview").firstElementChild.cloneNode(true);
+	const clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
 	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
 	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
