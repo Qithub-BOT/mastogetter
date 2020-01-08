@@ -164,7 +164,13 @@ img.thumbs {
 
 .display-name, .toot-time {
 	font-weight: bold;
+	color: inherit;
 	display: inline-block;
+	text-decoration: none;
+}
+
+.display-name:hover, .toot-time:hover {
+	text-decoration: underline currentColor;
 }
 
 .display-name span, .toot-time {
