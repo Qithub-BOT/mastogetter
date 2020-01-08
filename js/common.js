@@ -1,4 +1,4 @@
-var card_list = {};
+var card_list = [];
 var max_index = 0;
 
 function $(id) {
