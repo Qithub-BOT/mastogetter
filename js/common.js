@@ -89,14 +89,15 @@ function showCards(permalink_obj) {
 					e.setAttribute("class", "toot");
 					let tmp = "";
 					for (let i = 0; i < obj.media_attachments.length; i++) {
-						tmp += "<a href='" + obj.media_attachments[i].url + "'><img class='thumbs' src='" + obj.media_attachments[i].preview_url + "'></a>";
+						tmp += `<a href='${obj.media_attachments[i].url}'><img class='thumbs' src='${obj.media_attachments[i].preview_url}'></a>`;
 					}
-					e.innerHTML = '<div class="box"><img width="48" height="48" alt="" class="u-photo" src="' + obj.account.avatar + '"></div>'
-						+ '<div class="box"><span class="display-name">' + obj.account.display_name
-						+ '<span>@' + obj.account.username + '@' + instance + '</span></span>'
-						+ '<span class="create-at">' + timestamp + '</span>'
-						+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>' + obj.content + '</p></div>'
-						+ tmp + '</div>';
+					e.innerHTML = `
+<div class="box"><img width="48" height="48" alt="" class="u-photo" src="${obj.account.avatar}"></div>
+<div class="box"><span class="display-name">${obj.account.display_name}<span>@${obj.account.username}@${instance}</span></span>
+<span class="create-at">${timestamp}</span>
+<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>${obj.content}</p></div>
+${tmp}</div>
+`;
 					e.setAttribute("id", max_index);
 					e.setAttribute("ondblclick", "deleteCard('" + max_index + "')");
 					e.setAttribute("draggable", "true");
