@@ -123,7 +123,7 @@ function handleDrop(e) {
 		e.preventDefault();
 	}
 	e.dataTransfer.dropEffect  = 'move';
-	let node = e.toElement;
+	let node = e.target;
 	while(!node.getAttribute("ondblclick")){
 		node = node.parentNode;
 	}
