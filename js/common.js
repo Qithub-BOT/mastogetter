@@ -48,16 +48,25 @@ function decodePermalink(get_url_vars) {
 function genPermalink(toot_csv = undefined) {
 	if ($("permalink") !== null) {
 		if (toot_csv === undefined) {
-			let permalink = "https://hidao80.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
-			Object.keys(card_list).forEach(function (key) {
-				permalink += card_list[key] + ",";
-			});
+			updatePermalinkFromCardList();
 		} else {
-			let permalink = $("permalink").value;
-			permalink += toot_csv;
+			addPermalink(toot_csv);
 		}
-		$("permalink").value = permalink;
 	}
+}
+
+function updatePermalinkFromCardList(){
+	console.log('Updaing permalink from card_list.');
+	let permalink = "https://hidao80.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
+	Object.keys(card_list).forEach(function (key) {
+		permalink += card_list[key] + ",";
+	});
+	$("permalink").value = permalink;
+}
+
+function addPermalink(toot_csv) {
+	console.log('Adding CSV to permalink.');
+	$("permalink").value += toot_csv;
 }
 
 function showCards(permalink_obj) {
@@ -109,13 +118,14 @@ function showCards(permalink_obj) {
 	}
 
 	card_list = toot_ids;
-	genPermalink(toot_ids);
+	genPermalink();
 }
 
 function handleDragStart(e) {
 	e.dataTransfer.effectAllowed = 'move';
 	e.dataTransfer.setData('text/plain', this.id);
 }
+
 function handleDragOver(e) {
 	if (e.preventDefault) {
 		e.preventDefault();

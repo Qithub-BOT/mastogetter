@@ -62,6 +62,7 @@ function copyPermalink() {
 		alertUsageNoPermalink();
 		return false;
 	}
+	genPermalink();
 	$("permalink").select();
 	document.execCommand("copy");
 	if ($("submit-gitio").checked) {
@@ -79,7 +80,7 @@ function loadPermalink() {
 	const permalink_obj = decodePermalink(permalink_str);
 
 	showCards(permalink_obj);
-	genPermalink();
+	genPermalink(permalink_obj.toot_ids.join(","));
 }
 
 function alertUsageGitIO() {
