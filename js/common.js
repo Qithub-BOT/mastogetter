@@ -1,4 +1,5 @@
 var card_list = {};
+var toot_ids = {};
 var max_index = 0;
 
 function $(id) {
@@ -30,7 +31,8 @@ function decodePermalink(get_url_vars) {
 	}
 	let instance = instance_full.split("//")[1];
 	let toot_id = get_url_vars["t"];
-	let toot_ids = toot_id.split(',');
+
+	toot_ids = toot_id.split(',');
 	if (toot_ids[toot_ids.length-1] < "1000000000000000") {
 		// 最後の要素が 1.0+E18より小さければ、
 		// id の途中で url が切れたと判断して最後の項目を
@@ -60,10 +62,11 @@ function genPermalink(toot_csv = undefined) {
 function showCards(permalink_obj) {
 	let instance_full = permalink_obj["instance_full"];
 	let instance = permalink_obj["instance"];
-	let toot_ids = permalink_obj["toot_ids"];
 	let toot_url = "";
 	let target_div = $("cards");
 	let xhr = new XMLHttpRequest();
+
+	toot_ids = permalink_obj["toot_ids"];
 
 	for (let i = 0; i < toot_ids.length; i++) {
 		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
@@ -99,6 +102,7 @@ function showCards(permalink_obj) {
 		};
 		xhr.send(null);
 	}
+
 	card_list = toot_ids;
 	genPermalink(toot_ids);
 }
