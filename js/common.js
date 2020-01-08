@@ -7,13 +7,12 @@ function $(id) {
 
 const get_url_vars = (function () {
 	const vars = {};
-	const param = location.search.substring(1).split('&');
-	for (let i = 0; i < param.length; i++) {
-		const keySearch = param[i].search(/=/);
-		let key = '';
-		if (keySearch != -1) key = param[i].slice(0, keySearch);
-		const val = param[i].slice(param[i].indexOf('=', 0) + 1);
-		if (key != '') vars[key] = decodeURI(val);
+	const params = location.search.substring(1).split('&');
+	for (let i = 0; i < params.length; i++) {
+		if (/=/.test(params[i])) {
+			const [key, val] = params[i].split('=');
+			vars[key] = val;
+		}
 	}
 	return vars;
 })();
