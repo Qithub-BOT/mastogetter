@@ -44,6 +44,11 @@ function addCard() {
 	let clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
 	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
+	clone.setAttribute("draggable", "true");
+	clone.addEventListener("dragstart", handleDragStart, false);
+	clone.addEventListener("dragover", handleDragOver, false);
+	clone.addEventListener("drop", handleDrop, false);
+	clone.addEventListener("dragend", handleDragEnd, false);
 	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
 	max_index++;
 
@@ -65,7 +70,7 @@ function copyPermalink() {
 function loadPermalink() {
 	const permalink = $("load").value;
 	const permalink_str = {"i": permalink.split("?i=")[1].split("&")[0],
-						 "t": permalink.split("&t=")[1]};
+						"t": permalink.split("&t=")[1]};
 	const permalink_obj = decodePermalink(permalink_str);
 
 	showCards(permalink_obj);

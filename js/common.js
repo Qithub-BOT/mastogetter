@@ -1,4 +1,4 @@
-var card_list = {};
+var card_list = [];
 var max_index = 0;
 
 function $(id) {
@@ -87,6 +87,11 @@ function showCards(permalink_obj) {
 						+ tmp + '</div>';
 					e.setAttribute("id", max_index);
 					e.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
+					e.setAttribute("draggable", "true");
+					e.addEventListener("dragstart", handleDragStart, false);
+					e.addEventListener("dragover", handleDragOver, false);
+					e.addEventListener("drop", handleDrop, false);
+					e.addEventListener("dragend", handleDragEnd, false);
 					max_index++;
 					target_div.appendChild(e);
 				} else {
@@ -101,4 +106,64 @@ function showCards(permalink_obj) {
 	}
 	card_list = toot_ids;
 	genPermalink(toot_ids);
+}
+
+function handleDragStart(e) {
+	e.dataTransfer.effectAllowed = 'move';
+	e.dataTransfer.setData('text/plain', this.id);
+}
+function handleDragOver(e) {
+	if(e.preventDefault){
+		e.preventDefault();
+	}
+}
+
+function handleDrop(e) {
+	if(e.preventDefault){
+		e.preventDefault();
+	}
+	e.dataTransfer.dropEffect  = 'move';
+	let node = e.target;
+	while(!node.getAttribute("ondblclick")){
+		node = node.parentNode;
+	}
+	let src = $(e.dataTransfer.getData('text/plain'));
+	if(src.id == node.id){
+		return;
+	}
+	let cards = $("cards");
+	let children = cards.childNodes;
+	let src_index = -1;
+	let node_index = -1;
+	for(var i=0; i<children.length; i++){
+		if (children[i] === src) {
+			src_index = i-1;
+		}
+		if (children[i] === node) {
+			node_index = i-1;
+		}
+	}
+	if (src_index < 0){
+		return
+	}
+	if (node_index < 0){
+		return
+	}
+
+	cards.removeChild(src);
+	cards.insertBefore(src, node);
+
+	if (src_index < node_index){
+		card_list.splice(node_index,0,card_list[src_index]);
+		card_list.splice(src_index,1);
+	} else {
+		let toot_id = card_list[src_index]
+		card_list.splice(src_index,1);
+		card_list.splice(node_index,0,toot_id);
+	}
+	genPermalink();
+}
+
+function handleDragEnd(e) {
+	console.log("drag end");
 }
