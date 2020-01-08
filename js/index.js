@@ -58,7 +58,7 @@ function deleteCard(index) {
 }
 
 function copyPermalink() {
-	if(isEmptyPermalink()){
+	if (isEmptyPermalink()) {
 		alertUsageNoPermalink();
 		return false;
 	}
@@ -79,11 +79,11 @@ function loadPermalink() {
 	const permalink_obj = decodePermalink(permalink_str);
 
 	showCards(permalink_obj);
-	genPermalink(toot_ids.join(","));
+	genPermalink();
 }
 
 function alertUsageGitIO() {
-	alert("パーマリンクがコピーされました。\nこのあと、https://git.io/xxxx 形式の短縮 URL を作成するため別ウィンドウがポップアップします。開かれた先に表示された値が URL の xxxx の部分になります。");
+	alert("パーマリンクがコピーされました。\nこのあと https://git.io/xxxx 形式の短縮 URL を作成するため別ウィンドウがポップアップします。開かれた先に表示された値が URL の xxxx の部分になります。");
 }
 
 function alertUsageNoPermalink() {
@@ -91,7 +91,7 @@ function alertUsageNoPermalink() {
 }
 
 function isEmptyPermalink() {
-	return ( ! $("permalink").value) ? true : false;
+	return (!$("permalink").value) ? true : false;
 }
 
 function submitGitIO() {
