@@ -162,18 +162,18 @@ img.thumbs {
 	max-height: 100%;
 }
 
-.display-name, .create-at {
+.display-name, .toot-time {
 	font-weight: bold;
 	display: inline-block;
 }
 
-.display-name span, .create-at, .toot-time {
+.display-name span, .toot-time {
 	font-weight: normal;
 	color: #c0c0c0;
 	font-size: smaller;
 }
 
-.display-name span:before, .create-at:before, .toot-time:before {
+.display-name span:before, .toot-time:before {
 	white-space: pre-wrap;
 	content: "  ";
 }
