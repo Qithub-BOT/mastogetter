@@ -22,12 +22,12 @@ function showPreview() {
 				let timestamp = moment(obj.created_at).format('llll');
 				let tmp = "";
 				for (let i = 0; i < obj.media_attachments.length; i++) {
-					tmp += "<a href='"+ obj.media_attachments[i].url +"'><img class='thumbs' src='"+ obj.media_attachments[i].preview_url +"'></a>";
+					tmp += "<a href='" + obj.media_attachments[i].url + "'><img class='thumbs' src='" + obj.media_attachments[i].preview_url + "'></a>";
 				}
-				target_div.innerHTML = '<div class="toot"><div class="box"><img width="48" height="48" alt="" class="u-photo" src="'+ obj.account.avatar +'"></div>'
-					+ '<div class="box"><span class="display-name">'+ obj.account.display_name + '<span>@'+ obj.account.username +'@'+ instance +'</span></span>'
+				target_div.innerHTML = '<div class="toot"><div class="box"><img width="48" height="48" alt="" class="u-photo" src="' + obj.account.avatar + '"></div>'
+					+ '<div class="box"><span class="display-name">' + obj.account.display_name + '<span>@' + obj.account.username + '@' + instance + '</span></span>'
 					+ '<span class="toot-time">' + timestamp + '</span>'
-					+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>'+ obj.content +'</p></div>'
+					+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>' + obj.content + '</p></div>'
 					+ tmp + '</div></div>';
 			} else {
 				console.error(xhr.statusText);
@@ -43,12 +43,7 @@ function showPreview() {
 function addCard() {
 	let clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
-	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
-	clone.setAttribute("draggable", "true");
-	clone.addEventListener("dragstart", handleDragStart, false);
-	clone.addEventListener("dragover", handleDragOver, false);
-	clone.addEventListener("drop", handleDrop, false);
-	clone.addEventListener("dragend", handleDragEnd, false);
+	clone.setAttribute("ondblclick", "deleteCard('" + max_index + "')");
 	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
 	max_index++;
 
@@ -63,16 +58,43 @@ function deleteCard(index) {
 }
 
 function copyPermalink() {
+	if (isEmptyPermalink()) {
+		alertUsageNoPermalink();
+		return false;
+	}
+	genPermalink();
 	$("permalink").select();
 	document.execCommand("copy");
+	if ($("submit-gitio").checked) {
+		alertUsageGitIO();
+		submitGitIO();
+	}
 }
 
 function loadPermalink() {
 	const permalink = $("load").value;
-	const permalink_str = {"i": permalink.split("?i=")[1].split("&")[0],
-						"t": permalink.split("&t=")[1]};
+	const permalink_str = {
+		"i": permalink.split("?i=")[1].split("&")[0],
+		"t": permalink.split("&t=")[1]
+	};
 	const permalink_obj = decodePermalink(permalink_str);
 
 	showCards(permalink_obj);
-	genPermalink(toot_ids.join(","));
+	genPermalink(permalink_obj.toot_ids.join(","));
+}
+
+function alertUsageGitIO() {
+	alert("パーマリンクがコピーされました。\nこのあと https://git.io/xxxx 形式の短縮 URL を作成するため別ウィンドウがポップアップします。開かれた先に表示された値が URL の xxxx の部分になります。");
+}
+
+function alertUsageNoPermalink() {
+	alert("まとめられたリンクがありません。");
+}
+
+function isEmptyPermalink() {
+	return (!$("permalink").value) ? true : false;
+}
+
+function submitGitIO() {
+	$("form-gitio").submit();
 }

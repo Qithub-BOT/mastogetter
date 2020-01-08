@@ -17,10 +17,10 @@ p {
 	margin-block-end: 1em;
 	margin-inline-start: 0px;
 	margin-inline-end: 0px;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: 0em;
-  margin-right: 0em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-left: 0em;
+	margin-right: 0em;
 }
 
 header {
@@ -115,6 +115,13 @@ div.area>div input:last-child {
 #copylink {
 	margin-left: 10px;
 }
+
+#submit-gitio {
+	-webkit-appearance: checkbox;
+	-moz-appearance: checkbox;
+	appearance: checkbox;
+}
+
 .area input[type="button"] {
 	font-size: 15px;
 	padding: .5em;
@@ -177,7 +184,9 @@ img.thumbs {
 div.area>div>p {
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
+
 input[type="text"] {
 	font-size: 15px;
 	flex-grow: 1;
@@ -191,7 +200,8 @@ input[type="text"] {
 }
 label {
 	font-size: 15px;
-  padding-bottom: 15px;
+	padding-top: 10px;
+	padding-bottom: 15px;
 	color: #000;
 	line-height: 1;
 }
@@ -200,10 +210,10 @@ label {
 
 .error {
 	display: none;
-  font-size: .8rem;
+	font-size: .8rem;
 	position: absolute;
 	width: fit-content;
-	bottom: 200%;
+	bottom: 100%;
 	right: 0;
 	padding: .5em 1em .4em;
 	border-radius: 5px;
@@ -231,23 +241,23 @@ input:hover+.error {
 	animation-timing-function: ease-out;
 }
 @media screen and (max-width: 899px) {
-  /* width for mobile view */
-  .area{width: 90vw; height: auto;}
-  #matomain {
-    width: 100%;
-  }
-  .error {
-    font-size: .6rem;
-  }
+	/* width for mobile view */
+	.area{width: 90vw; height: auto;}
+	#matomain {
+		width: 100%;
+	}
+	.error {
+		font-size: .6rem;
+	}
 }
 
 @media screen and (max-width: 669px) {
-  /* width for mobile view */
-  .error {
-    right: -8vw ;
-    font-size 2vw;
-  }
-  label, .area input[type="text"], .area input[type="button"], #card-preview, .area a{
-    font-size: 10px;
-  }
+	/* width for mobile view */
+	.error {
+		right: -8vw ;
+		font-size 2vw;
+	}
+	label, .area input[type="text"], .area input[type="button"], #card-preview, .area a {
+		font-size: 10px;
+	}
 }
