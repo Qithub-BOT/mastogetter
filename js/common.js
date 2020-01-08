@@ -72,10 +72,10 @@ function addPermalink(toot_csv) {
 function showCards(permalink_obj) {
 	let instance_full = permalink_obj["instance_full"];
 	let instance = permalink_obj["instance"];
+	let toot_ids = permalink_obj["toot_ids"];
 	let toot_url = "";
 	let target_div = $("cards");
 	let xhr = new XMLHttpRequest();
-	let toot_ids = permalink_obj["toot_ids"];
 
 	for (let i = 0; i < toot_ids.length; i++) {
 		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];

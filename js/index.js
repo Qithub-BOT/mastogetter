@@ -47,7 +47,7 @@ ${tmp}</div>
 function addCard() {
 	let clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
-	clone.setAttribute("ondblclick", "deleteCard('" + max_index + "')");
+	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
 	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
 	max_index++;
 
@@ -69,18 +69,12 @@ function copyPermalink() {
 	genPermalink();
 	$("permalink").select();
 	document.execCommand("copy");
-	if ($("submit-gitio").checked) {
-		alertUsageGitIO();
-		submitGitIO();
-	}
 }
 
 function loadPermalink() {
 	const permalink = $("load").value;
-	const permalink_str = {
-		"i": permalink.split("?i=")[1].split("&")[0],
-		"t": permalink.split("&t=")[1]
-	};
+	const permalink_str = {"i": permalink.split("?i=")[1].split("&")[0],
+						 "t": permalink.split("&t=")[1]};
 	const permalink_obj = decodePermalink(permalink_str);
 
 	showCards(permalink_obj);
