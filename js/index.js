@@ -48,6 +48,11 @@ function addCard() {
 	const clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
 	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
+	clone.setAttribute("draggable", "true"); 
+	clone.addEventListener("dragstart", handleDragStart, false); 
+	clone.addEventListener("dragover", handleDragOver, false); 
+	clone.addEventListener("drop", handleDrop, false); 
+	clone.addEventListener("dragend", handleDragEnd, false); 
 	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
 	max_index++;
 
