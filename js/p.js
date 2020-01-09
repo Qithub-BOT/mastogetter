@@ -1,8 +1,7 @@
 /* global showCards, decodePermalink, get_url_vars, $ */
-/* exported showPreview */
 /* eslint no-undef: "error" */
 
-function showPreview () {
+function showPreview () { // eslint-disable-line no-unused-vars
 	showCards(decodePermalink(get_url_vars));
 	$('matomain').addEventListener('mouseover', removeAllDraggable, false);
 }
