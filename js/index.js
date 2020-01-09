@@ -100,6 +100,16 @@ function isEmptyPermalink() {
 
 function submitGitIO() {
 	//$("form-gitio").submit();
+	const obj = {url: "http://google.com"};
+	const method = "POST";
+	const body = Object.keys(obj).map((key)=>key+"="+encodeURIComponent(obj[key])).join("&");
+	const headers = {
+		'Accept': 'application/json',
+		'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+	};
+	console.log(body);
+	fetch("https://git.io", { mode:'no-cors', method, headers, body}).then((res)=> res.json()).then(console.log).catch(console.error);
+/*
 	// client.js
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
@@ -119,4 +129,5 @@ function submitGitIO() {
 		}
 
 	}
+	*/
 }
