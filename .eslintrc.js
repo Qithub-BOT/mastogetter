@@ -16,7 +16,8 @@ module.exports = {
   rules: {
     // 'prettier/prettier': 'error',
     'indent': ['error', 'tab'],
-    'semi': ['error', 'always']
+    'semi': ['error', 'always'],
+    'no-tabs': 'off'
   }
 }
 
