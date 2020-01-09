@@ -1,5 +1,6 @@
-/*global showPreview, showCards, decodePermalink, get_url_vars, $ */
-/*eslint no-undef: "error"*/
+/* global showPreview, showCards, decodePermalink, get_url_vars, $ */
+/* eslint no-undef: "error" */
+/* exported showPreview */
 
 function showPreview () {
 	showCards(decodePermalink(get_url_vars));
