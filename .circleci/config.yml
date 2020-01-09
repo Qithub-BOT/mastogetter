@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:4.8.2
+      - image: circleci/node:lts
     working_directory: /home/circleci/mastogetter
     steps:
       - checkout
