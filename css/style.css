@@ -155,18 +155,24 @@ img.thumbs {
 	max-height: 100%;
 }
 
-.display-name, .create-at {
+.display-name, .toot-time {
 	font-weight: bold;
+	color: inherit;
 	display: inline-block;
+	text-decoration: none;
 }
 
-.display-name span, .create-at, .toot-time {
+.display-name:hover, .toot-time:hover {
+	text-decoration: underline currentColor;
+}
+
+.display-name span, .toot-time {
 	font-weight: normal;
 	color: #c0c0c0;
 	font-size: smaller;
 }
 
-.display-name span:before, .create-at:before, .toot-time:before {
+.display-name span:before, .toot-time:before {
 	white-space: pre-wrap;
 	content: "  ";
 }
@@ -177,7 +183,9 @@ img.thumbs {
 div.area>div>p {
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
+
 input[type="text"] {
 	font-size: 15px;
 	flex-grow: 1;
@@ -191,7 +199,8 @@ input[type="text"] {
 }
 label {
 	font-size: 15px;
-  padding-bottom: 15px;
+	padding-top: 10px;
+	padding-bottom: 15px;
 	color: #000;
 	line-height: 1;
 }
@@ -200,10 +209,10 @@ label {
 
 .error {
 	display: none;
-  font-size: .8rem;
+	font-size: .8rem;
 	position: absolute;
 	width: fit-content;
-	bottom: 200%;
+	bottom: 100%;
 	right: 0;
 	padding: .5em 1em .4em;
 	border-radius: 5px;

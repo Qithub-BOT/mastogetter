@@ -8,27 +8,31 @@ function showPreview() {
 		instance_full = "https://qiitadon.com";
 		$("instance").value = instance_full;
 	}
-	let instance = instance_full.split("//")[1];
-	let toot_id = $("toot-id").value.split("/").reverse()[0];
-	let toot_url = instance_full + "/api/v1/statuses/" + toot_id;
-	let target_div = $("card-preview");
+	const instance = instance_full.split("//")[1];
+	const toot_id = $("toot-id").value.split("/").reverse()[0];
+	const toot_url = instance_full + "/api/v1/statuses/" + toot_id;
+	const target_div = $("card-preview");
 
-	let xhr = new XMLHttpRequest();
+	const xhr = new XMLHttpRequest();
 	xhr.open("GET", toot_url, true);
 	xhr.onload = function (e) {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
-				let obj = JSON.parse(xhr.responseText);
-				let timestamp = moment(obj.created_at).format('llll');
-				let tmp = "";
-				for (let i = 0; i < obj.media_attachments.length; i++) {
-					tmp += "<a href='"+ obj.media_attachments[i].url +"'><img class='thumbs' src='"+ obj.media_attachments[i].preview_url +"'></a>";
+				const toot = JSON.parse(xhr.responseText);
+				const timestamp = moment(toot.created_at).format('llll');
+				let media = "";
+				for (let i = 0; i < toot.media_attachments.length; i++) {
+					media += `<a href='${toot.media_attachments[i].url}'><img class='thumbs' src='${toot.media_attachments[i].preview_url}'></a>`;
 				}
-				target_div.innerHTML = '<div class="toot"><div class="box"><img width="48" height="48" alt="" class="u-photo" src="'+ obj.account.avatar +'"></div>'
-					+ '<div class="box"><span class="display-name">'+ obj.account.display_name + '<span>@'+ obj.account.username +'@'+ instance +'</span></span>'
-					+ '<span class="toot-time">' + timestamp + '</span>'
-					+ '<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>'+ obj.content +'</p></div>'
-					+ tmp + '</div></div>';
+				target_div.innerHTML = `
+<div class="toot">
+<div class="box"><a href="${toot.account.url}" target="_blank"><img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}"></a></div>
+<div class="box"><a class="display-name" href="${toot.account.url}" target="_blank">${toot.account.display_name}<span>@${toot.account.username}@${(new URL(toot.account.url)).hostname}</span></a>
+<a class="toot-time" href="${toot.url}" target="_blank">${timestamp}</a>
+<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>${toot.content}</p></div>
+${media}</div>
+</div>
+`;
 			} else {
 				console.error(xhr.statusText);
 			}
@@ -41,14 +45,14 @@ function showPreview() {
 }
 
 function addCard() {
-	let clone = $("card-preview").firstElementChild.cloneNode(true);
+	const clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
 	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
-	clone.setAttribute("draggable", "true");
-	clone.addEventListener("dragstart", handleDragStart, false);
-	clone.addEventListener("dragover", handleDragOver, false);
-	clone.addEventListener("drop", handleDrop, false);
-	clone.addEventListener("dragend", handleDragEnd, false);
+	clone.setAttribute("draggable", "true"); 
+	clone.addEventListener("dragstart", handleDragStart, false); 
+	clone.addEventListener("dragover", handleDragOver, false); 
+	clone.addEventListener("drop", handleDrop, false); 
+	clone.addEventListener("dragend", handleDragEnd, false); 
 	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
 	max_index++;
 
@@ -63,6 +67,11 @@ function deleteCard(index) {
 }
 
 function copyPermalink() {
+	if (isEmptyPermalink()) {
+		alertUsageNoPermalink();
+		return false;
+	}
+	genPermalink();
 	$("permalink").select();
 	document.execCommand("copy");
 }
@@ -70,9 +79,25 @@ function copyPermalink() {
 function loadPermalink() {
 	const permalink = $("load").value;
 	const permalink_str = {"i": permalink.split("?i=")[1].split("&")[0],
-						"t": permalink.split("&t=")[1]};
+						 "t": permalink.split("&t=")[1]};
 	const permalink_obj = decodePermalink(permalink_str);
 
 	showCards(permalink_obj);
-	genPermalink(toot_ids.join(","));
+	genPermalink(permalink_obj.toot_ids.join(","));
+}
+
+function alertUsageGitIO() {
+	alert("パーマリンクがコピーされました。\nこのあと https://git.io/xxxx 形式の短縮 URL を作成するため別ウィンドウがポップアップします。開かれた先に表示された値が URL の xxxx の部分になります。");
+}
+
+function alertUsageNoPermalink() {
+	alert("まとめられたリンクがありません。");
+}
+
+function isEmptyPermalink() {
+	return (!$("permalink").value) ? true : false;
+}
+
+function submitGitIO() {
+	$("form-gitio").submit();
 }
