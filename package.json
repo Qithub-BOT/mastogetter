@@ -1,0 +1,27 @@
+{
+  "name": "mastogetter",
+  "version": "0.0.1",
+  "description": "mastogetter dayo",
+  "author": "hidao80",
+  "license": "MIT",
+  "repository": "https://github.com/hidao80/mastogetter",
+  "scripts": {
+    "eslint": "eslint --ignore-path .gitignore .",
+    "eslint:ci": "eslint --ignore-path .gitignore --format=html -o ./results/eslint/eslint.html ."
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "prettier": "^1.18.2"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
+  }
+}
