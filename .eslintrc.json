@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    // 'prettier',
+    // 'plugin:prettier/recommended',
+    "standard"
+  ],
+  "plugins": [
+    // 'prettier'
+  ],
+  "rules": {
+    // 'prettier/prettier': 'error',
+    "indent": ["error", "tab"],
+    "semi": ["error", "always"],
+    "no-tabs": "off"
+  }
+}
+
