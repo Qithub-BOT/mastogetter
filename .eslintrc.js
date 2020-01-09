@@ -2,16 +2,21 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true
+    node: true,
+    es6: true
   },
   extends: [
-    'prettier',
-    'plugin:prettier/recommended'
+    // 'prettier',
+    // 'plugin:prettier/recommended',
+    'standard'
   ],
   plugins: [
-    'prettier'
+    // 'prettier'
   ],
   rules: {
+    // 'prettier/prettier': 'error',
+    'indent': ['error', 'tab'],
+    'semi': ['error', 'always']
   }
 }
 
