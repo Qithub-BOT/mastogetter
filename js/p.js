@@ -1,4 +1,4 @@
-/* global showPreview, showCards, decodePermalink, get_url_vars, $ */
+/* global showCards, decodePermalink, get_url_vars, $ */
 /* eslint no-undef: "error" */
 /* exported showPreview */
 
