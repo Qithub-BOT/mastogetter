@@ -48,11 +48,11 @@ function addCard() {
 	const clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", max_index);
 	clone.setAttribute("ondblclick", "deleteCard('"+ max_index +"')");
-	clone.setAttribute("draggable", "true"); 
-	clone.addEventListener("dragstart", handleDragStart, false); 
-	clone.addEventListener("dragover", handleDragOver, false); 
-	clone.addEventListener("drop", handleDrop, false); 
-	clone.addEventListener("dragend", handleDragEnd, false); 
+	clone.setAttribute("draggable", "true");
+	clone.addEventListener("dragstart", handleDragStart, false);
+	clone.addEventListener("dragover", handleDragOver, false);
+	clone.addEventListener("drop", handleDrop, false);
+	clone.addEventListener("dragend", handleDragEnd, false);
 	card_list[max_index] = $("toot-id").value.split("/").reverse()[0];
 	max_index++;
 
@@ -99,5 +99,24 @@ function isEmptyPermalink() {
 }
 
 function submitGitIO() {
-	$("form-gitio").submit();
+	//$("form-gitio").submit();
+	// client.js
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState === 4 && this.status === 200) {
+			var id = this.response.id;
+			console.log(id);
+		}
+	};
+
+	xhr.open('GET', 'https://git.io', true);
+	xhr.withCredentials = true;
+	xhr.send("url="+document.getElementById("permalink"));
+	xhr.onreadystatechange = function() {
+		if (request.readyState == 4 && request.status == 200) {
+			//受信完了時の処理
+			console.log(xhr.responseText)
+		}
+
+	}
 }
