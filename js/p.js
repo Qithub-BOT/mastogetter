@@ -1,3 +1,6 @@
+/*global showPreview, showCards, decodePermalink, get_url_vars, $ */
+/*eslint no-undef: "error"*/
+
 function showPreview () {
 	showCards(decodePermalink(get_url_vars));
 	$('matomain').addEventListener('mouseover', removeAllDraggable, false);
