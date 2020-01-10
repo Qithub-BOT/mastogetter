@@ -164,6 +164,9 @@ function handleDragOver(e) {
 	}
 }
 
+/**
+ * @param {Event} e drop event
+ */
 function handleDrop(e) {
 	if (e.preventDefault) {
 		e.preventDefault();
