@@ -68,6 +68,7 @@ function addCard() {
 	clone.addEventListener("dblclick", () => {
 		impl.deleteCard(len, "c");
 	});
+	clone.setAttribute("data-dblclickable", "true");
 	clone.setAttribute("draggable", "true");
 	clone.addEventListener("dragstart", impl.handleDragStart, false);
 	clone.addEventListener("dragover", impl.handleDragOver, false);

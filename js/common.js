@@ -132,6 +132,7 @@ export function showCards(permalink_obj) {
 						deleteCard(max_index, "o");
 					});
 					toot_div.setAttribute("draggable", "true");
+					toot_div.setAttribute("data-dblclickable", "true");
 					toot_div.addEventListener("dragstart", handleDragStart, false);
 					toot_div.addEventListener("dragover", handleDragOver, false);
 					toot_div.addEventListener("drop", handleDrop, false);
@@ -173,7 +174,7 @@ function handleDrop(e) {
 	}
 	e.dataTransfer.dropEffect = "move";
 	let node = e.target;
-	while (!node.getAttribute("ondblclick")) {
+	while (!node.getAttribute("data-dblclickable")) {
 		node = node.parentNode;
 	}
 	const src = $(e.dataTransfer.getData("text/plain"));
@@ -214,5 +215,5 @@ function handleDrop(e) {
 }
 
 function handleDragEnd() {
-	console.log("drag end");
+	// console.log("drag end");
 }
