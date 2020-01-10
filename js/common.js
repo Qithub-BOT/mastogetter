@@ -25,7 +25,13 @@ export const get_url_vars = (function() {
 	return vars;
 })();
 
-export function deleteCard(/*index*/) {}
+// export function deleteCard(/*index*/) {}
+export function deleteCard(index) {
+	$("cards").removeChild($(index));
+	card_list.splice(index, 1);
+	delete card_list[index];
+	genPermalink();
+}
 
 export function decodePermalink(get_url_vars) {
 	let instance_full = get_url_vars["i"];

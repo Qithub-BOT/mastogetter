@@ -63,7 +63,7 @@ function addCard() {
 	const clone = $("card-preview").firstElementChild.cloneNode(true);
 	clone.setAttribute("id", `c_${impl.card_list.length}`);
 	clone.addEventListener("dblclick", () => {
-		deleteCard(impl.card_list.length);
+		impl.deleteCard(impl.card_list.length);
 	});
 	clone.setAttribute("draggable", "true");
 	clone.addEventListener("dragstart", impl.handleDragStart, false);
@@ -77,13 +77,6 @@ function addCard() {
 	);
 
 	$("cards").appendChild(clone);
-	impl.genPermalink();
-}
-
-function deleteCard(index) {
-	$("cards").removeChild($(index));
-	impl.card_list.splice(index, 1);
-	delete impl.card_list[index];
 	impl.genPermalink();
 }
 
