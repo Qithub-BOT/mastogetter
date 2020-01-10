@@ -35,5 +35,39 @@
         8. 自動チェックをパスすると、他のメンバーがレビューを始めるので、指摘を修正し `commit` & `push` します
         9. レビュアーから LGTM（特に問題ないという意味）がもらえたら、マージ担当者の判断で `master` にマージされます。
     - 作業時の注意
-        - `master` ブランチの追随を忘れないようにしましょう。
+        - `master` ブランチの追随を忘れないようにします。
             - 作業中に `master` ブランチに変更が行われる可能性があります。コンフリクトを少なくするためにも早い段階で作業ブランチに `master` の変更をマージするようにしましょう。
+
+## 開発時の TIPS
+
+以下は、デバッグ時に便利な TIPS です。
+
+### Local Server を立てる
+
+Javascript の内容によっては Web サーバー上で動かさないと [CORS](https://developer.mozilla.org/ja/docs/Web/HTTP/CORS) の制限により Javascript の挙動が変わることがあります。
+
+デバッグのために Web サーバーが必要になった場合は参考にしてください。
+
+#### PHP のビルトイン・サーバーを使う
+
+リポジトリの index.php がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は Ctrl+C です。
+
+```bash
+php -S localhost:8888 index.html
+```
+
+#### Docker で軽量 Web サーバーを使う
+
+リポジトリの index.php がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は `docker container kill uhttpd` です。
+
+```bash
+docker run --rm -d -v $(pwd):/www -p 8888:80 --name uhttpd fnichol/uhttpd
+```
+
+### 外部公開した状態や https（SSL） での簡易動作確認する
+
+外部公開された場合の動作を確認したい場合や、SSL での動作を確認したい場合は [localhost.run](https://localhost.run/) のサービスと SSH を使って、ローカルの `http://localhost:8080/` への接続を公開すると `https://xxxxx.localhost.run/` でアクセスできるようになります。
+
+```bash
+ssh -R 80:localhost:8888 ssh.localhost.run
+```
