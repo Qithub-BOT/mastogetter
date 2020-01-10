@@ -159,7 +159,7 @@ export function showCards(permalink_obj) {
  */
 export function handleDragStart(e) {
 	e.dataTransfer.effectAllowed = "move";
-	e.dataTransfer.setData("text/plain", this.id);
+	e.dataTransfer.setData("text/plain", e.target.id);
 }
 
 /**
