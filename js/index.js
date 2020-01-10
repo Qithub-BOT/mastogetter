@@ -60,6 +60,8 @@ function showPreview() {
 }
 
 function addCard() {
+	const card_preview = $("card-preview");
+	if (!card_preview) return;
 	const clone = $("card-preview").firstElementChild.cloneNode(true);
 	const len = impl.card_list.length;
 	clone.setAttribute("id", `c_${len}`);
