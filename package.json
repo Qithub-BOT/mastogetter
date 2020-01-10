@@ -6,8 +6,8 @@
   "license": "MIT",
   "repository": "https://github.com/hidao80/mastogetter",
   "scripts": {
-    "eslint": "eslint --ext .js --ignore-path .gitignore .",
-    "eslint:ci": "eslint --ext .js --ignore-path .gitignore --format=html -o ./results/eslint/eslint.html ."
+    "eslint": "eslint --ext .js .",
+    "eslint:ci": "eslint --ext .js --format=html -o ./results/eslint/eslint.html ."
   },
   "devDependencies": {
     "eslint": "^6.8.0",
