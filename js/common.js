@@ -96,15 +96,28 @@ export function showCards(permalink_obj) {
 					toot_div.setAttribute("class", "toot");
 					let media = "";
 					for (let i = 0; i < toot.media_attachments.length; i++) {
-						media += `<a href='${toot.media_attachments[i].url}'><img class='thumbs' src='${toot.media_attachments[i].preview_url}'></a>`;
+						media += `
+<a href='${toot.media_attachments[i].url}'>
+	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
+</a>`;
 					}
 					toot_div.innerHTML = `
-<div class="box"><a href="${toot.account.url}" target="_blank"><img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}"></a></div>
-<div class="box"><a class="display-name" href="${toot.account.url}" target="_blank">${toot.account.display_name}<span>@${toot.account.username}@${instance}</span></a>
-<a class="toot-time" href="${toot.url}" target="_blank">${timestamp}</a>
-<div class="e-content" lang="ja" style="display: block; direction: ltr"><p>${toot.content}</p></div>
-${media}</div>
-`;
+<div class="box">
+	<a href="${toot.account.url}" target="_blank">
+		<img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}">
+	</a>
+</div>
+<div class="box">
+	<a class="display-name" href="${toot.account.url}" target="_blank">
+		${toot.account.display_name}
+		<span>@${toot.account.username}@${instance}</span>
+	</a>
+	<a class="toot-time" href="${toot.url}" target="_blank">${timestamp}</a>
+	<div class="e-content" lang="ja" style="display: block; direction: ltr">
+		<p>${toot.content}</p>
+	</div>
+	${media}
+</div>`;
 					toot_div.setAttribute("id", `o_${max_index}`);
 					toot_div.addEventListener("dblclick", () => {
 						deleteCard(card_list.length);

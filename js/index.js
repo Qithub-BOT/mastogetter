@@ -25,7 +25,9 @@ function showPreview() {
 				const timestamp = moment(toot.created_at).format("llll");
 				let media = "";
 				for (let i = 0; i < toot.media_attachments.length; i++) {
-					media += `<a href='${toot.media_attachments[i].url}'><img class='thumbs' src='${toot.media_attachments[i].preview_url}'></a>`;
+					media += `<a href='${toot.media_attachments[i].url}'>
+	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
+</a>`;
 				}
 				target_div.innerHTML = `
 <div class="toot">
@@ -105,6 +107,7 @@ function loadPermalink() {
 }
 
 function alertUsageNoPermalink() {
+	// eslint-disable-next-line no-alert
 	alert("まとめられたリンクがありません。");
 }
 
