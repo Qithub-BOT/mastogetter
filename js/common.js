@@ -52,7 +52,7 @@ export function decodePermalink(get_url_vars) {
 	};
 }
 
-function genPermalink(toot_csv = undefined) {
+export function genPermalink(toot_csv = undefined) {
 	if ($("permalink") !== null) {
 		if (toot_csv === undefined) {
 			updatePermalinkFromCardList();
