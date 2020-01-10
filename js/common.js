@@ -154,11 +154,17 @@ export function showCards(permalink_obj) {
 	genPermalink();
 }
 
+/**
+ * @param {Event} e
+ */
 function handleDragStart(e) {
 	e.dataTransfer.effectAllowed = "move";
 	e.dataTransfer.setData("text/plain", this.id);
 }
 
+/**
+ * @param {Event} e
+ */
 function handleDragOver(e) {
 	if (e.preventDefault) {
 		e.preventDefault();

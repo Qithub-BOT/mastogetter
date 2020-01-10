@@ -70,10 +70,10 @@ function addCard() {
 	});
 	clone.setAttribute("data-dblclickable", "true");
 	clone.setAttribute("draggable", "true");
-	clone.addEventListener("dragstart", impl.handleDragStart, false);
-	clone.addEventListener("dragover", impl.handleDragOver, false);
-	clone.addEventListener("drop", impl.handleDrop, false);
-	clone.addEventListener("dragend", impl.handleDragEnd, false);
+	clone.addEventListener("dragstart", e => impl.handleDragStart(e), false);
+	clone.addEventListener("dragover", e => impl.handleDragOver(e), false);
+	clone.addEventListener("drop", e => impl.handleDrop(e), false);
+	clone.addEventListener("dragend", e => impl.handleDragEnd(e), false);
 	impl.card_list.push(
 		$("toot-id")
 			.value.split("/")
