@@ -8,8 +8,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/style.css">
-	<script src="js/common.js"></script>
-	<script src="js/index.js"></script>
+	<script type="module" src="js/common.js"></script>
+	<script type="module" src="js/index.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ja.js"></script>
 </head>
@@ -23,19 +23,19 @@
 		<div class="area container flex-column">
 			<div>
 				<p><label for="load">インポートするまとめのリンク</label><input type="text" id="load" placeholder="https://hidao80.github.io/mastogetter/p.html?hoge"></p>
-				<input type="button" value="まとめを読み込む" onclick="loadPermalink()">
+				<input type="button" value="まとめを読み込む" id="loadPermalink">
 			</div>
 			<div id="domainid">
 				<p><label for="instance">インスタンス名</label><input type="text" id="instance" placeholder="https://qiitadon.com"></p>
 				<p><label for="toot-id">トゥートID or URL</label><input type="text" id="toot-id" placeholder="カーソルをあわせてヒントを表示"><span class="error">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span></p>
-				<input type="button" value="ID or URLからプレビュー" onclick="showPreview()">
+				<input type="button" value="ID or URLからプレビュー" id="showPreview">
 			</div>
 			<div id="card-preview">
 				埋め込みカードのプレビューが表示されます
 			</div>
 			<div>
 				<a href="https://github.com/hidao80/mastogetter/blob/master/README.md">使い方</a>
-				<input type="button" value="トゥートを追加" onclick="addCard()">
+				<input type="button" value="トゥートを追加" id="addCard">
 			</div>
 		</div>
 		<div class="area">
@@ -44,7 +44,7 @@
           <label for="permalink">このまとめのリンク</label>
           <span class="container">
             <input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly">
-            <input id="copylink" type="button" value="コピー" onclick="copyPermalink()">
+            <input id="copylink" type="button" value="コピー">
           </span>
         </p>
       </div>

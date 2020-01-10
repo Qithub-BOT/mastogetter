@@ -1,27 +1,35 @@
-let card_list = [];
+export let card_list = [];
 let max_index = 0;
+
+export function ready(loaded) {
+	if (["interactive", "complete"].includes(document.readyState)) {
+		loaded();
+	} else {
+		document.addEventListener("DOMContentLoaded", loaded);
+	}
+}
 
 function $(id) {
 	return document.getElementById(id);
 }
 
-const get_url_vars = (function () {
+export const get_url_vars = (function() {
 	const vars = {};
-	const params = location.search.substring(1).split('&');
+	const params = location.search.substring(1).split("&");
 	for (let i = 0; i < params.length; i++) {
 		if (/=/.test(params[i])) {
-			const [key, val] = params[i].split('=');
+			const [key, val] = params[i].split("=");
 			vars[key] = val;
 		}
 	}
 	return vars;
 })();
 
-function deleteCard(index) { }
+export function deleteCard(/*index*/) {}
 
-function decodePermalink(get_url_vars) {
+export function decodePermalink(get_url_vars) {
 	let instance_full = get_url_vars["i"];
-	if (instance_full.trim() == "") {
+	if (instance_full.trim() === "") {
 		instance_full = "https://qiitadon.com";
 		if ($("instance") !== null) {
 			$("instance").value = instance_full;
@@ -29,7 +37,7 @@ function decodePermalink(get_url_vars) {
 	}
 	const instance = instance_full.split("//")[1];
 	const toot_id = get_url_vars["t"];
-	const toot_ids = toot_id.split(',');
+	const toot_ids = toot_id.split(",");
 	if (toot_ids[toot_ids.length - 1] < "1000000000000000") {
 		// 最後の要素が 1.0+E18より小さければ、
 		// id の途中で url が切れたと判断して最後の項目を
@@ -38,9 +46,9 @@ function decodePermalink(get_url_vars) {
 	}
 
 	return {
-		"instance_full": instance_full,
-		"instance": instance,
-		"toot_ids": toot_ids
+		instance_full: instance_full,
+		instance: instance,
+		toot_ids: toot_ids,
 	};
 }
 
@@ -54,21 +62,21 @@ function genPermalink(toot_csv = undefined) {
 	}
 }
 
-function updatePermalinkFromCardList(){
-	console.log('Updaing permalink from card_list.');
+function updatePermalinkFromCardList() {
+	console.log("Updaing permalink from card_list.");
 	let permalink = "https://hidao80.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
-	Object.keys(card_list).forEach(function (key) {
+	Object.keys(card_list).forEach(function(key) {
 		permalink += card_list[key] + ",";
 	});
 	$("permalink").value = permalink;
 }
 
 function addPermalink(toot_csv) {
-	console.log('Adding CSV to permalink.');
+	console.log("Adding CSV to permalink.");
 	$("permalink").value += toot_csv;
 }
 
-function showCards(permalink_obj) {
+export function showCards(permalink_obj) {
 	const instance_full = permalink_obj["instance_full"];
 	const instance = permalink_obj["instance"];
 	const toot_ids = permalink_obj["toot_ids"];
@@ -79,11 +87,11 @@ function showCards(permalink_obj) {
 	for (let i = 0; i < toot_ids.length; i++) {
 		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
 		xhr.open("GET", toot_url, false);
-		xhr.onload = function (e) {
+		xhr.onload = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					const toot = JSON.parse(xhr.responseText);
-					const timestamp = moment(toot.created_at).format('llll');
+					const timestamp = moment(toot.created_at).format("llll");
 					const toot_div = document.createElement("div");
 					toot_div.setAttribute("class", "toot");
 					let media = "";
@@ -97,8 +105,10 @@ function showCards(permalink_obj) {
 <div class="e-content" lang="ja" style="display: block; direction: ltr"><p>${toot.content}</p></div>
 ${media}</div>
 `;
-					toot_div.setAttribute("id", max_index);
-					toot_div.setAttribute("ondblclick", "deleteCard('" + max_index + "')");
+					toot_div.setAttribute("id", `o_${max_index}`);
+					toot_div.addEventListener("dblclick", () => {
+						deleteCard(card_list.length);
+					});
 					toot_div.setAttribute("draggable", "true");
 					toot_div.addEventListener("dragstart", handleDragStart, false);
 					toot_div.addEventListener("dragover", handleDragOver, false);
@@ -111,7 +121,7 @@ ${media}</div>
 				}
 			}
 		};
-		xhr.onerror = function (e) {
+		xhr.onerror = function() {
 			console.error(xhr.statusText);
 		};
 		xhr.send(null);
@@ -122,8 +132,8 @@ ${media}</div>
 }
 
 function handleDragStart(e) {
-	e.dataTransfer.effectAllowed = 'move';
-	e.dataTransfer.setData('text/plain', this.id);
+	e.dataTransfer.effectAllowed = "move";
+	e.dataTransfer.setData("text/plain", this.id);
 }
 
 function handleDragOver(e) {
@@ -136,13 +146,13 @@ function handleDrop(e) {
 	if (e.preventDefault) {
 		e.preventDefault();
 	}
-	e.dataTransfer.dropEffect = 'move';
+	e.dataTransfer.dropEffect = "move";
 	let node = e.target;
 	while (!node.getAttribute("ondblclick")) {
 		node = node.parentNode;
 	}
-	const src = $(e.dataTransfer.getData('text/plain'));
-	if (src.id == node.id) {
+	const src = $(e.dataTransfer.getData("text/plain"));
+	if (src.id === node.id) {
 		return;
 	}
 	const cards = $("cards");
@@ -158,10 +168,10 @@ function handleDrop(e) {
 		}
 	}
 	if (src_index < 0) {
-		return
+		return;
 	}
 	if (node_index < 0) {
-		return
+		return;
 	}
 
 	cards.removeChild(src);
@@ -171,13 +181,13 @@ function handleDrop(e) {
 		card_list.splice(node_index, 0, card_list[src_index]);
 		card_list.splice(src_index, 1);
 	} else {
-		const toot_id = card_list[src_index]
+		const toot_id = card_list[src_index];
 		card_list.splice(src_index, 1);
 		card_list.splice(node_index, 0, toot_id);
 	}
 	genPermalink();
 }
 
-function handleDragEnd(e) {
+function handleDragEnd() {
 	console.log("drag end");
 }
