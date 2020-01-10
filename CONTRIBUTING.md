@@ -77,11 +77,11 @@
 
 Javascript の内容によっては Web サーバー上で動かさないと [CORS](https://developer.mozilla.org/ja/docs/Web/HTTP/CORS) の制限により Javascript の挙動が変わることがあります。
 
-デバッグのために Web サーバーが必要になった場合は参考にしてください。
+デバッグのために Web サーバーが必要になった場合は参考にしてください。サンプルではポート番号は 8888 番にしていますが、任意の空きポート番号に変更してください。
 
 #### PHP のビルトイン・サーバーを使う
 
-リポジトリの index.php がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は Ctrl+C です。
+リポジトリの index.html がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は Ctrl+C です。
 
 ```bash
 php -S localhost:8888 index.html
@@ -89,7 +89,7 @@ php -S localhost:8888 index.html
 
 #### Docker で軽量 Web サーバーを使う
 
-リポジトリの index.php がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は `docker container kill uhttpd` です。
+リポジトリの index.html がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は `docker container kill uhttpd` です。
 
 ```bash
 docker run --rm -d -v $(pwd):/www -p 8888:80 --name uhttpd fnichol/uhttpd
@@ -97,7 +97,7 @@ docker run --rm -d -v $(pwd):/www -p 8888:80 --name uhttpd fnichol/uhttpd
 
 ### 外部公開した状態や https（SSL） での簡易動作確認する
 
-外部公開された場合の動作を確認したい場合や、SSL での動作を確認したい場合は [localhost.run](https://localhost.run/) のサービスと SSH を使って、ローカルの `http://localhost:8080/` への接続を公開すると `https://xxxxx.localhost.run/` でアクセスできるようになります。
+外部公開された場合の動作を確認したい場合や、SSL での動作を確認したい場合は [localhost.run](https://localhost.run/) のサービスと SSH を使って、ローカルの `http://localhost:8888/` への接続を公開すると `https://xxxxx.localhost.run/` でアクセスできるようになります。
 
 ```bash
 ssh -R 80:localhost:8888 ssh.localhost.run
