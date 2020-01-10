@@ -127,9 +127,10 @@ export function showCards(permalink_obj) {
 	</div>
 	${media}
 </div>`;
-					toot_div.setAttribute("id", `o_${max_index}`);
+					const idx = max_index;
+					toot_div.setAttribute("id", `o_${idx}`);
 					toot_div.addEventListener("dblclick", () => {
-						deleteCard(max_index, "o");
+						deleteCard(idx, "o");
 					});
 					toot_div.setAttribute("draggable", "true");
 					toot_div.setAttribute("data-dblclickable", "true");
