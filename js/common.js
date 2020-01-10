@@ -133,10 +133,10 @@ export function showCards(permalink_obj) {
 					});
 					toot_div.setAttribute("draggable", "true");
 					toot_div.setAttribute("data-dblclickable", "true");
-					toot_div.addEventListener("dragstart", handleDragStart, false);
-					toot_div.addEventListener("dragover", handleDragOver, false);
-					toot_div.addEventListener("drop", handleDrop, false);
-					toot_div.addEventListener("dragend", handleDragEnd, false);
+					toot_div.addEventListener("dragstart", e => handleDragStart(e), false);
+					toot_div.addEventListener("dragover", e => handleDragOver(e), false);
+					toot_div.addEventListener("drop", e => handleDrop(e), false);
+					toot_div.addEventListener("dragend", e => handleDragEnd(e), false);
 					max_index++;
 					target_div.appendChild(toot_div);
 				} else {
@@ -157,7 +157,7 @@ export function showCards(permalink_obj) {
 /**
  * @param {Event} e
  */
-function handleDragStart(e) {
+export function handleDragStart(e) {
 	e.dataTransfer.effectAllowed = "move";
 	e.dataTransfer.setData("text/plain", this.id);
 }
@@ -165,7 +165,7 @@ function handleDragStart(e) {
 /**
  * @param {Event} e
  */
-function handleDragOver(e) {
+export function handleDragOver(e) {
 	if (e.preventDefault) {
 		e.preventDefault();
 	}
@@ -174,7 +174,7 @@ function handleDragOver(e) {
 /**
  * @param {Event} e drop event
  */
-function handleDrop(e) {
+export function handleDrop(e) {
 	if (e.preventDefault) {
 		e.preventDefault();
 	}
@@ -220,6 +220,6 @@ function handleDrop(e) {
 	genPermalink();
 }
 
-function handleDragEnd() {
+export function handleDragEnd() {
 	// console.log("drag end");
 }
