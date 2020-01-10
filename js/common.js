@@ -25,9 +25,12 @@ export const get_url_vars = (function() {
 	return vars;
 })();
 
-// export function deleteCard(/*index*/) {}
-export function deleteCard(index) {
-	$("cards").removeChild($(index));
+/**
+ * @param {number} index
+ * @param {string} prefix
+ */
+export function deleteCard(index, prefix) {
+	$("cards").removeChild($(`${prefix}_${index}`));
 	card_list.splice(index, 1);
 	delete card_list[index];
 	genPermalink();
@@ -126,7 +129,7 @@ export function showCards(permalink_obj) {
 </div>`;
 					toot_div.setAttribute("id", `o_${max_index}`);
 					toot_div.addEventListener("dblclick", () => {
-						deleteCard(card_list.length);
+						deleteCard(max_index, "o");
 					});
 					toot_div.setAttribute("draggable", "true");
 					toot_div.addEventListener("dragstart", handleDragStart, false);
