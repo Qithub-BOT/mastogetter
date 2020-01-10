@@ -1,22 +1,50 @@
 {
-  "root": true,
-  "env": {
-    "browser": true,
-    "es6": true
-  },
-  "extends": [
-    // 'prettier',
-    // 'plugin:prettier/recommended',
-    "standard"
-  ],
-  "plugins": [
-    // 'prettier'
-  ],
-  "rules": {
-    // 'prettier/prettier': 'error',
-    "indent": ["error", "tab"],
-    "semi": ["error", "always"],
-    "no-tabs": "off"
-  }
+	"root": true,
+	"env": {
+		"browser": true,
+		"es6": true
+	},
+	"globals": {
+		"moment": false
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:prettier/recommended"
+	],
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"plugins": [
+		// 'prettier'
+	],
+	"rules": {
+		// 'prettier/prettier': 'error',
+		"indent": [
+			"error",
+			"tab"
+		],
+		"semi": [
+			"error",
+			"always"
+		],
+		"no-tabs": "off",
+		"quotes": [
+			"error",
+			"double",
+			{
+				"avoidEscape": true
+			}
+		],
+		"camelcase": "off",
+		"prettier/prettier": [
+			"error",
+			{
+				"singleQuote": false,
+				"trailingComma": "es5",
+				"printWidth": 120,
+				"useTabs": true
+			}
+		]
+	}
 }
-
