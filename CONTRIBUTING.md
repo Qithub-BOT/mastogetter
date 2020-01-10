@@ -79,20 +79,25 @@ Javascript の内容によっては Web サーバー上で動かさないと [CO
 
 デバッグのために Web サーバーが必要になった場合は参考にしてください。サンプルではポート番号は 8888 番にしていますが、任意の空きポート番号に変更してください。
 
-#### npmのパッケージを使う
+#### npm のパッケージを使う
 
-リポジトリの`index.html`がある階層で`npx koko -o`のように実行するとローカルにサーバーが立ち上がり、さらに規定のブラウザが自動で立ち上がります。
-#### PHP のビルトイン・サーバーを使う
-
-リポジトリの index.html がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は Ctrl+C です。
+リポジトリの `index.html` がある階層で以下のコマンドを実行するとローカルにサーバーが立ち上がり、さらに規定のブラウザが自動で立ち上がります。ポート番号はランダムな空きポート番号が使われます。
 
 ```bash
-php -S localhost:8888 index.html
+npx koko -o
 ```
 
-#### Docker で軽量 Web サーバーを使う
+#### PHP のビルトイン・サーバーを使う
 
-リポジトリの index.html がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は `docker container kill uhttpd` です。
+リポジトリの `index.html` がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は Ctrl+C です。
+
+```bash
+php -S localhost:8888
+```
+
+#### Docker の軽量 Web サーバーコンテナを使う
+
+リポジトリの `index.html` がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は `docker container kill uhttpd` です。
 
 ```bash
 docker run --rm -d -v $(pwd):/www -p 8888:80 --name uhttpd fnichol/uhttpd
