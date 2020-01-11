@@ -105,7 +105,7 @@ export function registerEventsToCard(element, index, prefix) {
 
 /**
  *
- * @param {{instance_full: string, instance: string, toot_ids: number[]}} permalink_obj created by `decodePermalink`
+ * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalink_obj created by `decodePermalink`
  * @param {boolean | undefined} registerEvent
  */
 export function showCards(permalink_obj, registerEvent = false) {
