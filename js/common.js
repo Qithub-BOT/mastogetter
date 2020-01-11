@@ -105,7 +105,9 @@ export function decodePermalink(searchParams) {
 export function genPermalink() {
 	if (!$("permalink")) return;
 	console.log("Updaing permalink from card_list.");
-	const permalink = "https://qithub-bot.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
+	const currentURL = new URL(location.href);
+	const path = currentURL.pathname.substring(0, currentURL.pathname.lastIndexOf("/") + 1);
+	const permalink = `${currentURL.origin}${path}p.html?i=${$("instance").value}&t=`;
 	$("permalink").value = permalink + card_list.map(id => CompressTootId(id)).join(",");
 }
 
