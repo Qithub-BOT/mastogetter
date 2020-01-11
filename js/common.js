@@ -129,9 +129,7 @@ export function showCards(permalink_obj) {
 </div>`;
 					const idx = max_index;
 					toot_div.setAttribute("id", `o_${idx}`);
-					toot_div.addEventListener("dblclick", () => {
-						deleteCard(idx, "o");
-					});
+					toot_div.addEventListener("dblclick", e => handleDeleteCard(e, idx));
 					toot_div.setAttribute("draggable", "true");
 					toot_div.setAttribute("data-dblclickable", "true");
 					toot_div.addEventListener("dragstart", e => handleDragStart(e), false);
@@ -223,4 +221,12 @@ export function handleDrop(e) {
 
 export function handleDragEnd() {
 	// console.log("drag end");
+}
+
+/**
+ * @param {Event} e
+ * @param {Number} idx
+ */
+export function handleDeleteCard(e, idx) {
+	deleteCard(idx, "o");
 }
