@@ -98,7 +98,8 @@ function loadPermalink() {
 	const permalink_obj = impl.decodePermalink(new URL($("load").value).searchParams);
 	$("instance").value = permalink_obj.instance_full;
 	impl.showCards(permalink_obj);
-	impl.genPermalink(permalink_obj.toot_ids.join(","));
+	// impl.showCardsより前に呼び出してはいけない
+	impl.genPermalink();
 }
 
 function alertUsageNoPermalink() {
