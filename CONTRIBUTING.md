@@ -12,7 +12,7 @@
 
 - 対象外ブラウザ
   - [IE, 旧 Edge(Chromium ベースより前)](https://github.com/hidao80/mastogetter/issues/52#issuecomment-572322561)
-- HTML5, CSS, Javascript のみで動くこと。
+- HTML5, CSS, JavaScript のみで動くこと。
 
 ## ブランチの役割と PR（Pull Request）先
 
@@ -103,7 +103,7 @@ npm run eslint:fix
 
 ### Local Server を立てる
 
-Javascript の内容によっては Web サーバー上で動かさないと [CORS](https://developer.mozilla.org/ja/docs/Web/HTTP/CORS) の制限により Javascript の挙動が変わることがあります。
+JavaScript の内容によっては Web サーバー上で動かさないと [CORS](https://developer.mozilla.org/ja/docs/Web/HTTP/CORS) の制限により JavaScript の挙動が変わることがあります。
 
 デバッグのために Web サーバーが必要になった場合は参考にしてください。サンプルではポート番号は 8888 番にしていますが、任意の空きポート番号に変更してください。
 
@@ -147,11 +147,11 @@ python -m http.server 8888
 python -m SimpleHTTPServer 8888
 ```
 
-### 外部公開した状態や https（SSL） での簡易動作確認する
+### 外部公開した状態や HTTPS（SSL） での簡易動作確認する
 
 外部公開された場合の動作を確認したい、もしくは HTTPS（SSL）での動作を確認したい場合は `ssh` コマンドで外部の `ssh` サーバーにポートフォワードして検証すると便利です。
 
-ローカルで `http://localhost:8888/` とアクセスできる状態で、以下のコマンドを実行すると [localhost.run](https://localhost.run/) の `ssh` サーバーに接続がポートフォワードされます。実行後に表示される `https://xxxxx.localhost.run/` にアクセスすると https で外部公開した場合と同じ状態を検証できます。
+ローカルで `http://localhost:8888/` とアクセスできる状態で、以下のコマンドを実行すると [localhost.run](https://localhost.run/) の `ssh` サーバーに接続がポートフォワードされます。実行後に表示される `https://xxxxx.localhost.run/` にアクセスすると HTTPS で外部公開した場合と同じ状態を検証できます。
 
 ```bash
 ssh -R 80:localhost:8888 ssh.localhost.run
