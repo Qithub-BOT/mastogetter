@@ -92,7 +92,7 @@ function flipCards() {
 	if (!cards) return;
 	let card_nodes = [];
 	while (cards.hasChildNodes()) {
-		if (cards.firstChild.nodeName == "#text") {
+		if (cards.firstChild.nodeName !== "#text") {
 			card_nodes.push(cards.firstChild);
 		}
 		cards.removeChild(cards.firstChild);
