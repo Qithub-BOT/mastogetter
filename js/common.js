@@ -87,7 +87,6 @@ function addPermalink(toot_csv) {
 
 export function showCards(permalink_obj) {
 	const instance_full = permalink_obj["instance_full"];
-	const instance = permalink_obj["instance"];
 	const toot_ids = permalink_obj["toot_ids"];
 	const xhr = new XMLHttpRequest();
 	const target_div = $("cards");
@@ -119,7 +118,7 @@ export function showCards(permalink_obj) {
 <div class="box">
 	<a class="display-name" href="${toot.account.url}" target="_blank">
 		${toot.account.display_name}
-		<span>@${toot.account.username}@${instance}</span>
+		<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
 	</a>
 	<a class="toot-time" href="${toot.url}" target="_blank">${timestamp}</a>
 	<div class="e-content" lang="ja" style="display: block; direction: ltr">
