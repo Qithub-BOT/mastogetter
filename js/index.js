@@ -95,10 +95,8 @@ function copyPermalink() {
 }
 
 function loadPermalink() {
-	const permalink = $("load").value;
-	const permalink_str = { i: permalink.split("?i=")[1].split("&")[0], t: permalink.split("&t=")[1] };
-	const permalink_obj = impl.decodePermalink(permalink_str);
-
+	const permalink_obj = impl.decodePermalink(new URL($("load").value).searchParams);
+	$("instance").value = permalink_obj.instance_full;
 	impl.showCards(permalink_obj);
 	impl.genPermalink(permalink_obj.toot_ids.join(","));
 }
