@@ -98,7 +98,7 @@ export function decodePermalink(searchParams) {
 					throw e;
 				}
 			})
-			.filter(e => null === e),
+			.filter(e => null !== e),
 	};
 }
 
