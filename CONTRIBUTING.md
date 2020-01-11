@@ -2,7 +2,7 @@
 
 ## コーディング規約
 
-- [`.editorconfig` ベース](https://github.com/hidao80/mastogetter/blob/master/.editorconfig)
+- [`.editorconfig` ベース](https://github.com/Qithub-BOT/mastogetter/blob/master/.editorconfig)
   - タブ・インデント
   - UTF-8, BOM なし
   - 改行コード LF
