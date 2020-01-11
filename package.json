@@ -7,6 +7,7 @@
 	"repository": "https://github.com/Qithub-BOT/mastogetter",
 	"scripts": {
 		"eslint": "eslint --ext .js .",
+		"eslint:fix": "eslint --ext .js . --fix",
 		"eslint:ci": "eslint --ext .js --format=html -o ./results/eslint/eslint.html ."
 	},
 	"devDependencies": {
