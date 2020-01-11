@@ -16,10 +16,6 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"indent": [
-			"error",
-			"tab"
-		],
 		"semi": [
 			"error",
 			"always"
