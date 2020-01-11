@@ -193,10 +193,10 @@ export function handleDrop(e) {
 	let node_index = -1;
 	for (let i = 0; i < children.length; i++) {
 		if (children[i] === src) {
-			src_index = i - 1;
+			src_index = i;
 		}
 		if (children[i] === node) {
-			node_index = i - 1;
+			node_index = i;
 		}
 	}
 	if (src_index < 0) {
