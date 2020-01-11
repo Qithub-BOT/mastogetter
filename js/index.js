@@ -80,7 +80,7 @@ function addCard() {
 			.reverse()[0]
 	);
 
-	if ($("cards").hasChildNodes() && $("cards").firstChild.nodeName == "#text") {
+	if ($("cards").hasChildNodes() && $("cards").firstChild.nodeName === "#text") {
 		$("cards").removeChild($("cards").firstChild);
 	}
 	$("cards").appendChild(clone);
@@ -97,7 +97,7 @@ function flipCards() {
 		}
 		cards.removeChild(cards.firstChild);
 	}
-	if (card_nodes.length == 0) return;
+	if (card_nodes.length === 0) return;
 	while (card_nodes.length > 0) {
 		cards.appendChild(card_nodes.pop());
 	}
