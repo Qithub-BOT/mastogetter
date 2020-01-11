@@ -107,9 +107,22 @@ php -S localhost:8888
 docker run --rm -d -v $(pwd):/www -p 8888:80 --name uhttpd fnichol/uhttpd
 ```
 
-#### Python3を使う
+#### Python3 を使う
 
-リポジトリの `index.html` がある階層で以下のコマンドを実行すると、`http://localhost:8000/` でブラウザからアクセスできます。終了は Ctrl+C です。
+リポジトリの `index.html` がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は Ctrl+C です。
+
+```bash
+python -m http.server 8888
+```
+
+#### Python2 を使う
+
+リポジトリの `index.html` がある階層で以下のコマンドを実行すると、`http://localhost:8888/` でブラウザからアクセスできます。終了は Ctrl+C です。
+
+```bash
+python -m SimpleHTTPServer 8888
+```
+
 ### 外部公開した状態や https（SSL） での簡易動作確認する
 
 外部公開された場合の動作を確認したい、もしくは HTTPS（SSL）での動作を確認したい場合は `ssh` コマンドで外部の `ssh` サーバーにポートフォワードして検証すると便利です。
