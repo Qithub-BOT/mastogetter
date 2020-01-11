@@ -151,7 +151,7 @@ python -m SimpleHTTPServer 8888
 
 外部公開された場合の動作を確認したい、もしくは HTTPS（SSL）での動作を確認したい場合は `ssh` コマンドで外部の `ssh` サーバーにポートフォワードして検証すると便利です。
 
-ローカルで `http://localhost:8888/` とアクセスできる状態で、以下のコマンドを実行すると [http://localhost.run/](https://localhost.run/) の `ssh` サーバーに接続がポートフォワードされます。実行後に表示される `https://xxxxx.localhost.run/` にアクセスすると https で外部公開した場合と同じ状態を検証できます。
+ローカルで `http://localhost:8888/` とアクセスできる状態で、以下のコマンドを実行すると [localhost.run](https://localhost.run/) の `ssh` サーバーに接続がポートフォワードされます。実行後に表示される `https://xxxxx.localhost.run/` にアクセスすると https で外部公開した場合と同じ状態を検証できます。
 
 ```bash
 ssh -R 80:localhost:8888 ssh.localhost.run
