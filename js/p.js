@@ -1,4 +1,4 @@
-import impl from "./common";
+import * as impl from "./common.js";
 function $(id) {
 	return document.getElementById(id);
 }
