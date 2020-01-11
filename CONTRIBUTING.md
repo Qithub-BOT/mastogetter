@@ -73,6 +73,30 @@
 
 `improve` と `refactor` の両方を含んで判断に困ったら、ドキュメントなら `improve`、コードなら `refactor` にしましょう。
 
+## CI (自動レビュー、自動チェック）
+
+このリポジトリには、以下の [CI](https://ja.wikipedia.org/wiki/%E7%B6%99%E7%B6%9A%E7%9A%84%E3%82%A4%E3%83%B3%E3%83%86%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3) サービスを利用する設定が含まれています。PR にコミットが `push` されると、以下の CI が実行実行されます。
+
+- [CircleCI](https://www.google.com/search?q=site:qiita.com+CircleCI)
+  - [ESLint](https://www.google.com/search?q=site:qiita.com+ESLint)
+
+### ローカルで自動レビュー（自動チェック）を確認する
+
+基本的に PR をすると自動実行されますが、ローカルで CircleCI が行っている自動チェックの内容を確認するには、以下のコマンドを実行します。
+
+```terminal
+# チェック結果をコンソールに表示
+npm run eslint
+# HTML ファイルに出力
+npm run eslint:ci
+```
+
+また、チェック内容を機械的に `format` するには以下のコマンドが使用できます。
+
+```terminal
+npm run eslint:fix
+```
+
 ## 開発時の TIPS
 
 以下は、デバッグ時に便利な TIPS です。
@@ -131,21 +155,4 @@ python -m SimpleHTTPServer 8888
 
 ```bash
 ssh -R 80:localhost:8888 ssh.localhost.run
-```
-
-### ローカルで自動レビュー（自動チェック）を確認する
-
-CircleCI が行っている自動チェックの内容は、以下のコマンドで確認できます。
-
-```terminal
-# チェック結果をコンソールに表示
-npm run eslint
-# HTML ファイルに出力
-npm run eslint:ci
-```
-
-また、チェック内容を機械的に `format` するには以下のコマンドが使用できます。
-
-```terminal
-npm run eslint:fix
 ```
