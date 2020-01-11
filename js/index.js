@@ -84,6 +84,22 @@ function addCard() {
 	impl.genPermalink();
 }
 
+function flipCards() {
+	const cards = $("cards");
+	if (!cards) return;
+	let card_nodes = [];
+	while (cards.hasChildNodes()) {
+		card_nodes.push(cards.firstChild);
+		cards.removeChild(cards.firstChild);
+	}
+	if (card_nodes.length == 0) return;
+	while (card_nodes.length > 0) {
+		cards.appendChild(card_nodes.pop());
+	}
+	impl.card_list.reverse();
+	impl.genPermalink();
+}
+
 function copyPermalink() {
 	if (isEmptyPermalink()) {
 		alertUsageNoPermalink();
@@ -124,5 +140,8 @@ impl.ready(() => {
 	});
 	$("copylink").addEventListener("click", () => {
 		copyPermalink();
+	});
+	$("flip").addEventListener("click", () => {
+		flipCards();
 	});
 });
