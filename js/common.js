@@ -59,12 +59,13 @@ function UncompressOrPassThroughTootId(id) {
 					throw new Error("invalid id syntax.");
 				}
 			}
-			const uncompressed = `${parsed[0]}${parsed[1]}`;
+			// parsed[1]は10桁
+			const uncompressed = `${parsed[0]}${("0000000000" + parsed[1]).slice(-10)}`;
 			// 1.0+E18より小さければ、id の途中で url が切れたと判断してエラーに（仕様）
 			if (uncompressed < 1000000000000000) {
 				throw new Error("too small id");
 			}
-			return `${parsed[0]}${parsed[1]}`;
+			return uncompressed;
 		}
 		default:
 			throw new Error("invalid id syntax.");
