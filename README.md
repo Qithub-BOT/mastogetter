@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Qithub-BOT/mastogetter.svg?style=svg)](https://circleci.com/gh/Qithub-BOT/mastogetter)
+
 # Mastogetter is何
 
 Mastogetterとは、分散SNSオープンソースサーバ「Mastodon」の投稿を任意の順番で表示する、togetter的なまとめサイトをパーマリンクを作成することで擬似的に作成するサービスです。
