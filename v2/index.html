@@ -2,50 +2,25 @@
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>mastogetter - ますとげったー</title>
-	<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="../css/reset.css">
-	<link rel="stylesheet" href="../css/style.css">
-	<script src="js/common.js"></script>
-	<script src="js/index.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ja.js"></script>
+	<title>リダイレクト中...</title>
+	<script type="text/javascript">
+		var redirect = function (url) {
+			location.href = url;
+		};
+		var on_load = function () {
+			var current_url = window.location.href;
+			var new_url = current_url.replace(/\/v2/, "");
+			var link = document.getElementById("link");
+			link.href = new_url;//href書き換え
+			setTimeout(function () {
+				redirect(new_url);
+			}, 3000);
+		};
+	</script>
 </head>
 <body>
-	<header class="container">
-		<div>
-			<h1><a href="./">mastogetter</a></h1>
-		</div>
-	</header>
-	<div class="container flex-center">
-		<div class="area container flex-column">
-			<div>
-				<p><input type="text" id="load" placeholder="https://qithub-bot.github.io/mastogetter/p.html?hoge"><label for="load">インポートするまとめのリンク</label></p>
-				<input type="button" value="まとめを読み込む" onclick="loadPermalink()">
-			</div>
-			<div id="domainid">
-				<p><input type="text" id="instance" placeholder="https://qiitadon.com"><label for="instance">インスタンス名</label></p>
-				<p><input type="text" id="toot-id" placeholder="カーソルをあわせてヒントを表示"><span class="error">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span><label for="toot-id">トゥートID or URL</label></p>
-				<input type="button" value="ID or URLからプレビュー" onclick="showPreview()">
-			</div>
-			<div id="card-preview">
-				埋め込みカードのプレビューが表示されます
-			</div>
-			<div>
-				<a href="https://github.com/Qithub-BOT/mastogetter/blob/master/README.md">使い方</a>
-				<input type="button" value="トゥートを追加" onclick="addCard()">
-			</div>
-		</div>
-		<div class="area">
-			<div>
-				<p><input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly"><label for="permalink">このまとめのリンク</label>
-				<input id="copylink" type="button" value="コピー" onclick="copyPermalink()"></p>
-			</div>
-			<div id="cards">
-			</div>
-		</div>
-	</div>
+	<p>3秒後にページが切り替わります。自動的に切り替わらない場合には<a id="link" href="https://qithub-bot.github.io/mastogetter/index.html">コチラ</a>をクリックしてください。
+	</p>
+	<script type="text/javascript">on_load();</script>
 </body>
 </html>

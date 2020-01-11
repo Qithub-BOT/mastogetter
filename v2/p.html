@@ -2,28 +2,25 @@
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>mastogetter - ますとげったー</title>
-	<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="../css/reset.css">
-	<link rel="stylesheet" href="../css/style.css">
-	<script src="js/common.js"></script>
-	<script src="js/p.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ja.js"></script>
+	<title>リダイレクト中...</title>
+	<script type="text/javascript">
+		var redirect = function (url) {
+			location.href = url;
+		};
+		var on_load = function () {
+			var current_url = window.location.href;
+			var new_url = current_url.replace(/\/v2/, "");
+			var link = document.getElementById("link");
+			link.href = new_url;//href書き換え
+			setTimeout(function () {
+				redirect(new_url);
+			}, 3000);
+		};
+	</script>
 </head>
 <body>
-	<header class="container">
-		<div>
-			<h1><a href="./">mastogetter</a></h1>
-		</div>
-	</header>
-	<div  class="container flex-center">
-		<div id="matomain" class="area">
-			<div id="cards">
-			</div>
-		</div>
-	</div>
+	<p>3秒後にページが切り替わります。自動的に切り替わらない場合には<a id="link" href="https://qithub-bot.github.io/mastogetter/index.html">コチラ</a>をクリックしてください。
+	</p>
+	<script type="text/javascript">on_load();</script>
 </body>
 </html>
