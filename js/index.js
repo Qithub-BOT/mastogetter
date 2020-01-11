@@ -112,7 +112,15 @@ function isEmptyPermalink() {
 	return !$("permalink").value;
 }
 
+function focusSelect(e) {
+	e.target.select();
+}
+
 impl.ready(() => {
+	$("load").addEventListener("focus", e => focusSelect(e));
+	$("instance").addEventListener("focus", e => focusSelect(e));
+	$("toot-id").addEventListener("focus", e => focusSelect(e));
+	$("permalink").addEventListener("focus", e => focusSelect(e));
 	$("loadPermalink").addEventListener("click", () => {
 		loadPermalink();
 	});
