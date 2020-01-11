@@ -132,3 +132,20 @@ python -m SimpleHTTPServer 8888
 ```bash
 ssh -R 80:localhost:8888 ssh.localhost.run
 ```
+
+### ローカルで自動レビュー（自動チェック）を確認する
+
+CircleCI が行っている自動チェックの内容は、以下のコマンドで確認できます。
+
+```terminal
+# チェック結果をコンソールに表示
+npm run eslint
+# HTML ファイルに出力
+npm run eslint:ci
+```
+
+また、チェック内容を機械的に `format` するには以下のコマンドが使用できます。
+
+```terminal
+npm run eslint:fix
+```
