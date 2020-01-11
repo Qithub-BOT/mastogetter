@@ -73,7 +73,7 @@ export function genPermalink(toot_csv = undefined) {
 
 function updatePermalinkFromCardList() {
 	console.log("Updaing permalink from card_list.");
-	let permalink = "https://hidao80.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
+	let permalink = "https://qithub-bot.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
 	Object.keys(card_list).forEach(function(key) {
 		permalink += card_list[key] + ",";
 	});

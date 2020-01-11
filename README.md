@@ -17,7 +17,7 @@ Mastodon API v1に対応しているすべてのインスタンスの公開ト�
 
 ## 使い方
 
-1. https://hidao80.github.io/mastogetter/ にアクセスします。
+1. https://qithub-bot.github.io/mastogetter/ にアクセスします。
 2. 「インスタンス名」テキストボックスにインスタンスのURLをhttp,https付きで入力します。
 3. 「トゥートID or URL」テキストボックスに追記したいトゥートのIDの数字またはトゥートのURLを入力します。
 4. 「ID or URLからプレビュー」ボタンを押し、フォーム下のプレビュー欄にトゥートを一度表示させます。
@@ -34,13 +34,13 @@ Mastodon API v1に対応しているすべてのインスタンスの公開ト�
 
 ### バージョン1
 
-https://hidao80.github.io/mastogetter/
+https://qithub-bot.github.io/mastogetter/
 
 ### バージョン2
 
 トゥートIDを符号化して、パーマリンクを短くできます。バージョン1と互換性がありません。
 
-https://hidao80.github.io/mastogetter/v2/
+https://qithub-bot.github.io/mastogetter/v2/
 
 ## ライセンス
 
