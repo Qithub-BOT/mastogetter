@@ -42,7 +42,7 @@ function decodePermalink(get_url_vars) {
 
 function genPermalink() {
 	if ($("permalink") !== null) {
-		let permalink = "https://hidao80.github.io/mastogetter/v2/p.html?i="+ $("instance").value +"&t=";
+		let permalink = "https://qithub-bot.github.io/mastogetter/v2/p.html?i="+ $("instance").value +"&t=";
 		card_list = tootIdsCompress(card_list);
 		Object.keys(card_list).forEach(function (key) {
 			permalink += card_list[key] + ",";

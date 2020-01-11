@@ -4,9 +4,9 @@ input, button, textarea, select {
 	appearance: none;
 }
 
-html {
+/* html { */
 	/*font-size: calc(100vw / 32);*/
-}
+/* } */
 
 body {
 	background-color: #f6f6f4;
@@ -254,7 +254,7 @@ input:hover+.error {
   /* width for mobile view */
   .error {
     right: -8vw ;
-    font-size 2vw;
+    font-size: 2vw;
   }
   label, .area input[type="text"], .area input[type="button"], #card-preview, .area a{
     font-size: 10px;
