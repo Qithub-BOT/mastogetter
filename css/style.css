@@ -203,11 +203,19 @@ label {
 	padding-bottom: 15px;
 	color: #000;
 	line-height: 1;
+	position: relative;
 }
-/* end */
 
+label>i{
+	color: darkgray;
+	margin-left: 0.25rem;
+}
 
-.error {
+label>i:hover{
+	color: gray;
+	margin-left: 0.25rem;
+}
+.hint {
 	display: none;
 	font-size: .8rem;
 	position: absolute;
@@ -218,6 +226,18 @@ label {
 	border-radius: 5px;
 	color: transparent;
 }
+
+i:hover .hint {
+	display: block;
+	animation-name: appear;
+	animation-duration: 0.3s;
+	animation-fill-mode: forwards;
+	animation-timing-function: ease-out;
+}
+
+/* end */
+
+
 
 @keyframes appear {
 	from {
@@ -230,14 +250,6 @@ label {
 		border: 1px solid #34830499;
 		color: #348304;
 	}
-}
-
-input:hover+.error {
-	display: inline;
-	animation-name: appear;
-	animation-duration: 0.3s;
-	animation-fill-mode: forwards;
-	animation-timing-function: ease-out;
 }
 @media screen and (max-width: 899px) {
   /* width for mobile view */
