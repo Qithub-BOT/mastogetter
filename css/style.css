@@ -115,6 +115,11 @@ div.area>div input:last-child {
 #copylink {
 	margin-left: 10px;
 }
+
+input[type=button]:focus {
+	outline:0;
+}
+
 .area input[type="button"] {
 	font-size: 15px;
 	padding: .5em;
