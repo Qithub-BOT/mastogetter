@@ -6,11 +6,11 @@
 
 このパーマリンクにより togetter 的な「まとめサイト」を作成することができます。Mastodon API v1 に対応／互換のあるインスタンス（以下 Mastodon サーバー）の公開トゥートに対して利用できます。
 
-- Mastogetter の URL
+- Mastogetter 編集画面の URL
   - https://qithub-bot.github.io/mastogetter/
 
-- ＜まとめの表示サンプルリンク＞
-- ＜まとめの編集画面のサンプル？＞
+- まとめの表示サンプルの URL
+  - https://git.io/Jvfzg
 
 ## 特徴
 
