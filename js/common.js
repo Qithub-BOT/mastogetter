@@ -32,7 +32,6 @@ export const get_url_vars = (function() {
 export function deleteCard(index, prefix) {
 	$("cards").removeChild($(`${prefix}_${index}`));
 	card_list.splice(index, 1);
-	delete card_list[index];
 	genPermalink();
 }
 
