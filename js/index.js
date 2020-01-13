@@ -25,23 +25,23 @@ function showPreview() {
 				const timestamp = moment(toot.created_at).format("llll");
 				let media = "";
 				for (let i = 0; i < toot.media_attachments.length; i++) {
-					media += `<a href='${toot.media_attachments[i].url}'>
+					media += `<a href='${toot.media_attachments[i].url}' target="_blank" rel="noopener nofollow">
 	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
 </a>`;
 				}
 				target_div.innerHTML = `
 <div class="toot">
 	<div class="box">
-		<a href="${toot.account.url}" target="_blank">
+		<a href="${toot.account.url}" target="_blank" rel="noopener nofollow">
 			<img width="48" height="48" alt="avatar" class="u-photo" src="${toot.account.avatar}">
 		</a>
 	</div>
 	<div class="box">
-		<a class="display-name" href="${toot.account.url}" target="_blank">
+		<a class="display-name" href="${toot.account.url}" target="_blank" rel="noopener nofollow">
 			${toot.account.display_name}
 			<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
 		</a>
-		<a class="toot-time" href="${toot.url}" target="_blank">${timestamp}</a>
+		<a class="toot-time" href="${toot.url}" target="_blank" rel="noopener nofollow">${timestamp}</a>
 		<div class="e-content" lang="ja" style="display: block; direction: ltr">
 			<p>${toot.content}</p>
 		</div>
