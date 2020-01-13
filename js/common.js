@@ -54,12 +54,12 @@ function UncompressOrPassThroughTootId(id) {
 			return id;
 		}
 		case 2: {
-			for (const e of splitted) {
-				if (isNaN(parseInt(e))) {
+			const parsed = splitted.map(e => parseInt(e, 36));
+			for (const e of parsed) {
+				if (isNaN(e)) {
 					throw new Error("invalid id syntax.");
 				}
 			}
-			const parsed = splitted.map(e => parseInt(e, 36));
 			// parsed[1]は10桁
 			return 0 === parsed[0] ? `${parsed[1]}` : `${parsed[0]}${`${parsed[1]}`.padStart(10, "0")}`;
 		}
