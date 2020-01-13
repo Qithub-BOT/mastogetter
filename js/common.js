@@ -44,11 +44,8 @@ function UncompressOrPassThroughTootId(id) {
 	switch (splitted.length) {
 		case 1: {
 			const parsed = parseInt(id, 10);
-			// 1.0+E18より小さければ、id の途中で url が切れたと判断してエラーに（仕様）
 			if (isNaN(parsed)) {
 				throw new Error("invalid id syntax.");
-			} else if (parsed < 1000000000000000) {
-				throw new Error("too small id");
 			}
 			return id;
 		}
@@ -60,12 +57,7 @@ function UncompressOrPassThroughTootId(id) {
 				}
 			}
 			// parsed[1]は10桁
-			const uncompressed = `${parsed[0]}${parsed[1].toString().padStart(10, "0")}`;
-			// 1.0+E18より小さければ、id の途中で url が切れたと判断してエラーに（仕様）
-			if (uncompressed < 1000000000000000) {
-				throw new Error("too small id");
-			}
-			return uncompressed;
+			return `${parsed[0]}${parsed[1].toString().padStart(10, "0")}`;
 		}
 		default:
 			throw new Error("invalid id syntax.");
@@ -89,16 +81,7 @@ export function decodePermalink(searchParams) {
 			.split(",")
 			// 末尾が,で終わると空文字列が最終要素に来る
 			.filter(e => e !== "")
-			.map((id, i, a) => {
-				try {
-					return UncompressOrPassThroughTootId(id);
-				} catch (e) {
-					if (i === a.length - 1) {
-						return null;
-					}
-					throw e;
-				}
-			})
+			.map(id => UncompressOrPassThroughTootId(id))
 			.filter(e => null !== e),
 	};
 }
