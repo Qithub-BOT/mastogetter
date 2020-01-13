@@ -29,8 +29,12 @@ export function deleteCard(index, prefix) {
  * @param {string} id 10進数の文字列
  */
 function CompressTootId(id) {
-	const compressed = parseInt(id.substr(0, id.length - 10)).toString(36);
-	return compressed + "_" + parseInt(id.substr(-10)).toString(36);
+	if (id.length > 10) {
+		const compressed = parseInt(id.substr(0, id.length - 10)).toString(36);
+		return compressed + "_" + parseInt(id.substr(-10)).toString(36);
+	} else {
+		return `0_${parseInt(id).toString(36)}`;
+	}
 }
 
 /**
@@ -57,7 +61,7 @@ function UncompressOrPassThroughTootId(id) {
 			}
 			const parsed = splitted.map(e => parseInt(e, 36));
 			// parsed[1]は10桁
-			return `${parsed[0]}${parsed[1].toString().padStart(10, "0")}`;
+			return 0 === parsed[0] ? `${parsed[1]}` : `${parsed[0]}${`${parsed[1]}`.padStart(10, "0")}`;
 		}
 		default:
 			throw new Error("invalid id syntax.");
