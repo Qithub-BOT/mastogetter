@@ -225,6 +225,8 @@ label>i:hover{
 	font-size: .8rem;
 	position: absolute;
 	width: fit-content;
+	width: -moz-fit-content;
+	word-break: keep-all;
 	bottom: 100%;
 	right: 0;
 	padding: .5em 1em .4em;
