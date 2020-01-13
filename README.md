@@ -29,7 +29,7 @@
 
 本リポジトリは「togetter 相当ものが Mastodon にないのは何故か」という @hidao80 氏の個人的興味を探究する目的から[始まった](https://qiitadon.com/web/statuses/103422588059240282)ものです。
 
-後に、同氏も参加するこのリポジトリに[移管され](https://qiitadon.com/web/statuses/103461803288870302)、現在は[コントリビューター（有志の参加者）](https://github.com/Qithub-BOT/mastogetter/graphs/contributors)により継続開発およびメンテナンスされているものです。
+後に、同氏も参加する [Organization](https://github.com/Qithub-BOT/) の、このリポジトリに[移管され](https://qiitadon.com/web/statuses/103462224435592925)ました。現在は[コントリビューター（有志の参加者）](https://github.com/Qithub-BOT/mastogetter/graphs/contributors)により継続開発およびメンテナンスされているものです。
 
 そのため、リポジトリ名／サービス名による誤解、もしくは各種権利者および利用者にとって害があるようでしたら、予告なくリポジトリ名およびサービス名が変更される可能性があることをご承知おきください。
 
