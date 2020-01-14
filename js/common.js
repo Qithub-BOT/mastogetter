@@ -226,28 +226,26 @@ export function handleDragEnd() {
 }
 
 function getHtmlFromContent(str_content) {
-	let div = document.createElement('div');
+	let div = document.createElement("div");
 	div.innerHTML = str_content;
 	return div.innerHTML;
 }
 
 export function setAllAnchorsAsExternalTabSecurely(elements) {
-	console.log('Setting all anchor elements as external tab avoiding tabnabbing.');
-	elements.querySelectorAll('a').forEach(
-		anchor => setAnchorWithSecureAttribute(anchor)
-	);
+	console.log("Setting all anchor elements as external tab avoiding tabnabbing.");
+	elements.querySelectorAll("a").forEach(anchor => setAnchorWithSecureAttribute(anchor));
 	return elements;
 }
 
 function setAnchorWithSecureAttribute(element) {
-	if(! element.href){
+	if (!element.href) {
 		return element;
 	}
 	return addAttributeToAvoidTabnabbing(element);
 }
 
 function addAttributeToAvoidTabnabbing(element) {
-	element.target = '_blank';
-	element.rel += 'nofollow noopener';
+	element.target = "_blank";
+	element.rel += "nofollow noopener";
 	return element;
 }

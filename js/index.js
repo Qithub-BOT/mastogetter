@@ -48,7 +48,7 @@ function showPreview() {
 	${media}
 	</div>
 </div>`;
-			target_div = impl.setAllAnchorsAsExternalTabSecurely(target_div);
+				target_div = impl.setAllAnchorsAsExternalTabSecurely(target_div);
 			} else {
 				console.error(xhr.statusText);
 			}
