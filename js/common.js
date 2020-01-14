@@ -237,10 +237,9 @@ export function setAllAnchorsAsExternalTabSecurely(elements) {
 }
 
 function setAnchorWithSecureAttribute(element) {
-	if (!element.href) {
-		return element;
+	if (element.href) {
+		addAttributesToAvoidTabnabbing(element);
 	}
-	addAttributesToAvoidTabnabbing(element);
 }
 
 function addAttributesToAvoidTabnabbing(element) {
