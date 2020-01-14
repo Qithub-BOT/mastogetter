@@ -249,6 +249,6 @@ function addAttributesToAvoidTabnabbing(element) {
 	element.target = "_blank";
 	element.rel += " noopener noreferrer";
 	// リンク先のクロール禁止
-	// https://support.google.com/webmasters/answer/96569?hl=ja
+	// Ref: https://support.google.com/webmasters/answer/96569?hl=ja
 	element.rel += " nofollow";
 }
