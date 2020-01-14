@@ -14,18 +14,18 @@ function showPreview() {
 		.value.split("/")
 		.reverse()[0];
 	const toot_url = instance_full + "/api/v1/statuses/" + toot_id;
-	let target_div = $("card-preview");
-
+	const target_div = $("card-preview");
 	const xhr = new XMLHttpRequest();
 	xhr.open("GET", toot_url, true);
-	xhr.onload = function() {
+	xhr.onload = function () {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
 				const toot = JSON.parse(xhr.responseText);
 				const timestamp = moment(toot.created_at).format("llll");
 				let media = "";
 				for (let i = 0; i < toot.media_attachments.length; i++) {
-					media += `<a href='${toot.media_attachments[i].url}'>
+					media += `
+<a href='${toot.media_attachments[i].url}'>
 	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
 </a>`;
 				}
@@ -48,13 +48,13 @@ function showPreview() {
 	${media}
 	</div>
 </div>`;
-				target_div = impl.setAllAnchorsAsExternalTabSecurely(target_div);
+				impl.setAllAnchorsAsExternalTabSecurely(target_div);
 			} else {
 				console.error(xhr.statusText);
 			}
 		}
 	};
-	xhr.onerror = function() {
+	xhr.onerror = function () {
 		console.error(xhr.statusText);
 	};
 	xhr.send(null);

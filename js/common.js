@@ -13,7 +13,7 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-export const get_url_vars = (function() {
+export const get_url_vars = (function () {
 	const vars = {};
 	const params = location.search.substring(1).split("&");
 	for (let i = 0; i < params.length; i++) {
@@ -73,7 +73,7 @@ export function genPermalink(toot_csv = undefined) {
 function updatePermalinkFromCardList() {
 	console.log("Updaing permalink from card_list.");
 	let permalink = "https://qithub-bot.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
-	Object.keys(card_list).forEach(function(key) {
+	Object.keys(card_list).forEach(function (key) {
 		permalink += card_list[key] + ",";
 	});
 	$("permalink").value = permalink;
@@ -94,15 +94,15 @@ export function showCards(permalink_obj) {
 	for (let i = 0; i < toot_ids.length; i++) {
 		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
 		xhr.open("GET", toot_url, false);
-		xhr.onload = function() {
+		xhr.onload = function () {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					const toot = JSON.parse(xhr.responseText);
 					const timestamp = moment(toot.created_at).format("llll");
-					let toot_div = document.createElement("div");
+					const toot_div = document.createElement("div");
 					toot_div.setAttribute("class", "toot");
 					let media = "";
-					let content_html = getHtmlFromContent(toot.content);
+					const content_html = getHtmlFromContent(toot.content);
 					for (let i = 0; i < toot.media_attachments.length; i++) {
 						media += `
 <a href='${toot.media_attachments[i].url}'>
@@ -138,14 +138,14 @@ export function showCards(permalink_obj) {
 					toot_div.addEventListener("drop", e => handleDrop(e), false);
 					toot_div.addEventListener("dragend", e => handleDragEnd(e), false);
 					max_index++;
-					toot_div = setAllAnchorsAsExternalTabSecurely(toot_div);
+					setAllAnchorsAsExternalTabSecurely(toot_div);
 					target_div.appendChild(toot_div);
 				} else {
 					console.error(xhr.statusText);
 				}
 			}
 		};
-		xhr.onerror = function() {
+		xhr.onerror = function () {
 			console.error(xhr.statusText);
 		};
 		xhr.send(null);
@@ -226,26 +226,31 @@ export function handleDragEnd() {
 }
 
 function getHtmlFromContent(str_content) {
-	let div = document.createElement("div");
+	const div = document.createElement("div");
 	div.innerHTML = str_content;
 	return div.innerHTML;
 }
 
 export function setAllAnchorsAsExternalTabSecurely(elements) {
 	console.log("Setting all anchor elements as external tab avoiding tabnabbing.");
-	elements.querySelectorAll("a").forEach(anchor => setAnchorWithSecureAttribute(anchor));
-	return elements;
+	elements.querySelectorAll("a").forEach(
+		anchor => setAnchorWithSecureAttribute(anchor)
+	);
 }
 
 function setAnchorWithSecureAttribute(element) {
 	if (!element.href) {
 		return element;
 	}
-	return addAttributeToAvoidTabnabbing(element);
+	addAttributesToAvoidTabnabbing(element);
 }
 
-function addAttributeToAvoidTabnabbing(element) {
+function addAttributesToAvoidTabnabbing(element) {
+	// Tabnabbing 脆弱性対策
+	// Ref: https://link.medium.com/W8bktSl8e3 @ Medium
 	element.target = "_blank";
-	element.rel += "nofollow noopener";
-	return element;
+	element.rel += " noopener noreferrer";
+	// リンク先のクロール禁止
+	// https://support.google.com/webmasters/answer/96569?hl=ja
+	element.rel += " nofollow";
 }
