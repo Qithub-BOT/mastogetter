@@ -95,8 +95,13 @@ div.area>div {
 div.area>div p, div.area>div p input[type="text"] {
 	width: 100%
 }
-div.area>div input:last-child {
+
+div.area>div input:last-child , button:last-child{
 	margin-left: auto;
+}
+
+.area:nth-child(2)>div:first-child{
+	border-bottom: solid 1px lightgray;
 }
 
 .area label:after {
@@ -120,7 +125,7 @@ input[type=button]:focus {
 	outline:0;
 }
 
-.area input[type="button"] {
+.area input[type="button"], button {
 	font-size: 15px;
 	padding: .5em;
 	border-style: none;
@@ -220,6 +225,7 @@ label>i:hover{
 	color: gray;
 	margin-left: 0.25rem;
 }
+
 .hint {
 	display: none;
 	font-size: .8rem;
@@ -243,8 +249,6 @@ i:hover .hint {
 }
 
 /* end */
-
-
 
 @keyframes appear {
 	from {
