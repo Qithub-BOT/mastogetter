@@ -13,7 +13,7 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-export const get_url_vars = (function () {
+export const get_url_vars = (function() {
 	const vars = {};
 	const params = location.search.substring(1).split("&");
 	for (let i = 0; i < params.length; i++) {
@@ -73,7 +73,7 @@ export function genPermalink(toot_csv = undefined) {
 function updatePermalinkFromCardList() {
 	console.log("Updaing permalink from card_list.");
 	let permalink = "https://qithub-bot.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
-	Object.keys(card_list).forEach(function (key) {
+	Object.keys(card_list).forEach(function(key) {
 		permalink += card_list[key] + ",";
 	});
 	$("permalink").value = permalink;
@@ -94,7 +94,7 @@ export function showCards(permalink_obj) {
 	for (let i = 0; i < toot_ids.length; i++) {
 		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
 		xhr.open("GET", toot_url, false);
-		xhr.onload = function () {
+		xhr.onload = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					const toot = JSON.parse(xhr.responseText);
@@ -145,7 +145,7 @@ export function showCards(permalink_obj) {
 				}
 			}
 		};
-		xhr.onerror = function () {
+		xhr.onerror = function() {
 			console.error(xhr.statusText);
 		};
 		xhr.send(null);
@@ -233,9 +233,7 @@ function getHtmlFromContent(str_content) {
 
 export function setAllAnchorsAsExternalTabSecurely(elements) {
 	console.log("Setting all anchor elements as external tab avoiding tabnabbing.");
-	elements.querySelectorAll("a").forEach(
-		anchor => setAnchorWithSecureAttribute(anchor)
-	);
+	elements.querySelectorAll("a").forEach(anchor => setAnchorWithSecureAttribute(anchor));
 }
 
 function setAnchorWithSecureAttribute(element) {

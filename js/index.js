@@ -17,7 +17,7 @@ function showPreview() {
 	const target_div = $("card-preview");
 	const xhr = new XMLHttpRequest();
 	xhr.open("GET", toot_url, true);
-	xhr.onload = function () {
+	xhr.onload = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
 				const toot = JSON.parse(xhr.responseText);
@@ -54,7 +54,7 @@ function showPreview() {
 			}
 		}
 	};
-	xhr.onerror = function () {
+	xhr.onerror = function() {
 		console.error(xhr.statusText);
 	};
 	xhr.send(null);
