@@ -115,6 +115,11 @@ div.area>div input:last-child {
 #copylink {
 	margin-left: 10px;
 }
+
+input[type=button]:focus {
+	outline:0;
+}
+
 .area input[type="button"] {
 	font-size: 15px;
 	padding: .5em;
@@ -203,21 +208,43 @@ label {
 	padding-bottom: 15px;
 	color: #000;
 	line-height: 1;
+	position: relative;
 }
-/* end */
 
+label>i{
+	color: darkgray;
+	margin-left: 0.25rem;
+}
 
-.error {
+label>i:hover{
+	color: gray;
+	margin-left: 0.25rem;
+}
+.hint {
 	display: none;
 	font-size: .8rem;
 	position: absolute;
 	width: fit-content;
+	width: -moz-fit-content;
+	word-break: keep-all;
 	bottom: 100%;
 	right: 0;
 	padding: .5em 1em .4em;
 	border-radius: 5px;
 	color: transparent;
 }
+
+i:hover .hint {
+	display: block;
+	animation-name: appear;
+	animation-duration: 0.3s;
+	animation-fill-mode: forwards;
+	animation-timing-function: ease-out;
+}
+
+/* end */
+
+
 
 @keyframes appear {
 	from {
@@ -231,28 +258,20 @@ label {
 		color: #348304;
 	}
 }
-
-input:hover+.error {
-	display: inline;
-	animation-name: appear;
-	animation-duration: 0.3s;
-	animation-fill-mode: forwards;
-	animation-timing-function: ease-out;
-}
 @media screen and (max-width: 899px) {
   /* width for mobile view */
   .area{width: 90vw; height: auto;}
   #matomain {
     width: 100%;
   }
-  .error {
+  .hint {
     font-size: .6rem;
   }
 }
 
 @media screen and (max-width: 669px) {
   /* width for mobile view */
-  .error {
+  .hint {
     right: -8vw ;
     font-size: 2vw;
   }
