@@ -78,7 +78,30 @@ export function genPermalink() {
 	$("permalink").value = permalink + card_list.join(",");
 }
 
-export function showCards(permalink_obj) {
+/**
+ *
+ * @param {Element} element DOM Element
+ * @param {number} index
+ * @param {string} prefix
+ */
+export function registerEventsToCard(element, index, prefix) {
+	element.addEventListener("dblclick", () => {
+		deleteCard(index, prefix);
+	});
+	element.setAttribute("draggable", "true");
+	element.setAttribute("data-dblclickable", "true");
+	element.addEventListener("dragstart", e => handleDragStart(e), false);
+	element.addEventListener("dragover", e => handleDragOver(e), false);
+	element.addEventListener("drop", e => handleDrop(e), false);
+	element.addEventListener("dragend", e => handleDragEnd(e), false);
+}
+
+/**
+ *
+ * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalink_obj created by `decodePermalink`
+ * @param {boolean | undefined} registerEvent
+ */
+export function showCards(permalink_obj, registerEvent = false) {
 	const instance_full = permalink_obj["instance_full"];
 	const toot_ids = permalink_obj["toot_ids"];
 	const xhr = new XMLHttpRequest();
@@ -121,15 +144,9 @@ export function showCards(permalink_obj) {
 </div>`;
 					const idx = max_index;
 					toot_div.setAttribute("id", `o_${idx}`);
-					toot_div.addEventListener("dblclick", () => {
-						deleteCard(idx, "o");
-					});
-					toot_div.setAttribute("draggable", "true");
-					toot_div.setAttribute("data-dblclickable", "true");
-					toot_div.addEventListener("dragstart", e => handleDragStart(e), false);
-					toot_div.addEventListener("dragover", e => handleDragOver(e), false);
-					toot_div.addEventListener("drop", e => handleDrop(e), false);
-					toot_div.addEventListener("dragend", e => handleDragEnd(e), false);
+					if (true === registerEvent) {
+						registerEventsToCard(toot_div, idx, "o");
+					}
 					max_index++;
 					target_div.appendChild(toot_div);
 				} else {
