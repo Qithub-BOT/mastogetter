@@ -26,11 +26,14 @@ export const get_url_vars = (function() {
 })();
 
 /**
+ * @param {Element} target
  * @param {number} index
- * @param {string} prefix
  */
-export function deleteCard(index, prefix) {
-	$("cards").removeChild($(`${prefix}_${index}`));
+export function deleteCard(target, index) {
+	while (!target.getAttribute("data-dblclickable")) {
+		target = target.parentNode;
+	}
+	target.parentElement.removeChild(target);
 	card_list.splice(index, 1);
 	genPermalink();
 }
@@ -112,9 +115,7 @@ export function showCards(permalink_obj) {
 </div>`;
 					const idx = max_index;
 					toot_div.setAttribute("id", `o_${idx}`);
-					toot_div.addEventListener("dblclick", () => {
-						deleteCard(idx, "o");
-					});
+					toot_div.addEventListener("dblclick", e => deleteCard(e.target, idx));
 					toot_div.setAttribute("draggable", "true");
 					toot_div.setAttribute("data-dblclickable", "true");
 					toot_div.addEventListener("dragstart", e => handleDragStart(e), false);

@@ -65,9 +65,7 @@ function addCard() {
 	const clone = $("card-preview").firstElementChild.cloneNode(true);
 	const len = impl.card_list.length;
 	clone.setAttribute("id", `c_${len}`);
-	clone.addEventListener("dblclick", () => {
-		impl.deleteCard(len, "c");
-	});
+	clone.addEventListener("dblclick", e => impl.deleteCard(e.target, len));
 	clone.setAttribute("data-dblclickable", "true");
 	clone.setAttribute("draggable", "true");
 	clone.addEventListener("dragstart", e => impl.handleDragStart(e), false);
