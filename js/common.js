@@ -60,28 +60,13 @@ export function decodePermalink(get_url_vars) {
 	};
 }
 
-export function genPermalink(toot_csv = undefined) {
-	if ($("permalink") !== null) {
-		if (toot_csv === undefined) {
-			updatePermalinkFromCardList();
-		} else {
-			addPermalink(toot_csv);
-		}
-	}
-}
-
-function updatePermalinkFromCardList() {
+export function genPermalink() {
+	if (!$("permalink")) return;
 	console.log("Updaing permalink from card_list.");
-	let permalink = "https://qithub-bot.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
-	Object.keys(card_list).forEach(function(key) {
-		permalink += card_list[key] + ",";
-	});
-	$("permalink").value = permalink;
-}
-
-function addPermalink(toot_csv) {
-	console.log("Adding CSV to permalink.");
-	$("permalink").value += toot_csv;
+	const currentURL = new URL(location.href);
+	const path = currentURL.pathname.substring(0, currentURL.pathname.lastIndexOf("/") + 1);
+	const permalink = `${currentURL.origin}${path}p.html?i=${$("instance").value}&t=`;
+	$("permalink").value = permalink + card_list.join(",");
 }
 
 export function showCards(permalink_obj) {
