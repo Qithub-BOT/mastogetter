@@ -96,10 +96,6 @@ div.area>div p, div.area>div p input[type="text"] {
 	width: 100%
 }
 
-div.area>div input:last-child , button:last-child{
-	margin-left: auto;
-}
-
 .area:nth-child(2)>div:first-child{
 	border-bottom: solid 1px lightgray;
 }
@@ -119,13 +115,14 @@ div.area>div input:last-child , button:last-child{
 
 #copylink {
 	margin-left: 10px;
+	word-break: keep-all;
 }
 
 input[type=button]:focus {
 	outline:0;
 }
 
-.area input[type="button"], button {
+button {
 	font-size: 15px;
 	padding: .5em;
 	border-style: none;
@@ -133,6 +130,10 @@ input[type=button]:focus {
 	background-color: #52b03b;
 	color: #fff;
 	box-shadow: none;
+}
+
+button:last-child{
+	margin-left: auto;
 }
 
 .box:last-of-type {
@@ -279,7 +280,7 @@ i:hover .hint {
     right: -8vw ;
     font-size: 2vw;
   }
-  label, .area input[type="text"], .area input[type="button"], #card-preview, .area a{
+  label, .area input[type="text"], button, #card-preview, .area a{
     font-size: 10px;
   }
 }
