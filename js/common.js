@@ -99,29 +99,30 @@ export function showCards(permalink_obj) {
 				if (xhr.status === 200) {
 					const toot = JSON.parse(xhr.responseText);
 					const timestamp = moment(toot.created_at).format("llll");
-					const toot_div = document.createElement("div");
+					let toot_div = document.createElement("div");
 					toot_div.setAttribute("class", "toot");
 					let media = "";
+					let content_html = getHtmlFromContent(toot.content);
 					for (let i = 0; i < toot.media_attachments.length; i++) {
 						media += `
-<a href='${toot.media_attachments[i].url}' target="_blank" rel="noopener nofollow">
+<a href='${toot.media_attachments[i].url}'>
 	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
 </a>`;
 					}
 					toot_div.innerHTML = `
 <div class="box">
-	<a href="${toot.account.url}" target="_blank" rel="noopener nofollow">
+	<a href="${toot.account.url}">
 		<img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}">
 	</a>
 </div>
 <div class="box">
-	<a class="display-name" href="${toot.account.url}" target="_blank" rel="noopener nofollow">
+	<a class="display-name" href="${toot.account.url}">
 		${toot.account.display_name}
 		<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
 	</a>
-	<a class="toot-time" href="${toot.url}" target="_blank" rel="noopener nofollow">${timestamp}</a>
+	<a class="toot-time" href="${toot.url}">${timestamp}</a>
 	<div class="e-content" lang="ja" style="display: block; direction: ltr">
-		<p>${toot.content}</p>
+		<p>${content_html}</p>
 	</div>
 	${media}
 </div>`;
@@ -137,6 +138,7 @@ export function showCards(permalink_obj) {
 					toot_div.addEventListener("drop", e => handleDrop(e), false);
 					toot_div.addEventListener("dragend", e => handleDragEnd(e), false);
 					max_index++;
+					toot_div = setAllAnchorsAsExternalTabSecurely(toot_div);
 					target_div.appendChild(toot_div);
 				} else {
 					console.error(xhr.statusText);
@@ -221,4 +223,31 @@ export function handleDrop(e) {
 
 export function handleDragEnd() {
 	// console.log("drag end");
+}
+
+function getHtmlFromContent(str_content) {
+	let div = document.createElement('div');
+	div.innerHTML = str_content;
+	return div.innerHTML;
+}
+
+export function setAllAnchorsAsExternalTabSecurely(elements) {
+	console.log('Setting all anchor elements as external tab avoiding tabnabbing.');
+	elements.querySelectorAll('a').forEach(
+		anchor => setAnchorWithSecureAttribute(anchor)
+	);
+	return elements;
+}
+
+function setAnchorWithSecureAttribute(element) {
+	if(! element.href){
+		return element;
+	}
+	return addAttributeToAvoidTabnabbing(element);
+}
+
+function addAttributeToAvoidTabnabbing(element) {
+	element.target = '_blank';
+	element.rel += 'nofollow noopener';
+	return element;
 }
