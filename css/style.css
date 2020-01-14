@@ -118,10 +118,6 @@ div.area>div p, div.area>div p input[type="text"] {
 	word-break: keep-all;
 }
 
-input[type=button]:focus {
-	outline:0;
-}
-
 button {
 	font-size: 15px;
 	padding: .5em;
@@ -134,6 +130,10 @@ button {
 
 button:last-child{
 	margin-left: auto;
+}
+
+button:focus {
+	outline:0;
 }
 
 .box:last-of-type {
