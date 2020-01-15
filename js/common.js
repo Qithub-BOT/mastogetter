@@ -255,7 +255,8 @@ function setAnchorWithSecureAttribute(element) {
 
 function addAttributesToAvoidTabnabbing(element) {
 	// Tabnabbing 脆弱性対策
-	// Ref: https://link.medium.com/W8bktSl8e3 @ Medium
+	// Ref:EN: https://link.medium.com/W8bktSl8e3 @ Medium
+	// Ref:JA: http://disq.us/t/2cg96k8 @ blog.kazu69.net
 	element.target = "_blank";
 	element.rel += " noopener noreferrer";
 	// リンク先のクロール禁止
