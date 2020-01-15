@@ -123,4 +123,7 @@ impl.ready(() => {
 	$("flip").addEventListener("click", () => {
 		flipCards();
 	});
+	$("usage").addEventListener("click", () => {
+		introJs().start();
+	});
 });
