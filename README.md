@@ -2,7 +2,7 @@
 
 # Mastogetter is 何
 
-<ruby>Mastogetter<rt>ますとげったー</rt></ruby> とは、オーブンソースの分散型 SNS「[Mastodon](https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B9%E3%83%88%E3%83%89%E3%83%B3_(%E3%83%9F%E3%83%8B%E3%83%96%E3%83%AD%E3%82%B0))」の**トゥート（投稿）を任意の順番でまとめ、パーマリンクの作成と表示をするサービス**です。
+<ruby>Mastogetter<rt>ますとげったー</rt></ruby> とは、オープンソースの分散型 SNS「[Mastodon](https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B9%E3%83%88%E3%83%89%E3%83%B3_(%E3%83%9F%E3%83%8B%E3%83%96%E3%83%AD%E3%82%B0))」の**トゥート（投稿）を任意の順番でまとめ、パーマリンクの作成と表示をするサービス**です。
 
 このパーマリンクにより togetter 的な「まとめサイト」を作成することができます。Mastodon API v1 に対応／互換のあるインスタンス（以下 Mastodon サーバー）の公開トゥートに対して利用できます。
 
