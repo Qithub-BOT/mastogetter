@@ -114,10 +114,11 @@ export function showCards(permalink_obj, registerEvent = false) {
 		xhr.onload = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
+					const toot_div = document.createElement("div");
 					const toot = JSON.parse(xhr.responseText);
 					const timestamp = moment(toot.created_at).format("llll");
-					const toot_div = document.createElement("div");
-					toot_div.setAttribute("class", "toot");
+					const content_html = getHtmlFromContent(toot.content);
+					const idx = max_index;
 					let media = "";
 					for (let i = 0; i < toot.media_attachments.length; i++) {
 						media += `
@@ -127,27 +128,28 @@ export function showCards(permalink_obj, registerEvent = false) {
 					}
 					toot_div.innerHTML = `
 <div class="box">
-	<a href="${toot.account.url}" target="_blank">
+	<a href="${toot.account.url}">
 		<img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}">
 	</a>
 </div>
 <div class="box">
-	<a class="display-name" href="${toot.account.url}" target="_blank">
+	<a class="display-name" href="${toot.account.url}">
 		${toot.account.display_name}
 		<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
 	</a>
-	<a class="toot-time" href="${toot.url}" target="_blank">${timestamp}</a>
+	<a class="toot-time" href="${toot.url}">${timestamp}</a>
 	<div class="e-content" lang="ja" style="display: block; direction: ltr">
-		<p>${toot.content}</p>
+		<p>${content_html}</p>
 	</div>
 	${media}
 </div>`;
-					const idx = max_index;
 					toot_div.setAttribute("id", `o_${idx}`);
+					toot_div.setAttribute("class", "toot");
 					if (true === registerEvent) {
 						registerEventsToCard(toot_div, idx, "o");
 					}
 					max_index++;
+					setAllAnchorsAsExternalTabSecurely(toot_div);
 					target_div.appendChild(toot_div);
 				} else {
 					console.error(xhr.statusText);
@@ -232,4 +234,32 @@ export function handleDrop(e) {
 
 export function handleDragEnd() {
 	// console.log("drag end");
+}
+
+function getHtmlFromContent(str_content) {
+	const div = document.createElement("div");
+	div.innerHTML = str_content;
+	return div.innerHTML;
+}
+
+export function setAllAnchorsAsExternalTabSecurely(elements) {
+	console.log("Setting all anchor elements as external tab avoiding tabnabbing.");
+	elements.querySelectorAll("a").forEach(anchor => setAnchorWithSecureAttribute(anchor));
+}
+
+function setAnchorWithSecureAttribute(element) {
+	if (element.href) {
+		addAttributesToAvoidTabnabbing(element);
+	}
+}
+
+function addAttributesToAvoidTabnabbing(element) {
+	// Tabnabbing 脆弱性対策
+	// Ref:EN: https://link.medium.com/W8bktSl8e3 @ Medium
+	// Ref:JA: http://disq.us/t/2cg96k8 @ blog.kazu69.net
+	element.target = "_blank";
+	element.rel += " noopener noreferrer";
+	// リンク先のクロール禁止
+	// Ref: https://support.google.com/webmasters/answer/96569?hl=ja
+	element.rel += " nofollow";
 }
