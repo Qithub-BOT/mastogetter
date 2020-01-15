@@ -16,10 +16,7 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"indent": [
-			"error",
-			"tab"
-		],
+		"eqeqeq": "error",
 		"semi": [
 			"error",
 			"always"
@@ -37,21 +34,32 @@
 		"array-callback-return": "error",
 		"default-case": "error",
 		"no-alert": "error",
-		"max-len": ["error", { "code": 120 }],
+		"max-len": [
+			"error",
+			{
+				"code": 120
+			}
+		],
 		"space-before-blocks": "error",
-		"space-unary-ops":[
-				1, {
-						"overrides": {
-								"typeof": false
-						}
+		"space-unary-ops": [
+			1,
+			{
+				"overrides": {
+					"typeof": false
 				}
+			}
 		],
 		"operator-linebreak": [
-				"error", "after", {
-						"overrides": { "?": "before", ":": "before" }
+			"error",
+			"after",
+			{
+				"overrides": {
+					"?": "before",
+					":": "before"
 				}
+			}
 		],
-		"no-useless-escape":"error",
+		"no-useless-escape": "error",
 		"camelcase": "off",
 		"no-invalid-this": "error",
 		"prettier/prettier": [

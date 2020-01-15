@@ -4,7 +4,7 @@ function $(id) {
 }
 
 function showPreview() {
-	impl.showCards(impl.decodePermalink(impl.get_url_vars));
+	impl.showCards(impl.decodePermalink(new URLSearchParams(location.search)));
 	$("matomain").addEventListener("mouseover", removeAllDraggable, false);
 }
 

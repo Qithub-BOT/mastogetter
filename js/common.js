@@ -13,18 +13,6 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-export const get_url_vars = (function() {
-	const vars = {};
-	const params = location.search.substring(1).split("&");
-	for (let i = 0; i < params.length; i++) {
-		if (/=/.test(params[i])) {
-			const [key, val] = params[i].split("=");
-			vars[key] = val;
-		}
-	}
-	return vars;
-})();
-
 /**
  * @param {number} index
  * @param {string} prefix
@@ -44,28 +32,69 @@ export function deleteCard(index, prefix) {
 	genPermalink();
 }
 
-export function decodePermalink(get_url_vars) {
-	let instance_full = get_url_vars["i"];
-	if (instance_full.trim() === "") {
-		instance_full = "https://qiitadon.com";
-		if ($("instance") !== null) {
-			$("instance").value = instance_full;
-		}
+/**
+ * idを36進数へ変換する
+ * @param {string} id 10進数の文字列
+ */
+function CompressTootId(id) {
+	if (id.length > 10) {
+		const compressed = parseInt(id.substr(0, id.length - 10)).toString(36);
+		return compressed + "_" + parseInt(id.substr(-10)).toString(36);
+	} else {
+		return `0_${parseInt(id).toString(36)}`;
 	}
-	const instance = instance_full.split("//")[1];
-	const toot_id = get_url_vars["t"];
-	const toot_ids = toot_id.split(",");
-	if (toot_ids[toot_ids.length - 1] < "1000000000000000") {
-		// 最後の要素が 1.0+E18より小さければ、
-		// id の途中で url が切れたと判断して最後の項目を
-		// 除外（仕様）
-		toot_ids.pop();
-	}
+}
 
+/**
+ * Toot Idを10進数に変換する
+ * @param {string} id
+ * @throws 10進数として変換できないか36進数2つが_で結合された文字列出ない場合エラー
+ * @returns {string}
+ */
+function UncompressOrPassThroughTootId(id) {
+	const splitted = id.split("_");
+	switch (splitted.length) {
+		case 1: {
+			const parsed = parseInt(id, 10);
+			if (isNaN(parsed)) {
+				throw new Error("invalid id syntax.");
+			}
+			return id;
+		}
+		case 2: {
+			const parsed = splitted.map(e => parseInt(e, 36));
+			for (const e of parsed) {
+				if (isNaN(e)) {
+					throw new Error("invalid id syntax.");
+				}
+			}
+			// parsed[1]は10桁
+			return 0 === parsed[0] ? `${parsed[1]}` : `${parsed[0]}${`${parsed[1]}`.padStart(10, "0")}`;
+		}
+		default:
+			throw new Error("invalid id syntax.");
+	}
+}
+
+/**
+ * Permalinkの分解
+ * @param {URLSearchParams} searchParams
+ */
+export function decodePermalink(searchParams) {
+	if (!searchParams.has("t")) {
+		throw new Error("t must be required.");
+	}
+	const instance_full = searchParams.has("i") ? searchParams.get("i") : "https://qiitadon.com";
 	return {
 		instance_full: instance_full,
-		instance: instance,
-		toot_ids: toot_ids,
+		instance: new URL(instance_full).hostname,
+		toot_ids: searchParams
+			.get("t")
+			.split(",")
+			// 末尾が,で終わると空文字列が最終要素に来る
+			.filter(e => e !== "")
+			.map(id => UncompressOrPassThroughTootId(id))
+			.filter(e => null !== e),
 	};
 }
 
@@ -75,7 +104,7 @@ export function genPermalink() {
 	const currentURL = new URL(location.href);
 	const path = currentURL.pathname.substring(0, currentURL.pathname.lastIndexOf("/") + 1);
 	const permalink = `${currentURL.origin}${path}p.html?i=${$("instance").value}&t=`;
-	$("permalink").value = permalink + card_list.join(",");
+	$("permalink").value = permalink + card_list.map(id => CompressTootId(id)).join(",");
 }
 
 /**
