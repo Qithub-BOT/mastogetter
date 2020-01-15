@@ -114,12 +114,12 @@ export function showCards(permalink_obj, registerEvent = false) {
 		xhr.onload = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
+					const toot_div = document.createElement("div");
 					const toot = JSON.parse(xhr.responseText);
 					const timestamp = moment(toot.created_at).format("llll");
-					const toot_div = document.createElement("div");
-					toot_div.setAttribute("class", "toot");
-					let media = "";
 					const content_html = getHtmlFromContent(toot.content);
+					const idx = max_index;
+					let media = "";
 					for (let i = 0; i < toot.media_attachments.length; i++) {
 						media += `
 <a href='${toot.media_attachments[i].url}'>
@@ -143,8 +143,8 @@ export function showCards(permalink_obj, registerEvent = false) {
 	</div>
 	${media}
 </div>`;
-					const idx = max_index;
 					toot_div.setAttribute("id", `o_${idx}`);
+					toot_div.setAttribute("class", "toot");
 					if (true === registerEvent) {
 						registerEventsToCard(toot_div, idx, "o");
 					}
