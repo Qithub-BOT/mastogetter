@@ -5,13 +5,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>mastogetter - ますとげったー</title>
-	<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" media="print" onload="this.media='all'" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" media="print" onload="this.media='all'" crossorigin>
 	<script type="module" src="js/index.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ja.js"></script>
-	<script src="https://kit.fontawesome.com/7c338f1914.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<header class="container">
@@ -23,19 +23,19 @@
 		<div class="area container flex-column">
 			<div>
 				<p><label for="load">インポートするまとめのリンク</label><input type="text" id="load" placeholder="https://qithub-bot.github.io/mastogetter/p.html?hoge"></p>
-				<input type="button" value="まとめを読み込む" id="loadPermalink">
+				<button id="loadPermalink">まとめを読み込む</button>
 			</div>
 			<div id="domainid">
 				<p><label for="instance">インスタンス名</label><input type="text" id="instance" placeholder="https://qiitadon.com"></p>
 				<p><label for="toot-id">トゥートID or URL<i class="far fa-question-circle"><span class="hint">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span></i></label><input type="text" id="toot-id" placeholder="012345678901234567"></p>
-				<input type="button" value="ID or URLからプレビュー" id="showPreview">
+				<button id="showPreview">ID or URLからプレビュー</button>
 			</div>
 			<div id="card-preview">
 				埋め込みカードのプレビューが表示されます
 			</div>
 			<div>
 				<a href="https://github.com/Qithub-BOT/mastogetter/blob/master/README.md">使い方</a>
-				<input type="button" value="トゥートを追加" id="addCard">
+				<button id="addCard">トゥートを追加</button>
 			</div>
 		</div>
 		<div class="area">
@@ -44,11 +44,13 @@
           <label for="permalink">このまとめのリンク</label>
           <span class="container">
             <input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly">
-            <input id="copylink" type="button" value="コピー">
+						<button id="copylink">コピー</button>
           </span>
         </p>
       </div>
-      <input id="flip" type="button" value="flip"></input>
+			<p class="container">
+				<button  id="flip"><i class="fas fa-retweet"></i> Flip!</button>
+			</p>
       <div id="cards">
       </div>
     </div>

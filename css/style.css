@@ -95,8 +95,9 @@ div.area>div {
 div.area>div p, div.area>div p input[type="text"] {
 	width: 100%
 }
-div.area>div input:last-child {
-	margin-left: auto;
+
+.area:nth-child(2)>div:first-child{
+	border-bottom: solid 1px lightgray;
 }
 
 .area label:after {
@@ -114,13 +115,10 @@ div.area>div input:last-child {
 
 #copylink {
 	margin-left: 10px;
+	word-break: keep-all;
 }
 
-input[type=button]:focus {
-	outline:0;
-}
-
-.area input[type="button"] {
+button {
 	font-size: 15px;
 	padding: .5em;
 	border-style: none;
@@ -128,6 +126,14 @@ input[type=button]:focus {
 	background-color: #52b03b;
 	color: #fff;
 	box-shadow: none;
+}
+
+button:last-child{
+	margin-left: auto;
+}
+
+button:focus {
+	outline:0;
 }
 
 .box:last-of-type {
@@ -220,6 +226,7 @@ label>i:hover{
 	color: gray;
 	margin-left: 0.25rem;
 }
+
 .hint {
 	display: none;
 	font-size: .8rem;
@@ -243,8 +250,6 @@ i:hover .hint {
 }
 
 /* end */
-
-
 
 @keyframes appear {
 	from {
@@ -275,7 +280,7 @@ i:hover .hint {
     right: -8vw ;
     font-size: 2vw;
   }
-  label, .area input[type="text"], .area input[type="button"], #card-preview, .area a{
+  label, .area input[type="text"], button, #card-preview, .area a{
     font-size: 10px;
   }
 }
