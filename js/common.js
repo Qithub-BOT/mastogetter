@@ -13,79 +13,124 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-export const get_url_vars = (function() {
-	const vars = {};
-	const params = location.search.substring(1).split("&");
-	for (let i = 0; i < params.length; i++) {
-		if (/=/.test(params[i])) {
-			const [key, val] = params[i].split("=");
-			vars[key] = val;
-		}
-	}
-	return vars;
-})();
-
 /**
  * @param {number} index
  * @param {string} prefix
  */
 export function deleteCard(index, prefix) {
-	$("cards").removeChild($(`${prefix}_${index}`));
-	card_list.splice(index, 1);
-	delete card_list[index];
+	const card = $(`${prefix}_${index}`);
+	const cards = $("cards").childNodes;
+	let idx = 0;
+	for (let i = 0; i < cards.length; i++) {
+		if (cards[i] === card) {
+			idx = i;
+			break;
+		}
+	}
+	$("cards").removeChild(card);
+	card_list.splice(idx, 1);
 	genPermalink();
 }
 
-export function decodePermalink(get_url_vars) {
-	let instance_full = get_url_vars["i"];
-	if (instance_full.trim() === "") {
-		instance_full = "https://qiitadon.com";
-		if ($("instance") !== null) {
-			$("instance").value = instance_full;
-		}
+/**
+ * idを36進数へ変換する
+ * @param {string} id 10進数の文字列
+ */
+function CompressTootId(id) {
+	if (id.length > 10) {
+		const compressed = parseInt(id.substr(0, id.length - 10)).toString(36);
+		return compressed + "_" + parseInt(id.substr(-10)).toString(36);
+	} else {
+		return `0_${parseInt(id).toString(36)}`;
 	}
-	const instance = instance_full.split("//")[1];
-	const toot_id = get_url_vars["t"];
-	const toot_ids = toot_id.split(",");
-	if (toot_ids[toot_ids.length - 1] < "1000000000000000") {
-		// 最後の要素が 1.0+E18より小さければ、
-		// id の途中で url が切れたと判断して最後の項目を
-		// 除外（仕様）
-		toot_ids.pop();
-	}
+}
 
+/**
+ * Toot Idを10進数に変換する
+ * @param {string} id
+ * @throws 10進数として変換できないか36進数2つが_で結合された文字列出ない場合エラー
+ * @returns {string}
+ */
+function UncompressOrPassThroughTootId(id) {
+	const splitted = id.split("_");
+	switch (splitted.length) {
+		case 1: {
+			const parsed = parseInt(id, 10);
+			if (isNaN(parsed)) {
+				throw new Error("invalid id syntax.");
+			}
+			return id;
+		}
+		case 2: {
+			const parsed = splitted.map(e => parseInt(e, 36));
+			for (const e of parsed) {
+				if (isNaN(e)) {
+					throw new Error("invalid id syntax.");
+				}
+			}
+			// parsed[1]は10桁
+			return 0 === parsed[0] ? `${parsed[1]}` : `${parsed[0]}${`${parsed[1]}`.padStart(10, "0")}`;
+		}
+		default:
+			throw new Error("invalid id syntax.");
+	}
+}
+
+/**
+ * Permalinkの分解
+ * @param {URLSearchParams} searchParams
+ */
+export function decodePermalink(searchParams) {
+	if (!searchParams.has("t")) {
+		throw new Error("t must be required.");
+	}
+	const instance_full = searchParams.has("i") ? searchParams.get("i") : "https://qiitadon.com";
 	return {
 		instance_full: instance_full,
-		instance: instance,
-		toot_ids: toot_ids,
+		instance: new URL(instance_full).hostname,
+		toot_ids: searchParams
+			.get("t")
+			.split(",")
+			// 末尾が,で終わると空文字列が最終要素に来る
+			.filter(e => e !== "")
+			.map(id => UncompressOrPassThroughTootId(id))
+			.filter(e => null !== e),
 	};
 }
 
-export function genPermalink(toot_csv = undefined) {
-	if ($("permalink") !== null) {
-		if (toot_csv === undefined) {
-			updatePermalinkFromCardList();
-		} else {
-			addPermalink(toot_csv);
-		}
-	}
-}
-
-function updatePermalinkFromCardList() {
+export function genPermalink() {
+	if (!$("permalink")) return;
 	console.log("Updaing permalink from card_list.");
-	let permalink = "https://qithub-bot.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
-	Object.keys(card_list).forEach(function(key) {
-		permalink += card_list[key] + ",";
+	const currentURL = new URL(location.href);
+	const path = currentURL.pathname.substring(0, currentURL.pathname.lastIndexOf("/") + 1);
+	const permalink = `${currentURL.origin}${path}p.html?i=${$("instance").value}&t=`;
+	$("permalink").value = permalink + card_list.map(id => CompressTootId(id)).join(",");
+}
+
+/**
+ *
+ * @param {Element} element DOM Element
+ * @param {number} index
+ * @param {string} prefix
+ */
+export function registerEventsToCard(element, index, prefix) {
+	element.addEventListener("dblclick", () => {
+		deleteCard(index, prefix);
 	});
-	$("permalink").value = permalink;
+	element.setAttribute("draggable", "true");
+	element.setAttribute("data-dblclickable", "true");
+	element.addEventListener("dragstart", e => handleDragStart(e), false);
+	element.addEventListener("dragover", e => handleDragOver(e), false);
+	element.addEventListener("drop", e => handleDrop(e), false);
+	element.addEventListener("dragend", e => handleDragEnd(e), false);
 }
 
-function addPermalink(toot_csv) {
-	console.log("Adding CSV to permalink.");
-	$("permalink").value += toot_csv;
-}
-
-export function showCards(permalink_obj) {
+/**
+ *
+ * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalink_obj created by `decodePermalink`
+ * @param {boolean | undefined} registerEvent
+ */
+export function showCards(permalink_obj, registerEvent = false) {
 	const instance_full = permalink_obj["instance_full"];
 	const toot_ids = permalink_obj["toot_ids"];
 	const xhr = new XMLHttpRequest();
@@ -98,10 +143,11 @@ export function showCards(permalink_obj) {
 		xhr.onload = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
+					const toot_div = document.createElement("div");
 					const toot = JSON.parse(xhr.responseText);
 					const timestamp = moment(toot.created_at).format("llll");
-					const toot_div = document.createElement("div");
-					toot_div.setAttribute("class", "toot");
+					const content_html = getHtmlFromContent(toot.content);
+					const idx = max_index;
 					let media = "";
 					for (let i = 0; i < toot.media_attachments.length; i++) {
 						media += `
@@ -111,33 +157,28 @@ export function showCards(permalink_obj) {
 					}
 					toot_div.innerHTML = `
 <div class="box">
-	<a href="${toot.account.url}" target="_blank">
+	<a href="${toot.account.url}">
 		<img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}">
 	</a>
 </div>
 <div class="box">
-	<a class="display-name" href="${toot.account.url}" target="_blank">
+	<a class="display-name" href="${toot.account.url}">
 		${toot.account.display_name}
 		<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
 	</a>
-	<a class="toot-time" href="${toot.url}" target="_blank">${timestamp}</a>
+	<a class="toot-time" href="${toot.url}">${timestamp}</a>
 	<div class="e-content" lang="ja" style="display: block; direction: ltr">
-		<p>${toot.content}</p>
+		<p>${content_html}</p>
 	</div>
 	${media}
 </div>`;
-					const idx = max_index;
 					toot_div.setAttribute("id", `o_${idx}`);
-					toot_div.addEventListener("dblclick", () => {
-						deleteCard(idx, "o");
-					});
-					toot_div.setAttribute("draggable", "true");
-					toot_div.setAttribute("data-dblclickable", "true");
-					toot_div.addEventListener("dragstart", e => handleDragStart(e), false);
-					toot_div.addEventListener("dragover", e => handleDragOver(e), false);
-					toot_div.addEventListener("drop", e => handleDrop(e), false);
-					toot_div.addEventListener("dragend", e => handleDragEnd(e), false);
+					toot_div.setAttribute("class", "toot");
+					if (true === registerEvent) {
+						registerEventsToCard(toot_div, idx, "o");
+					}
 					max_index++;
+					setAllAnchorsAsExternalTabSecurely(toot_div);
 					target_div.appendChild(toot_div);
 				} else {
 					console.error(xhr.statusText);
@@ -222,4 +263,32 @@ export function handleDrop(e) {
 
 export function handleDragEnd() {
 	// console.log("drag end");
+}
+
+function getHtmlFromContent(str_content) {
+	const div = document.createElement("div");
+	div.innerHTML = str_content;
+	return div.innerHTML;
+}
+
+export function setAllAnchorsAsExternalTabSecurely(elements) {
+	console.log("Setting all anchor elements as external tab avoiding tabnabbing.");
+	elements.querySelectorAll("a").forEach(anchor => setAnchorWithSecureAttribute(anchor));
+}
+
+function setAnchorWithSecureAttribute(element) {
+	if (element.href) {
+		addAttributesToAvoidTabnabbing(element);
+	}
+}
+
+function addAttributesToAvoidTabnabbing(element) {
+	// Tabnabbing 脆弱性対策
+	// Ref:EN: https://link.medium.com/W8bktSl8e3 @ Medium
+	// Ref:JA: http://disq.us/t/2cg96k8 @ blog.kazu69.net
+	element.target = "_blank";
+	element.rel += " noopener noreferrer";
+	// リンク先のクロール禁止
+	// Ref: https://support.google.com/webmasters/answer/96569?hl=ja
+	element.rel += " nofollow";
 }
