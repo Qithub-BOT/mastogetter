@@ -297,3 +297,5 @@ function addAttributesToAvoidTabnabbing(element) {
 	// Ref: https://support.google.com/webmasters/answer/96569?hl=ja
 	element.rel += " nofollow";
 }
+
+// TODO: XSS 対策:URL クエリ内の意図しない文字を置き換える
