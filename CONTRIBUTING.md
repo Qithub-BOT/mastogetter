@@ -81,7 +81,15 @@
 
 ### ローカルで自動レビュー（自動チェック）を確認する
 
-基本的に PR をするとリポジトリ先で CircleCi が自動実行されますが、ローカルで自動チェックの内容を確認するには以下のコマンドを実行します。
+基本的に PR をするとリポジトリ先で CircleCI が自動実行されます。[npm コマンド](https://www.google.com/search?q=site%3Aqiita.com+npm%E3%81%A8%E3%81%AF+%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)が使える状態であれば、ローカルで事前に CircleCI の挙動を確認することができます。
+
+コマンド使用前のセットアップには以下のコマンドを実行します。
+
+```terminal
+npm install
+```
+
+ローカルで CircleCI の ESLint チェックの内容を確認する
 
 ```terminal
 # チェック結果をコンソールに表示
@@ -91,8 +99,6 @@ npm run eslint
 エラー内容を見やすく HTML で出力するには以下のコマンドを実行します。HTML ファイルの出力先は `./results/eslint/eslint.html` です。
 
 ```terminal
-# Install は初回のみ必要
-npm install
 npm run eslint:ci
 cat ./results/eslint/eslint.html
 ```
