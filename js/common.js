@@ -30,8 +30,17 @@ export const get_url_vars = (function() {
  * @param {string} prefix
  */
 export function deleteCard(index, prefix) {
-	$("cards").removeChild($(`${prefix}_${index}`));
-	card_list.splice(index, 1);
+	const card = $(`${prefix}_${index}`);
+	const cards = $("cards").childNodes;
+	let idx = 0;
+	for (let i = 0; i < cards.length; i++) {
+		if (cards[i] === card) {
+			idx = i;
+			break;
+		}
+	}
+	$("cards").removeChild(card);
+	card_list.splice(idx, 1);
 	genPermalink();
 }
 
@@ -60,31 +69,39 @@ export function decodePermalink(get_url_vars) {
 	};
 }
 
-export function genPermalink(toot_csv = undefined) {
-	if ($("permalink") !== null) {
-		if (toot_csv === undefined) {
-			updatePermalinkFromCardList();
-		} else {
-			addPermalink(toot_csv);
-		}
-	}
-}
-
-function updatePermalinkFromCardList() {
+export function genPermalink() {
+	if (!$("permalink")) return;
 	console.log("Updaing permalink from card_list.");
-	let permalink = "https://qithub-bot.github.io/mastogetter/p.html?i=" + $("instance").value + "&t=";
-	Object.keys(card_list).forEach(function(key) {
-		permalink += card_list[key] + ",";
+	const currentURL = new URL(location.href);
+	const path = currentURL.pathname.substring(0, currentURL.pathname.lastIndexOf("/") + 1);
+	const permalink = `${currentURL.origin}${path}p.html?i=${$("instance").value}&t=`;
+	$("permalink").value = permalink + card_list.join(",");
+}
+
+/**
+ *
+ * @param {Element} element DOM Element
+ * @param {number} index
+ * @param {string} prefix
+ */
+export function registerEventsToCard(element, index, prefix) {
+	element.addEventListener("dblclick", () => {
+		deleteCard(index, prefix);
 	});
-	$("permalink").value = permalink;
+	element.setAttribute("draggable", "true");
+	element.setAttribute("data-dblclickable", "true");
+	element.addEventListener("dragstart", e => handleDragStart(e), false);
+	element.addEventListener("dragover", e => handleDragOver(e), false);
+	element.addEventListener("drop", e => handleDrop(e), false);
+	element.addEventListener("dragend", e => handleDragEnd(e), false);
 }
 
-function addPermalink(toot_csv) {
-	console.log("Adding CSV to permalink.");
-	$("permalink").value += toot_csv;
-}
-
-export function showCards(permalink_obj) {
+/**
+ *
+ * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalink_obj created by `decodePermalink`
+ * @param {boolean | undefined} registerEvent
+ */
+export function showCards(permalink_obj, registerEvent = false) {
 	const instance_full = permalink_obj["instance_full"];
 	const toot_ids = permalink_obj["toot_ids"];
 	const xhr = new XMLHttpRequest();
@@ -128,15 +145,9 @@ export function showCards(permalink_obj) {
 </div>`;
 					const idx = max_index;
 					toot_div.setAttribute("id", `o_${idx}`);
-					toot_div.addEventListener("dblclick", () => {
-						deleteCard(idx, "o");
-					});
-					toot_div.setAttribute("draggable", "true");
-					toot_div.setAttribute("data-dblclickable", "true");
-					toot_div.addEventListener("dragstart", e => handleDragStart(e), false);
-					toot_div.addEventListener("dragover", e => handleDragOver(e), false);
-					toot_div.addEventListener("drop", e => handleDrop(e), false);
-					toot_div.addEventListener("dragend", e => handleDragEnd(e), false);
+					if (true === registerEvent) {
+						registerEventsToCard(toot_div, idx, "o");
+					}
 					max_index++;
 					setAllAnchorsAsExternalTabSecurely(toot_div);
 					target_div.appendChild(toot_div);
