@@ -245,7 +245,7 @@ export function handleDragEnd() {
 export function createTootDiv(toot) {
 	const tootDiv = document.createElement("div");
 	const timestamp = moment(toot.created_at).format("llll");
-	const contentHtml = getHtmlFromContent(toot.content);
+	const contentHtml = getHtmlFromContent(toot.content, toot.emojis);
 	const media = toot.media_attachments
 		.map(attachment => `<a href='${attachment.url}'><img class='thumbs' src='${attachment.preview_url}'></a>`)
 		.join("");
@@ -271,7 +271,13 @@ export function createTootDiv(toot) {
 	return tootDiv;
 }
 
-function getHtmlFromContent(strContent) {
+function getHtmlFromContent(strContent, emojis) {
+	for (const emoji of emojis) {
+		strContent = strContent.replace(
+			`:${emoji.shortcode}:`,
+			`<img class="emoji" alt=":${emoji.shortcode}:" src="${emoji.url}">`
+		);
+	}
 	const div = document.createElement("div");
 	div.innerHTML = strContent;
 	return div.innerHTML;
