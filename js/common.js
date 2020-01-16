@@ -1,5 +1,5 @@
-export let card_list = [];
-let max_index = 0;
+export let cardList = [];
+let maxIndex = 0;
 
 export function ready(loaded) {
 	if (["interactive", "complete"].includes(document.readyState)) {
@@ -28,7 +28,7 @@ export function deleteCard(index, prefix) {
 		}
 	}
 	$("cards").removeChild(card);
-	card_list.splice(idx, 1);
+	cardList.splice(idx, 1);
 	genPermalink();
 }
 
@@ -89,10 +89,10 @@ export function decodePermalink(searchParams) {
 	if (!searchParams.has("t")) {
 		throw new Error("t must be required.");
 	}
-	const instance_full = searchParams.has("i") ? searchParams.get("i") : "https://qiitadon.com";
+	const instanceFull = searchParams.has("i") ? searchParams.get("i") : "https://qiitadon.com";
 	return {
-		instance_full: instance_full,
-		instance: new URL(instance_full).hostname,
+		instance_full: instanceFull,
+		instance: new URL(instanceFull).hostname,
 		toot_ids: searchParams
 			.get("t")
 			.split(",")
@@ -109,7 +109,7 @@ export function genPermalink() {
 	const currentURL = new URL(location.href);
 	const path = currentURL.pathname.substring(0, currentURL.pathname.lastIndexOf("/") + 1);
 	const permalink = `${currentURL.origin}${path}p.html?i=${$("instance").value}&t=`;
-	$("permalink").value = permalink + card_list.map(id => CompressTootId(id)).join(",");
+	$("permalink").value = permalink + cardList.map(id => CompressTootId(id)).join(",");
 }
 
 /**
@@ -132,27 +132,27 @@ export function registerEventsToCard(element, index, prefix) {
 
 /**
  *
- * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalink_obj created by `decodePermalink`
+ * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalinkObj created by `decodePermalink`
  * @param {boolean | undefined} registerEvent
  */
-export function showCards(permalink_obj, registerEvent = false) {
-	const instance_full = permalink_obj.instance_full;
-	const toot_ids = permalink_obj.toot_ids;
+export function showCards(permalinkObj, registerEvent = false) {
+	const instanceFull = permalinkObj.instance_full;
+	const tootIds = permalinkObj.toot_ids;
 	const xhr = new XMLHttpRequest();
-	const target_div = $("cards");
-	let toot_url = "";
+	const targetDiv = $("cards");
+	let tootUrl = "";
 
-	for (let i = 0; i < toot_ids.length; i++) {
-		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
-		xhr.open("GET", toot_url, false);
+	for (let i = 0; i < tootIds.length; i++) {
+		tootUrl = instanceFull + "/api/v1/statuses/" + tootIds[i];
+		xhr.open("GET", tootUrl, false);
 		xhr.onload = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
-					const toot_div = document.createElement("div");
+					const tootDiv = document.createElement("div");
 					const toot = JSON.parse(xhr.responseText);
 					const timestamp = moment(toot.created_at).format("llll");
-					const content_html = getHtmlFromContent(toot.content);
-					const idx = max_index;
+					const contentHtml = getHtmlFromContent(toot.content);
+					const idx = maxIndex;
 					let media = "";
 					for (let i = 0; i < toot.media_attachments.length; i++) {
 						media += `
@@ -160,7 +160,7 @@ export function showCards(permalink_obj, registerEvent = false) {
 	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
 </a>`;
 					}
-					toot_div.innerHTML = `
+					tootDiv.innerHTML = `
 <div class="box">
 	<a href="${toot.account.url}">
 		<img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}">
@@ -173,18 +173,18 @@ export function showCards(permalink_obj, registerEvent = false) {
 	</a>
 	<a class="toot-time" href="${toot.url}">${timestamp}</a>
 	<div class="e-content" lang="ja" style="display: block; direction: ltr">
-		<p>${content_html}</p>
+		<p>${contentHtml}</p>
 	</div>
 	${media}
 </div>`;
-					toot_div.setAttribute("id", `o_${idx}`);
-					toot_div.setAttribute("class", "toot");
+					tootDiv.setAttribute("id", `o_${idx}`);
+					tootDiv.setAttribute("class", "toot");
 					if (registerEvent === true) {
-						registerEventsToCard(toot_div, idx, "o");
+						registerEventsToCard(tootDiv, idx, "o");
 					}
-					max_index++;
-					setAllAnchorsAsExternalTabSecurely(toot_div);
-					target_div.appendChild(toot_div);
+					maxIndex++;
+					setAllAnchorsAsExternalTabSecurely(tootDiv);
+					targetDiv.appendChild(tootDiv);
 				} else {
 					console.error(xhr.statusText);
 				}
@@ -196,7 +196,7 @@ export function showCards(permalink_obj, registerEvent = false) {
 		xhr.send(null);
 	}
 
-	card_list = card_list.concat(toot_ids);
+	cardList = cardList.concat(tootIds);
 	genPermalink();
 }
 
@@ -235,33 +235,33 @@ export function handleDrop(e) {
 	}
 	const cards = $("cards");
 	const children = cards.childNodes;
-	let src_index = -1;
-	let node_index = -1;
+	let srcIndex = -1;
+	let nodeIndex = -1;
 	for (let i = 0; i < children.length; i++) {
 		if (children[i] === src) {
-			src_index = i;
+			srcIndex = i;
 		}
 		if (children[i] === node) {
-			node_index = i;
+			nodeIndex = i;
 		}
 	}
-	if (src_index < 0) {
+	if (srcIndex < 0) {
 		return;
 	}
-	if (node_index < 0) {
+	if (nodeIndex < 0) {
 		return;
 	}
 
 	cards.removeChild(src);
 	cards.insertBefore(src, node);
 
-	if (src_index < node_index) {
-		card_list.splice(node_index, 0, card_list[src_index]);
-		card_list.splice(src_index, 1);
+	if (srcIndex < nodeIndex) {
+		cardList.splice(nodeIndex, 0, cardList[srcIndex]);
+		cardList.splice(srcIndex, 1);
 	} else {
-		const toot_id = card_list[src_index];
-		card_list.splice(src_index, 1);
-		card_list.splice(node_index, 0, toot_id);
+		const tootId = cardList[srcIndex];
+		cardList.splice(srcIndex, 1);
+		cardList.splice(nodeIndex, 0, tootId);
 	}
 	genPermalink();
 }
@@ -270,9 +270,9 @@ export function handleDragEnd() {
 	// console.log("drag end");
 }
 
-function getHtmlFromContent(str_content) {
+function getHtmlFromContent(strContent) {
 	const div = document.createElement("div");
-	div.innerHTML = str_content;
+	div.innerHTML = strContent;
 	return div.innerHTML;
 }
 

@@ -5,18 +5,18 @@ function $(id) {
 }
 
 function showPreview() {
-	let instance_full = $("instance").value;
-	if (instance_full.trim() === "") {
-		instance_full = "https://qiitadon.com";
-		$("instance").value = instance_full;
+	let instanceFull = $("instance").value;
+	if (instanceFull.trim() === "") {
+		instanceFull = "https://qiitadon.com";
+		$("instance").value = instanceFull;
 	}
-	const toot_id = $("toot-id")
+	const tootId = $("toot-id")
 		.value.split("/")
 		.reverse()[0];
-	const toot_url = instance_full + "/api/v1/statuses/" + toot_id;
-	const target_div = $("card-preview");
+	const tootUrl = instanceFull + "/api/v1/statuses/" + tootId;
+	const targetDiv = $("card-preview");
 	const xhr = new XMLHttpRequest();
-	xhr.open("GET", toot_url, true);
+	xhr.open("GET", tootUrl, true);
 	xhr.onload = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
@@ -29,7 +29,7 @@ function showPreview() {
 	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
 </a>`;
 				}
-				target_div.innerHTML = `
+				targetDiv.innerHTML = `
 <div class="toot">
 	<div class="box">
 		<a href="${toot.account.url}">
@@ -48,7 +48,7 @@ function showPreview() {
 	${media}
 	</div>
 </div>`;
-				impl.setAllAnchorsAsExternalTabSecurely(target_div);
+				impl.setAllAnchorsAsExternalTabSecurely(targetDiv);
 			} else {
 				console.error(xhr.statusText);
 			}
@@ -61,13 +61,13 @@ function showPreview() {
 }
 
 function addCard() {
-	const card_preview = $("card-preview");
-	if (!card_preview) return;
+	const cardPreview = $("card-preview");
+	if (!cardPreview) return;
 	const clone = $("card-preview").firstElementChild.cloneNode(true);
-	const len = impl.card_list.length;
+	const len = impl.cardList.length;
 	clone.setAttribute("id", `c_${len}`);
 	impl.registerEventsToCard(clone, len, "c");
-	impl.card_list.push(
+	impl.cardList.push(
 		$("toot-id")
 			.value.split("/")
 			.reverse()[0]
@@ -83,18 +83,18 @@ function addCard() {
 function flipCards() {
 	const cards = $("cards");
 	if (!cards) return;
-	const card_nodes = [];
+	const cardNodes = [];
 	while (cards.hasChildNodes()) {
 		if (cards.firstChild.nodeName !== "#text") {
-			card_nodes.push(cards.firstChild);
+			cardNodes.push(cards.firstChild);
 		}
 		cards.removeChild(cards.firstChild);
 	}
-	if (card_nodes.length === 0) return;
-	while (card_nodes.length > 0) {
-		cards.appendChild(card_nodes.pop());
+	if (cardNodes.length === 0) return;
+	while (cardNodes.length > 0) {
+		cards.appendChild(cardNodes.pop());
 	}
-	impl.card_list.reverse();
+	impl.cardList.reverse();
 	impl.genPermalink();
 }
 
@@ -109,9 +109,9 @@ function copyPermalink() {
 }
 
 function loadPermalink() {
-	const permalink_obj = impl.decodePermalink(new URL($("load").value).searchParams);
-	$("instance").value = permalink_obj.instance_full;
-	impl.showCards(permalink_obj, true);
+	const permalinkObj = impl.decodePermalink(new URL($("load").value).searchParams);
+	$("instance").value = permalinkObj.instance_full;
+	impl.showCards(permalinkObj, true);
 	// impl.showCardsより前に呼び出してはいけない
 	impl.genPermalink();
 }

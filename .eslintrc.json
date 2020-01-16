@@ -41,7 +41,6 @@
 				"code": 120
 			}
 		],
-		"camelcase": "off",
 		"no-invalid-this": "error",
 		"prettier/prettier": [
 			"error",
