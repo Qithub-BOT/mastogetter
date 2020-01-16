@@ -1,25 +1,33 @@
 {
-	"name": "mastogetter",
-	"version": "0.0.1",
-	"description": "togetter for Mastodon",
-	"author": "Qithub-BOT",
-	"license": "MIT",
-	"repository": "https://github.com/Qithub-BOT/mastogetter",
-	"scripts": {
-		"eslint": "eslint --cache --ext .js .",
-		"eslint:fix": "eslint --cache --ext .js . --fix",
-		"eslint:ci": "eslint --cache --ext .js --format=html -o ./results/eslint/eslint.html ."
+  "name": "mastogetter",
+  "version": "0.0.1",
+  "description": "togetter for Mastodon",
+  "author": "Qithub-BOT",
+  "license": "MIT",
+  "repository": "https://github.com/Qithub-BOT/mastogetter",
+  "scripts": {
+    "eslint": "eslint --cache --ext .js .",
+    "eslint:fix": "eslint --cache --ext .js . --fix",
+    "eslint:ci": "eslint --cache --ext .js --format=html -o ./results/eslint/eslint.html .",
+    "test": "ava"
+  },
+  "devDependencies": {
+    "ava": "^2.4.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsdoc": "^20.3.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "esm": "^3.2.25",
+    "prettier": "^1.19.1"
 	},
-	"devDependencies": {
-		"eslint": "^6.8.0",
-		"eslint-config-prettier": "^6.9.0",
-		"eslint-config-standard": "^14.1.0",
-		"eslint-plugin-import": "^2.20.0",
-		"eslint-plugin-jsdoc": "^20.3.1",
-		"eslint-plugin-node": "^11.0.0",
-		"eslint-plugin-prettier": "^3.1.2",
-		"eslint-plugin-promise": "^4.2.1",
-		"eslint-plugin-standard": "^4.0.1",
-		"prettier": "^1.19.1"
+	"ava": {
+		"require": [
+			"esm"
+		]
 	}
 }
