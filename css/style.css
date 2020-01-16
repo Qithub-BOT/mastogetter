@@ -281,6 +281,9 @@ i:hover .hint {
 	top: -16px !important;
 	left: -16px !important;
 }
+.introjs-button {
+	color: black !important;
+}
 /* end */
 
 @keyframes appear {
