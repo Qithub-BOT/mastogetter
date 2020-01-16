@@ -9,6 +9,7 @@
 	},
 	"extends": [
 		"eslint:recommended",
+		"standard",
 		"plugin:prettier/recommended"
 	],
 	"parserOptions": {
@@ -16,7 +17,6 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"eqeqeq": "error",
 		"semi": [
 			"error",
 			"always"
@@ -40,27 +40,6 @@
 				"code": 120
 			}
 		],
-		"space-before-blocks": "error",
-		"prefer-const": "error",
-		"space-unary-ops": [
-			1,
-			{
-				"overrides": {
-					"typeof": false
-				}
-			}
-		],
-		"operator-linebreak": [
-			"error",
-			"after",
-			{
-				"overrides": {
-					"?": "before",
-					":": "before"
-				}
-			}
-		],
-		"no-useless-escape": "error",
 		"camelcase": "off",
 		"no-invalid-this": "error",
 		"prettier/prettier": [

@@ -69,7 +69,7 @@ function UncompressOrPassThroughTootId(id) {
 				}
 			}
 			// parsed[1]は10桁
-			return 0 === parsed[0] ? `${parsed[1]}` : `${parsed[0]}${`${parsed[1]}`.padStart(10, "0")}`;
+			return parsed[0] === 0 ? `${parsed[1]}` : `${parsed[0]}${`${parsed[1]}`.padStart(10, "0")}`;
 		}
 		default:
 			throw new Error("invalid id syntax.");
@@ -94,7 +94,7 @@ export function decodePermalink(searchParams) {
 			// 末尾が,で終わると空文字列が最終要素に来る
 			.filter(e => e !== "")
 			.map(id => UncompressOrPassThroughTootId(id))
-			.filter(e => null !== e),
+			.filter(e => e !== null),
 	};
 }
 
@@ -131,8 +131,8 @@ export function registerEventsToCard(element, index, prefix) {
  * @param {boolean | undefined} registerEvent
  */
 export function showCards(permalink_obj, registerEvent = false) {
-	const instance_full = permalink_obj["instance_full"];
-	const toot_ids = permalink_obj["toot_ids"];
+	const instance_full = permalink_obj.instance_full;
+	const toot_ids = permalink_obj.toot_ids;
 	const xhr = new XMLHttpRequest();
 	const target_div = $("cards");
 	let toot_url = "";
@@ -174,7 +174,7 @@ export function showCards(permalink_obj, registerEvent = false) {
 </div>`;
 					toot_div.setAttribute("id", `o_${idx}`);
 					toot_div.setAttribute("class", "toot");
-					if (true === registerEvent) {
+					if (registerEvent === true) {
 						registerEventsToCard(toot_div, idx, "o");
 					}
 					max_index++;
