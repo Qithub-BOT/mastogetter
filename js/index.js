@@ -83,7 +83,7 @@ function addCard() {
 function flipCards() {
 	const cards = $("cards");
 	if (!cards) return;
-	let card_nodes = [];
+	const card_nodes = [];
 	while (cards.hasChildNodes()) {
 		if (cards.firstChild.nodeName !== "#text") {
 			card_nodes.push(cards.firstChild);

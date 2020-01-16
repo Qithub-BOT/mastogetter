@@ -41,6 +41,7 @@
 			}
 		],
 		"space-before-blocks": "error",
+		"prefer-const": "error",
 		"space-unary-ops": [
 			1,
 			{
