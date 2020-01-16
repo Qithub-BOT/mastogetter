@@ -274,7 +274,7 @@ export function createTootDiv(toot) {
 function getHtmlFromContent(strContent, emojis) {
 	for (const emoji of emojis) {
 		strContent = strContent.replace(
-			`:${emoji.shortcode}:`,
+			new RegExp(`:${emoji.shortcode}:`, "g"),
 			`<img class="emoji" alt=":${emoji.shortcode}:" src="${emoji.url}">`
 		);
 	}
