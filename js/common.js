@@ -34,7 +34,9 @@ export function deleteCard(index, prefix) {
 
 /**
  * idを36進数へ変換する
+ *
  * @param {string} id 10進数の文字列
+ * @returns {string}
  */
 function CompressTootId(id) {
 	if (id.length > 10) {
@@ -47,6 +49,7 @@ function CompressTootId(id) {
 
 /**
  * Toot Idを10進数に変換する
+ *
  * @param {string} id
  * @throws 10進数として変換できないか36進数2つが_で結合された文字列出ない場合エラー
  * @returns {string}
@@ -78,7 +81,9 @@ function UncompressOrPassThroughTootId(id) {
 
 /**
  * Permalinkの分解
+ *
  * @param {URLSearchParams} searchParams
+ * @returns {{instance_full: string, instance: string, toot_ids: string[]}}
  */
 export function decodePermalink(searchParams) {
 	if (!searchParams.has("t")) {

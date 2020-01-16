@@ -10,6 +10,7 @@
 	"extends": [
 		"eslint:recommended",
 		"standard",
+		"plugin:jsdoc/recommended",
 		"plugin:prettier/recommended"
 	],
 	"parserOptions": {
@@ -50,6 +51,11 @@
 				"printWidth": 120,
 				"useTabs": true
 			}
-		]
+		],
+		"jsdoc/require-description": "off",
+		"jsdoc/require-jsdoc": "off",
+		"jsdoc/require-param-description": "off",
+		"jsdoc/require-returns-description": "off",
+		"jsdoc/valid-types": "off"
 	}
 }
