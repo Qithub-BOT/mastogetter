@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Baloo Bhai';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Baloo Bhai Regular'), local('BalooBhai-Regular'), url(https://fonts.gstatic.com/s/baloobhai/v5/ZgNWjP5GM7bCUdmXgWyVvGLONw.ttf) format('truetype');
+}
+
 input, button, textarea, select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
