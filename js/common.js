@@ -17,7 +17,7 @@ function $(id) {
  * @param {string} input 入力文字列
  * @param {(tootIds: string[])=>void} onPURL 入力がまとめのURLだったときのcallback
  * @param {(tootId: string)=>void} onToot 入力がTooT URLかToot IDだったときのcallback
- * @returns {void} callbackが返した値
+ * @returns {void}
  */
 export function inputParser(input, onPURL, onToot) {
 	/**
