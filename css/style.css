@@ -169,6 +169,12 @@ button:focus {
 	word-break: break-word;
 }
 
+img.emoji {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+
 img.thumbs {
 	width: auto;
 	height: auto;

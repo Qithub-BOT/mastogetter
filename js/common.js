@@ -148,42 +148,14 @@ export function showCards(permalinkObj, registerEvent = false) {
 		xhr.onload = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
-					const tootDiv = document.createElement("div");
 					const toot = JSON.parse(xhr.responseText);
-					const timestamp = moment(toot.created_at).format("llll");
-					const contentHtml = getHtmlFromContent(toot.content);
 					const idx = maxIndex;
-					let media = "";
-					for (let i = 0; i < toot.media_attachments.length; i++) {
-						media += `
-<a href='${toot.media_attachments[i].url}'>
-	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
-</a>`;
-					}
-					tootDiv.innerHTML = `
-<div class="box">
-	<a href="${toot.account.url}">
-		<img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}">
-	</a>
-</div>
-<div class="box">
-	<a class="display-name" href="${toot.account.url}">
-		${toot.account.display_name}
-		<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
-	</a>
-	<a class="toot-time" href="${toot.url}">${timestamp}</a>
-	<div class="e-content" lang="ja" style="display: block; direction: ltr">
-		<p>${contentHtml}</p>
-	</div>
-	${media}
-</div>`;
+					const tootDiv = createTootDiv(toot);
 					tootDiv.setAttribute("id", `o_${idx}`);
-					tootDiv.setAttribute("class", "toot");
 					if (registerEvent === true) {
 						registerEventsToCard(tootDiv, idx, "o");
 					}
 					maxIndex++;
-					setAllAnchorsAsExternalTabSecurely(tootDiv);
 					targetDiv.appendChild(tootDiv);
 				} else {
 					console.error(xhr.statusText);
@@ -270,13 +242,49 @@ export function handleDragEnd() {
 	// console.log("drag end");
 }
 
+export function createTootDiv(toot) {
+	const tootDiv = document.createElement("div");
+	const timestamp = moment(toot.created_at).format("llll");
+	let strContent = toot.content;
+	for (const emoji of toot.emojis) {
+		strContent = strContent.replace(
+			new RegExp(`:${emoji.shortcode}:`, "g"),
+			`<img class="emoji" alt=":${emoji.shortcode}:" src="${emoji.url}">`
+		);
+	}
+	const contentHtml = getHtmlFromContent(strContent);
+	const media = toot.media_attachments
+		.map(attachment => `<a href='${attachment.url}'><img class='thumbs' src='${attachment.preview_url}'></a>`)
+		.join("");
+	tootDiv.innerHTML = `
+<div class="box">
+	<a href="${toot.account.url}">
+		<img width="48" height="48" alt="avatar" class="u-photo" src="${toot.account.avatar}">
+	</a>
+</div>
+<div class="box">
+	<a class="display-name" href="${toot.account.url}">
+		${toot.account.display_name}
+		<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
+	</a>
+	<a class="toot-time" href="${toot.url}">${timestamp}</a>
+	<div class="e-content" lang="ja" style="display: block; direction: ltr">
+		<p>${contentHtml}</p>
+	</div>
+	${media}
+</div>`;
+	tootDiv.setAttribute("class", "toot");
+	setAllAnchorsAsExternalTabSecurely(tootDiv);
+	return tootDiv;
+}
+
 function getHtmlFromContent(strContent) {
 	const div = document.createElement("div");
 	div.innerHTML = strContent;
 	return div.innerHTML;
 }
 
-export function setAllAnchorsAsExternalTabSecurely(elements) {
+function setAllAnchorsAsExternalTabSecurely(elements) {
 	console.log("Setting all anchor elements as external tab avoiding tabnabbing.");
 	elements.querySelectorAll("a").forEach(anchor => setAnchorWithSecureAttribute(anchor));
 }
