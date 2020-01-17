@@ -30,6 +30,11 @@ jobs:
           when: always
           command: |
             npm run eslint:ci
+      - run:
+          name: test
+          when: always
+          command: |
+            npm test
       - store_test_results:
           path: results
       - store_artifacts:
