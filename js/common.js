@@ -49,7 +49,7 @@ export function inputParser(input, onPURL, onToot) {
 	} else {
 		// pathnameは常に"/"から始まる
 		const p = url.pathname;
-		if (!p.startsWith("/web/statuses")) {
+		if (!/^\/@[^/]+\/[0-9]+/.test(p) && !p.startsWith("/web/statuses")) {
 			throw new Error("This is not a mastodon's toot URL.");
 		}
 		// console.log("c", p, input);
