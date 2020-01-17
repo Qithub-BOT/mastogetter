@@ -27,7 +27,13 @@ test("inputParser", t => {
 	);
 
 	// Toot URL
-
+	t.notThrows(() =>
+		impl.inputParser(
+			"https://qiitadon.com/@blhsrwznrghfzpr/103497813217417982",
+			() => t.fail(),
+			tootId => t.is(tootId, "103497813217417982")
+		)
+	);
 	t.notThrows(() =>
 		impl.inputParser(
 			"https://qiitadon.com/web/statuses/103492879513261939",
