@@ -35,7 +35,6 @@ export function inputParser(input, onPURL, onToot) {
 	try {
 		url = new URL(input);
 	} catch (_) {
-		// console.log("a", input);
 		onToot(UncompressOrPassThroughTootId(input));
 		return;
 	}
@@ -43,7 +42,6 @@ export function inputParser(input, onPURL, onToot) {
 		throw new Error("Twitter URL is not allowed.");
 	}
 	if (url.searchParams != null && url.searchParams.has("t")) {
-		// console.log("b", input);
 		const t = url.searchParams.get("t").split(",");
 		onPURL(t.map(v => UncompressOrPassThroughTootId(v)));
 	} else {
@@ -52,7 +50,6 @@ export function inputParser(input, onPURL, onToot) {
 		if (!/^\/@[^/]+\/[0-9]+/.test(p) && !p.startsWith("/web/statuses")) {
 			throw new Error("This is not a mastodon's toot URL.");
 		}
-		// console.log("c", p, input);
 		onToot(assumeIsTootId(p.substring(p.lastIndexOf("/") + 1)));
 	}
 }
