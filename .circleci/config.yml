@@ -30,11 +30,12 @@ jobs:
           when: always
           command: |
             npm run eslint:ci
+      # テスト
       - run:
           name: test
           when: always
           command: |
-            npm test
+            npm test -- --tap | npx tap-xunit > results/ava.xml
       - store_test_results:
           path: results
       - store_artifacts:
