@@ -24,10 +24,10 @@
     "eslint-plugin-standard": "^4.0.1",
     "esm": "^3.2.25",
     "prettier": "^1.19.1"
-	},
-	"ava": {
-		"require": [
-			"esm"
-		]
-	}
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
+  }
 }
