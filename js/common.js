@@ -14,6 +14,50 @@ function $(id) {
 }
 
 /**
+ * @param {string} input 入力文字列
+ * @param {(tootIds: string[])=>void} onPURL 入力がまとめのURLだったときのcallback
+ * @param {(tootId: string)=>void} onToot 入力がTooT URLかToot IDだったときのcallback
+ * @returns {void} callbackが返した値
+ */
+export function inputParser(input, onPURL, onToot) {
+	/**
+	 * @param {string} i
+	 * @returns {string}
+	 */
+	const assumeIsTootId = i => {
+		if (/[^0-9]/.test(i) || isNaN(parseInt(i))) {
+			throw new Error("invalid id syntax.");
+		}
+		return i;
+	};
+	/** @type {URL} */
+	let url;
+	try {
+		url = new URL(input);
+	} catch (_) {
+		// console.log("a", input);
+		onToot(UncompressOrPassThroughTootId(input));
+		return;
+	}
+	if (/twitter/.test(url.hostname)) {
+		throw new Error("Twitter URL is not allowed.");
+	}
+	if (url.searchParams != null && url.searchParams.has("t")) {
+		// console.log("b", input);
+		const t = url.searchParams.get("t").split(",");
+		onPURL(t.map(v => UncompressOrPassThroughTootId(v)));
+	} else {
+		// pathnameは常に"/"から始まる
+		const p = url.pathname;
+		if (!p.startsWith("/web/statuses")) {
+			throw new Error("This is not a mastodon's toot URL.");
+		}
+		// console.log("c", p, input);
+		onToot(assumeIsTootId(p.substring(p.lastIndexOf("/") + 1)));
+	}
+}
+
+/**
  * @param {number} index
  * @param {string} prefix
  */
