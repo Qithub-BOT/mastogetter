@@ -1,5 +1,6 @@
+import * as counter from "./class/counter.js";
+
 export let cardList = [];
-let maxIndex = 0;
 
 export function ready(loaded) {
 	if (["interactive", "complete"].includes(document.readyState)) {
@@ -143,13 +144,12 @@ export function showCards(permalinkObj, registerEvent = false) {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					const toot = JSON.parse(xhr.responseText);
-					const idx = maxIndex;
+					const idx = counter.nextIndex();
 					const tootDiv = createTootDiv(toot);
 					tootDiv.setAttribute("id", `o_${idx}`);
 					if (registerEvent === true) {
 						registerEventsToCard(tootDiv);
 					}
-					maxIndex++;
 					targetDiv.appendChild(tootDiv);
 				} else {
 					console.error(xhr.statusText);
