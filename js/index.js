@@ -39,7 +39,7 @@ function addCard() {
 	const clone = $("card-preview").firstElementChild.cloneNode(true);
 	const len = impl.cardList.length;
 	clone.setAttribute("id", `c_${len}`);
-	impl.registerEventsToCard(clone, len, "c");
+	impl.registerEventsToCard(clone);
 	impl.cardList.push(
 		$("toot-id")
 			.value.split("/")

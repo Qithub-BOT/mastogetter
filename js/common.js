@@ -14,11 +14,10 @@ function $(id) {
 }
 
 /**
- * @param {number} index
- * @param {string} prefix
+ * @param {string} elementId
  */
-export function deleteCard(index, prefix) {
-	const card = $(`${prefix}_${index}`);
+export function deleteCard(elementId) {
+	const card = $(elementId);
 	const cards = $("cards").childNodes;
 	let idx = 0;
 	for (let i = 0; i < cards.length; i++) {
@@ -115,13 +114,9 @@ export function genPermalink() {
 /**
  *
  * @param {Element} element DOM Element
- * @param {number} index
- * @param {string} prefix
  */
-export function registerEventsToCard(element, index, prefix) {
-	element.addEventListener("dblclick", () => {
-		deleteCard(index, prefix);
-	});
+export function registerEventsToCard(element) {
+	element.addEventListener("dblclick", () => deleteCard(element.id));
 	element.setAttribute("draggable", "true");
 	element.setAttribute("data-dblclickable", "true");
 	element.addEventListener("dragstart", e => handleDragStart(e), false);
@@ -153,7 +148,7 @@ export function showCards(permalinkObj, registerEvent = false) {
 					const tootDiv = createTootDiv(toot);
 					tootDiv.setAttribute("id", `o_${idx}`);
 					if (registerEvent === true) {
-						registerEventsToCard(tootDiv, idx, "o");
+						registerEventsToCard(tootDiv);
 					}
 					maxIndex++;
 					targetDiv.appendChild(tootDiv);
