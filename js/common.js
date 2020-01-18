@@ -118,7 +118,6 @@ export function genPermalink() {
 export function registerEventsToCard(element) {
 	element.addEventListener("dblclick", () => deleteCard(element.id));
 	element.setAttribute("draggable", "true");
-	element.setAttribute("data-dblclickable", "true");
 	element.addEventListener("dragstart", e => handleDragStart(e), false);
 	element.addEventListener("dragover", e => handleDragOver(e), false);
 	element.addEventListener("drop", e => handleDrop(e), false);
@@ -193,7 +192,7 @@ export function handleDrop(e) {
 	}
 	e.dataTransfer.dropEffect = "move";
 	let node = e.target;
-	while (!node.getAttribute("data-dblclickable")) {
+	while (!node.getAttribute("draggable")) {
 		node = node.parentNode;
 	}
 	const src = $(e.dataTransfer.getData("text/plain"));
