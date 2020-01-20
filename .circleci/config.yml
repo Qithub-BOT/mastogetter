@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: update-npm
-          command: 'sudo npm install -g npm@latest'
+          command: "sudo npm install -g npm@latest"
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
@@ -30,6 +30,12 @@ jobs:
           when: always
           command: |
             npm run eslint:ci
+      # テスト
+      - run:
+          name: test
+          when: always
+          command: |
+            npm test -- --tap | npx tap-xunit > results/ava.xml
       - store_test_results:
           path: results
       - store_artifacts:
