@@ -1,5 +1,6 @@
+import * as counter from "./class/counter.js";
+
 export let cardList = [];
-let maxIndex = 0;
 
 export function ready(loaded) {
 	if (["interactive", "complete"].includes(document.readyState)) {
@@ -55,11 +56,10 @@ export function inputParser(input, onPURL, onToot) {
 }
 
 /**
- * @param {number} index
- * @param {string} prefix
+ * @param {string} elementId
  */
-export function deleteCard(index, prefix) {
-	const card = $(`${prefix}_${index}`);
+export function deleteCard(elementId) {
+	const card = $(elementId);
 	const cards = $("cards").childNodes;
 	let idx = 0;
 	for (let i = 0; i < cards.length; i++) {
@@ -156,15 +156,10 @@ export function genPermalink() {
 /**
  *
  * @param {Element} element DOM Element
- * @param {number} index
- * @param {string} prefix
  */
-export function registerEventsToCard(element, index, prefix) {
-	element.addEventListener("dblclick", () => {
-		deleteCard(index, prefix);
-	});
+export function registerEventsToCard(element) {
+	element.addEventListener("dblclick", () => deleteCard(element.id));
 	element.setAttribute("draggable", "true");
-	element.setAttribute("data-dblclickable", "true");
 	element.addEventListener("dragstart", e => handleDragStart(e), false);
 	element.addEventListener("dragover", e => handleDragOver(e), false);
 	element.addEventListener("drop", e => handleDrop(e), false);
@@ -190,13 +185,12 @@ export function showCards(permalinkObj, registerEvent = false) {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					const toot = JSON.parse(xhr.responseText);
-					const idx = maxIndex;
+					const idx = counter.nextIndex();
 					const tootDiv = createTootDiv(toot);
 					tootDiv.setAttribute("id", `o_${idx}`);
 					if (registerEvent === true) {
-						registerEventsToCard(tootDiv, idx, "o");
+						registerEventsToCard(tootDiv);
 					}
-					maxIndex++;
 					targetDiv.appendChild(tootDiv);
 				} else {
 					console.error(xhr.statusText);
@@ -239,7 +233,7 @@ export function handleDrop(e) {
 	}
 	e.dataTransfer.dropEffect = "move";
 	let node = e.target;
-	while (!node.getAttribute("data-dblclickable")) {
+	while (!node.getAttribute("draggable")) {
 		node = node.parentNode;
 	}
 	const src = $(e.dataTransfer.getData("text/plain"));

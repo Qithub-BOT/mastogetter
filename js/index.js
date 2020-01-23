@@ -1,3 +1,4 @@
+import * as counter from "./class/counter.js";
 import * as impl from "./common.js";
 
 function $(id) {
@@ -37,9 +38,9 @@ function addCard() {
 	const cardPreview = $("card-preview");
 	if (!cardPreview) return;
 	const clone = $("card-preview").firstElementChild.cloneNode(true);
-	const len = impl.cardList.length;
-	clone.setAttribute("id", `c_${len}`);
-	impl.registerEventsToCard(clone, len, "c");
+	const idx = counter.nextIndex();
+	clone.setAttribute("id", `c_${idx}`);
+	impl.registerEventsToCard(clone);
 	impl.cardList.push(
 		$("toot-id")
 			.value.split("/")
