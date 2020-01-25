@@ -167,6 +167,30 @@ export function registerEventsToCard(element) {
 }
 
 /**
+ * @param {Request | string} input
+ * @returns {Promise<Response>}
+ */
+export function fetchJsonAndCheck(input) {
+	return fetch(input)
+		.then(r => {
+			if (r.ok) {
+				return r.json();
+			}
+			throw new Error(`Request failed: ${r.status}`);
+		})
+		.catch(
+			/**
+			 * @param {any} e
+			 * @returns {Response | null}
+			 */
+			e => {
+				console.error(e);
+				return null;
+			}
+		);
+}
+
+/**
  *
  * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalinkObj created by `decodePermalink`
  * @param {boolean | undefined} registerEvent
