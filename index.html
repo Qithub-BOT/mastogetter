@@ -8,45 +8,48 @@
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" media="print" onload="this.media='all'" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.min.css" integrity="sha256-/oZ7h/Jkj6AfibN/zTWrCoba0L+QhP9Tf/ZSgyZJCnY=" crossorigin="anonymous" />
 	<script type="module" src="js/index.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" integrity="sha384-2HZQgruoZ9WYoMX2ggiDbr1oZdeQIiVXLXeyZLJ1JgiOugVLfDyNe3st/Kop/dUT" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ja.js" integrity="sha384-h3h67ZYwnvJddRXlzzN25+eKR7zijWgh/X66RNXeL0BTK36QQT72uAJbDK0zG9HH" crossorigin="anonymous"></script></head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.min.js" integrity="sha256-fOPHmaamqkHPv4QYGxkiSKm7O/3GAJ4554pQXYleoLo=" crossorigin="anonymous"></script>
+</head>
 <body>
 	<header class="container">
 		<div>
 			<h1><a href="./">mastogetter</a></h1>
 		</div>
 	</header>
-	<div class="container flex-center">
+	<div class="container flex-center" data-step="1" data-intro="この画面は、mastogetterのまとめを作るための画面です。">
 		<div class="area container flex-column">
 			<div>
-				<p><label for="load">インポートするまとめのリンク</label><input type="text" id="load" placeholder="https://qithub-bot.github.io/mastogetter/p.html?hoge"></p>
+				<p data-step="2" data-intro="既にまとめが存在している場合は、ここで読み込んで、トゥートの追加や削除、並び替えができます。"><label for="load">インポートするまとめのリンク</label><input type="text" id="load" placeholder="https://qithub-bot.github.io/mastogetter/p.html?hoge"></p>
 				<button id="loadPermalink">まとめを読み込む</button>
 			</div>
 			<div id="domainid">
 				<p><label for="instance">インスタンス名</label><input type="text" id="instance" placeholder="https://qiitadon.com"></p>
-				<p><label for="toot-id">トゥートID or URL<i class="far fa-question-circle"><span class="hint">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span></i></label><input type="text" id="toot-id" placeholder="012345678901234567"></p>
-				<button id="showPreview">ID or URLからプレビュー</button>
+				<p data-step="3" data-intro="まとめにトゥートを追加するためには、ここにトゥートのIDかURLを入力しましょう。"><label for="toot-id">トゥートID or URL<i class="far fa-question-circle"><span class="hint">例)<br>012345678901234567<br>https://hogedon.com/web/status/012345678901234567<br>https://hogedon.com/@userid/012345678901234567</span></i></label><input type="text" id="toot-id" placeholder="012345678901234567"></p>
+				<button id="showPreview" data-step="4" data-intro="トゥートのIDかURLを入力してプレビューボタンを押すと、">ID or URLからプレビュー</button>
 			</div>
-			<div id="card-preview">
-				埋め込みカードのプレビューが表示されます
+			<div id="card-preview" data-step="5" data-intro="ここにプレビューが表示されます。追加ボタンを押すまでは、トゥートはまとめに追加されません。">
+				<div class="preview-inner">埋め込みカードのプレビューが表示されます</div>
 			</div>
 			<div>
-				<a href="https://github.com/Qithub-BOT/mastogetter/blob/master/README.md">使い方</a>
-				<button id="addCard">トゥートを追加</button>
+				<button id="usage">使い方</button>
+				<button id="addCard" data-step="6" data-intro="プレビューの内容に問題がなければ、このボタンでまとめにトゥートを追加します。">トゥートを追加</button>
 			</div>
 		</div>
 		<div class="area">
       <div>
         <p>
           <label for="permalink">このまとめのリンク</label>
-          <span class="container">
+          <span class="container" data-step="8" data-intro="トゥートの追加を繰り返して作業が完了したら、ここに表示されるリンクをコピーしましょう。まとめの出来上がりです。<a href='https://github.com/Qithub-BOT/mastogetter/blob/master/README.md' class='readme-md'>more...</a>">
             <input id="permalink" type="text" placeholder="パーマリンクが生成されます" readonly="readonly">
 						<button id="copylink">コピー</button>
           </span>
         </p>
       </div>
-			<p class="container">
+			<p class="container" data-step="7" data-intro="追加したトゥートは、ここに並んで表示されます。ダブルクリックで削除、ドラッグドロップで入れ替えもできます。">
 				<button  id="flip"><i class="fas fa-retweet"></i> Flip!</button>
 			</p>
       <div id="cards">

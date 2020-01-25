@@ -5,7 +5,8 @@
 		"es6": true
 	},
 	"globals": {
-		"moment": false
+		"moment": false,
+		"introJs": false
 	},
 	"extends": [
 		"eslint:recommended",
