@@ -79,12 +79,10 @@ function copyPermalink() {
 	document.execCommand("copy");
 }
 
-function loadPermalink() {
+async function loadPermalink() {
 	const permalinkObj = impl.decodePermalink(new URL($("load").value).searchParams);
 	$("instance").value = permalinkObj.instance_full;
-	impl.showCards(permalinkObj, true);
-	// impl.showCardsより前に呼び出してはいけない
-	impl.genPermalink();
+	await impl.showCards(permalinkObj, true).catch(err => console.error(err));
 }
 
 function alertUsageNoPermalink() {
