@@ -174,37 +174,42 @@ export function registerEventsToCard(element) {
 export function showCards(permalinkObj, registerEvent = false) {
 	const instanceFull = permalinkObj.instance_full;
 	const tootIds = permalinkObj.toot_ids;
-	const xhr = new XMLHttpRequest();
 	const targetDiv = $("cards");
-	let tootUrl = "";
 
-	for (let i = 0; i < tootIds.length; i++) {
-		tootUrl = instanceFull + "/api/v1/statuses/" + tootIds[i];
-		xhr.open("GET", tootUrl, false);
-		xhr.onload = function() {
-			if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					const toot = JSON.parse(xhr.responseText);
-					const idx = counter.nextIndex();
+	const fetchArray = tootIds
+		.map(tootId => `${instanceFull}/api/v1/statuses/${tootId}`)
+		.map(async tootUrl => {
+			try {
+				const response = await fetch(tootUrl);
+				if (response.ok) {
+					return response.json();
+				} else {
+					throw new Error(`Request failed: ${response.status}`);
+				}
+			} catch (err) {
+				console.error(err);
+				return Promise.resolve(null); // Promise.all() が reject されないように resolve している
+			}
+		});
+
+	Promise.all(fetchArray)
+		.then(toots => {
+			toots
+				.filter(toot => toot)
+				.forEach(toot => {
 					const tootDiv = createTootDiv(toot);
+					const idx = counter.nextIndex();
 					tootDiv.setAttribute("id", `o_${idx}`);
 					if (registerEvent === true) {
 						registerEventsToCard(tootDiv);
 					}
 					targetDiv.appendChild(tootDiv);
-				} else {
-					console.error(xhr.statusText);
-				}
-			}
-		};
-		xhr.onerror = function() {
-			console.error(xhr.statusText);
-		};
-		xhr.send(null);
-	}
+				});
 
-	cardList = cardList.concat(tootIds);
-	genPermalink();
+			cardList = cardList.concat(tootIds);
+			genPermalink();
+		})
+		.catch(err => console.error(err));
 }
 
 /**

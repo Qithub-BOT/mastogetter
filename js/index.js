@@ -14,24 +14,18 @@ function showPreview() {
 	const tootId = $("toot-id")
 		.value.split("/")
 		.reverse()[0];
-	const tootUrl = instanceFull + "/api/v1/statuses/" + tootId;
-	const targetDiv = $("card-preview");
-	const xhr = new XMLHttpRequest();
-	xhr.open("GET", tootUrl, true);
-	xhr.onload = function() {
-		if (xhr.readyState === 4) {
-			if (xhr.status === 200) {
-				const toot = JSON.parse(xhr.responseText);
-				targetDiv.innerHTML = impl.createTootDiv(toot).outerHTML;
+	const tootUrl = `${instanceFull}/api/v1/statuses/${tootId}`;
+	fetch(tootUrl)
+		.then(async response => {
+			if (response.ok) {
+				const toot = await response.json();
+				const tootDiv = impl.createTootDiv(toot);
+				$("card-preview").innerHTML = tootDiv.outerHTML;
 			} else {
-				console.error(xhr.statusText);
+				throw new Error(`Request failed: ${response.status}`);
 			}
-		}
-	};
-	xhr.onerror = function() {
-		console.error(xhr.statusText);
-	};
-	xhr.send(null);
+		})
+		.catch(err => console.error(err));
 }
 
 function addCard() {
