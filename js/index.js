@@ -14,6 +14,9 @@ function showPreview() {
 	const tootId = $("toot-id")
 		.value.split("/")
 		.reverse()[0];
+	if (!tootId) {
+		return;
+	}
 	const tootUrl = `${instanceFull}/api/v1/statuses/${tootId}`;
 	fetch(tootUrl)
 		.then(async response => {
