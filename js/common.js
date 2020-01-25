@@ -167,49 +167,55 @@ export function registerEventsToCard(element) {
 }
 
 /**
+ * @param {Request | string} input
+ * @returns {Promise<Response>}
+ */
+export function fetchJsonAndCheck(input) {
+	return fetch(input)
+		.then(r => {
+			if (r.ok) {
+				return r.json();
+			}
+			throw new Error(`Request failed: ${r.status}`);
+		})
+		.catch(
+			/**
+			 * @param {any} e
+			 * @returns {Response | null}
+			 */
+			e => {
+				console.error(e);
+				return null;
+			}
+		);
+}
+
+/**
  *
  * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalinkObj created by `decodePermalink`
  * @param {boolean | undefined} registerEvent
  */
-export function showCards(permalinkObj, registerEvent = false) {
+export async function showCards(permalinkObj, registerEvent = false) {
 	const instanceFull = permalinkObj.instance_full;
 	const tootIds = permalinkObj.toot_ids;
 	const targetDiv = $("cards");
 
-	const fetchArray = tootIds
-		.map(tootId => `${instanceFull}/api/v1/statuses/${tootId}`)
-		.map(async tootUrl => {
-			try {
-				const response = await fetch(tootUrl);
-				if (response.ok) {
-					return response.json();
-				} else {
-					throw new Error(`Request failed: ${response.status}`);
-				}
-			} catch (err) {
-				console.error(err);
-				return Promise.resolve(null); // Promise.all() が reject されないように resolve している
+	const fetchArray = tootIds.map(tootId => fetchJsonAndCheck(`${instanceFull}/api/v1/statuses/${tootId}`));
+	const toots = await Promise.all(fetchArray);
+	toots
+		.filter(toot => toot)
+		.forEach(toot => {
+			const tootDiv = createTootDiv(toot);
+			const idx = counter.nextIndex();
+			tootDiv.setAttribute("id", `o_${idx}`);
+			if (registerEvent === true) {
+				registerEventsToCard(tootDiv);
 			}
+			targetDiv.appendChild(tootDiv);
 		});
 
-	Promise.all(fetchArray)
-		.then(toots => {
-			toots
-				.filter(toot => toot)
-				.forEach(toot => {
-					const tootDiv = createTootDiv(toot);
-					const idx = counter.nextIndex();
-					tootDiv.setAttribute("id", `o_${idx}`);
-					if (registerEvent === true) {
-						registerEventsToCard(tootDiv);
-					}
-					targetDiv.appendChild(tootDiv);
-				});
-
-			cardList = cardList.concat(tootIds);
-			genPermalink();
-		})
-		.catch(err => console.error(err));
+	cardList = cardList.concat(tootIds);
+	genPermalink();
 }
 
 /**

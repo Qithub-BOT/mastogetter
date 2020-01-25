@@ -5,7 +5,7 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-function showPreview() {
+async function showPreview() {
 	let instanceFull = $("instance").value;
 	if (instanceFull.trim() === "") {
 		instanceFull = "https://qiitadon.com";
@@ -17,18 +17,9 @@ function showPreview() {
 	if (!tootId) {
 		return;
 	}
-	const tootUrl = `${instanceFull}/api/v1/statuses/${tootId}`;
-	fetch(tootUrl)
-		.then(async response => {
-			if (response.ok) {
-				const toot = await response.json();
-				const tootDiv = impl.createTootDiv(toot);
-				$("card-preview").innerHTML = tootDiv.outerHTML;
-			} else {
-				throw new Error(`Request failed: ${response.status}`);
-			}
-		})
-		.catch(err => console.error(err));
+	const toot = await impl.fetchJsonAndCheck(`${instanceFull}/api/v1/statuses/${tootId}`);
+	const tootDiv = impl.createTootDiv(toot);
+	$("card-preview").innerHTML = tootDiv.outerHTML;
 }
 
 function addCard() {
@@ -79,12 +70,10 @@ function copyPermalink() {
 	document.execCommand("copy");
 }
 
-function loadPermalink() {
+async function loadPermalink() {
 	const permalinkObj = impl.decodePermalink(new URL($("load").value).searchParams);
 	$("instance").value = permalinkObj.instance_full;
-	impl.showCards(permalinkObj, true);
-	// impl.showCardsより前に呼び出してはいけない
-	impl.genPermalink();
+	await impl.showCards(permalinkObj, true).catch(err => console.error(err));
 }
 
 function alertUsageNoPermalink() {
@@ -109,7 +98,7 @@ impl.ready(() => {
 		loadPermalink();
 	});
 	$("showPreview").addEventListener("click", () => {
-		showPreview();
+		showPreview().catch(err => console.error(err));
 	});
 	$("addCard").addEventListener("click", () => {
 		addCard();
