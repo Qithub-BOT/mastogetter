@@ -168,26 +168,19 @@ export function registerEventsToCard(element) {
 
 /**
  * @param {Request | string} input
- * @returns {Promise<Response>}
+ * @returns {Promise<any>}
  */
-export function fetchJsonAndCheck(input) {
-	return fetch(input)
-		.then(r => {
-			if (r.ok) {
-				return r.json();
-			}
-			throw new Error(`Request failed: ${r.status}`);
-		})
-		.catch(
-			/**
-			 * @param {any} e
-			 * @returns {Response | null}
-			 */
-			e => {
-				console.error(e);
-				return null;
-			}
-		);
+export async function fetchJsonAndCheck(input) {
+	try {
+		const r = await fetch(input);
+		if (r.ok) {
+			return await r.json();
+		}
+		throw new Error(`Request failed: ${r.status}`);
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
 }
 
 /**
