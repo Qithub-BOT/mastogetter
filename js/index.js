@@ -18,6 +18,9 @@ async function showPreview() {
 		return;
 	}
 	const toot = await impl.fetchJsonAndCheck(`${instanceFull}/api/v1/statuses/${tootId}`);
+	if (!toot) {
+		return;
+	}
 	const tootDiv = impl.createTootDiv(toot);
 	$("card-preview").innerHTML = tootDiv.outerHTML;
 }
