@@ -5,7 +5,7 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-function showPreview() {
+async function showPreview() {
 	let instanceFull = $("instance").value;
 	if (instanceFull.trim() === "") {
 		instanceFull = "https://qiitadon.com";
@@ -14,24 +14,15 @@ function showPreview() {
 	const tootId = $("toot-id")
 		.value.split("/")
 		.reverse()[0];
-	const tootUrl = instanceFull + "/api/v1/statuses/" + tootId;
-	const targetDiv = $("card-preview");
-	const xhr = new XMLHttpRequest();
-	xhr.open("GET", tootUrl, true);
-	xhr.onload = function() {
-		if (xhr.readyState === 4) {
-			if (xhr.status === 200) {
-				const toot = JSON.parse(xhr.responseText);
-				targetDiv.innerHTML = impl.createTootDiv(toot).outerHTML;
-			} else {
-				console.error(xhr.statusText);
-			}
-		}
-	};
-	xhr.onerror = function() {
-		console.error(xhr.statusText);
-	};
-	xhr.send(null);
+	if (!tootId) {
+		return;
+	}
+	const toot = await impl.fetchJsonAndCheck(`${instanceFull}/api/v1/statuses/${tootId}`);
+	if (!toot) {
+		return;
+	}
+	const tootDiv = impl.createTootDiv(toot);
+	$("card-preview").innerHTML = tootDiv.outerHTML;
 }
 
 function addCard() {
@@ -85,9 +76,7 @@ function copyPermalink() {
 function loadPermalink() {
 	const permalinkObj = impl.decodePermalink(new URL($("load").value).searchParams);
 	$("instance").value = permalinkObj.instance_full;
-	impl.showCards(permalinkObj, true);
-	// impl.showCardsより前に呼び出してはいけない
-	impl.genPermalink();
+	impl.showCards(permalinkObj, true).catch(err => console.error(err));
 }
 
 function alertUsageNoPermalink() {
@@ -112,7 +101,7 @@ impl.ready(() => {
 		loadPermalink();
 	});
 	$("showPreview").addEventListener("click", () => {
-		showPreview();
+		showPreview().catch(err => console.error(err));
 	});
 	$("addCard").addEventListener("click", () => {
 		addCard();

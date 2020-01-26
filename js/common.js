@@ -167,41 +167,45 @@ export function registerEventsToCard(element) {
 }
 
 /**
+ * @param {Request | string} input
+ * @returns {Promise<any>}
+ */
+export async function fetchJsonAndCheck(input) {
+	try {
+		const r = await fetch(input);
+		if (r.ok) {
+			return await r.json();
+		}
+		throw new Error(`Request failed: ${r.status}`);
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
+}
+
+/**
  *
  * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalinkObj created by `decodePermalink`
  * @param {boolean | undefined} registerEvent
  */
-export function showCards(permalinkObj, registerEvent = false) {
+export async function showCards(permalinkObj, registerEvent = false) {
 	const instanceFull = permalinkObj.instance_full;
 	const tootIds = permalinkObj.toot_ids;
-	const xhr = new XMLHttpRequest();
 	const targetDiv = $("cards");
-	let tootUrl = "";
 
-	for (let i = 0; i < tootIds.length; i++) {
-		tootUrl = instanceFull + "/api/v1/statuses/" + tootIds[i];
-		xhr.open("GET", tootUrl, false);
-		xhr.onload = function() {
-			if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					const toot = JSON.parse(xhr.responseText);
-					const idx = counter.nextIndex();
-					const tootDiv = createTootDiv(toot);
-					tootDiv.setAttribute("id", `o_${idx}`);
-					if (registerEvent === true) {
-						registerEventsToCard(tootDiv);
-					}
-					targetDiv.appendChild(tootDiv);
-				} else {
-					console.error(xhr.statusText);
-				}
+	const fetchArray = tootIds.map(tootId => fetchJsonAndCheck(`${instanceFull}/api/v1/statuses/${tootId}`));
+	const toots = await Promise.all(fetchArray);
+	toots
+		.filter(toot => toot)
+		.forEach(toot => {
+			const tootDiv = createTootDiv(toot);
+			const idx = counter.nextIndex();
+			tootDiv.setAttribute("id", `o_${idx}`);
+			if (registerEvent === true) {
+				registerEventsToCard(tootDiv);
 			}
-		};
-		xhr.onerror = function() {
-			console.error(xhr.statusText);
-		};
-		xhr.send(null);
-	}
+			targetDiv.appendChild(tootDiv);
+		});
 
 	cardList = cardList.concat(tootIds);
 	genPermalink();
