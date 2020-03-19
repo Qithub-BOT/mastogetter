@@ -1,5 +1,6 @@
-export let card_list = [];
-let max_index = 0;
+import * as counter from "./class/counter.js";
+
+export let cardList = [];
 
 export function ready(loaded) {
 	if (["interactive", "complete"].includes(document.readyState)) {
@@ -14,11 +15,51 @@ function $(id) {
 }
 
 /**
- * @param {number} index
- * @param {string} prefix
+ * @param {string} input 入力文字列
+ * @param {(tootIds: string[])=>void} onPURL 入力がまとめのURLだったときのcallback
+ * @param {(tootId: string)=>void} onToot 入力がTooT URLかToot IDだったときのcallback
+ * @returns {void}
  */
-export function deleteCard(index, prefix) {
-	const card = $(`${prefix}_${index}`);
+export function inputParser(input, onPURL, onToot) {
+	/**
+	 * @param {string} i
+	 * @returns {string}
+	 */
+	const assumeIsTootId = i => {
+		if (/[^0-9]/.test(i) || isNaN(parseInt(i))) {
+			throw new Error("invalid id syntax.");
+		}
+		return i;
+	};
+	/** @type {URL} */
+	let url;
+	try {
+		url = new URL(input);
+	} catch (_) {
+		onToot(UncompressOrPassThroughTootId(input));
+		return;
+	}
+	if (/twitter/.test(url.hostname)) {
+		throw new Error("Twitter URL is not allowed.");
+	}
+	if (url.searchParams != null && url.searchParams.has("t")) {
+		const t = url.searchParams.get("t").split(",");
+		onPURL(t.map(v => UncompressOrPassThroughTootId(v)));
+	} else {
+		// pathnameは常に"/"から始まる
+		const p = url.pathname;
+		if (!/^\/@[^/]+\/[0-9]+/.test(p) && !p.startsWith("/web/statuses")) {
+			throw new Error("This is not a mastodon's toot URL.");
+		}
+		onToot(assumeIsTootId(p.substring(p.lastIndexOf("/") + 1)));
+	}
+}
+
+/**
+ * @param {string} elementId
+ */
+export function deleteCard(elementId) {
+	const card = $(elementId);
 	const cards = $("cards").childNodes;
 	let idx = 0;
 	for (let i = 0; i < cards.length; i++) {
@@ -28,13 +69,15 @@ export function deleteCard(index, prefix) {
 		}
 	}
 	$("cards").removeChild(card);
-	card_list.splice(idx, 1);
+	cardList.splice(idx, 1);
 	genPermalink();
 }
 
 /**
  * idを36進数へ変換する
+ *
  * @param {string} id 10進数の文字列
+ * @returns {string}
  */
 function CompressTootId(id) {
 	if (id.length > 10) {
@@ -47,6 +90,7 @@ function CompressTootId(id) {
 
 /**
  * Toot Idを10進数に変換する
+ *
  * @param {string} id
  * @throws 10進数として変換できないか36進数2つが_で結合された文字列出ない場合エラー
  * @returns {string}
@@ -69,7 +113,7 @@ function UncompressOrPassThroughTootId(id) {
 				}
 			}
 			// parsed[1]は10桁
-			return 0 === parsed[0] ? `${parsed[1]}` : `${parsed[0]}${`${parsed[1]}`.padStart(10, "0")}`;
+			return parsed[0] === 0 ? `${parsed[1]}` : `${parsed[0]}${`${parsed[1]}`.padStart(10, "0")}`;
 		}
 		default:
 			throw new Error("invalid id syntax.");
@@ -78,23 +122,25 @@ function UncompressOrPassThroughTootId(id) {
 
 /**
  * Permalinkの分解
+ *
  * @param {URLSearchParams} searchParams
+ * @returns {{instance_full: string, instance: string, toot_ids: string[]}}
  */
 export function decodePermalink(searchParams) {
 	if (!searchParams.has("t")) {
 		throw new Error("t must be required.");
 	}
-	const instance_full = searchParams.has("i") ? searchParams.get("i") : "https://qiitadon.com";
+	const instanceFull = searchParams.has("i") ? searchParams.get("i") : "https://qiitadon.com";
 	return {
-		instance_full: instance_full,
-		instance: new URL(instance_full).hostname,
+		instance_full: instanceFull,
+		instance: new URL(instanceFull).hostname,
 		toot_ids: searchParams
 			.get("t")
 			.split(",")
 			// 末尾が,で終わると空文字列が最終要素に来る
 			.filter(e => e !== "")
 			.map(id => UncompressOrPassThroughTootId(id))
-			.filter(e => null !== e),
+			.filter(e => e !== null),
 	};
 }
 
@@ -104,21 +150,16 @@ export function genPermalink() {
 	const currentURL = new URL(location.href);
 	const path = currentURL.pathname.substring(0, currentURL.pathname.lastIndexOf("/") + 1);
 	const permalink = `${currentURL.origin}${path}p.html?i=${$("instance").value}&t=`;
-	$("permalink").value = permalink + card_list.map(id => CompressTootId(id)).join(",");
+	$("permalink").value = permalink + cardList.map(id => CompressTootId(id)).join(",");
 }
 
 /**
  *
  * @param {Element} element DOM Element
- * @param {number} index
- * @param {string} prefix
  */
-export function registerEventsToCard(element, index, prefix) {
-	element.addEventListener("dblclick", () => {
-		deleteCard(index, prefix);
-	});
+export function registerEventsToCard(element) {
+	element.addEventListener("dblclick", () => deleteCard(element.id));
 	element.setAttribute("draggable", "true");
-	element.setAttribute("data-dblclickable", "true");
 	element.addEventListener("dragstart", e => handleDragStart(e), false);
 	element.addEventListener("dragover", e => handleDragOver(e), false);
 	element.addEventListener("drop", e => handleDrop(e), false);
@@ -126,72 +167,47 @@ export function registerEventsToCard(element, index, prefix) {
 }
 
 /**
+ * @param {Request | string} input
+ * @returns {Promise<any>}
+ */
+export async function fetchJsonAndCheck(input) {
+	try {
+		const r = await fetch(input);
+		if (r.ok) {
+			return await r.json();
+		}
+		throw new Error(`Request failed: ${r.status}`);
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
+}
+
+/**
  *
- * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalink_obj created by `decodePermalink`
+ * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalinkObj created by `decodePermalink`
  * @param {boolean | undefined} registerEvent
  */
-export function showCards(permalink_obj, registerEvent = false) {
-	const instance_full = permalink_obj["instance_full"];
-	const toot_ids = permalink_obj["toot_ids"];
-	const xhr = new XMLHttpRequest();
-	const target_div = $("cards");
-	let toot_url = "";
+export async function showCards(permalinkObj, registerEvent = false) {
+	const instanceFull = permalinkObj.instance_full;
+	const tootIds = permalinkObj.toot_ids;
+	const targetDiv = $("cards");
 
-	for (let i = 0; i < toot_ids.length; i++) {
-		toot_url = instance_full + "/api/v1/statuses/" + toot_ids[i];
-		xhr.open("GET", toot_url, false);
-		xhr.onload = function() {
-			if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					const toot_div = document.createElement("div");
-					const toot = JSON.parse(xhr.responseText);
-					const timestamp = moment(toot.created_at).format("llll");
-					const content_html = getHtmlFromContent(toot.content);
-					const idx = max_index;
-					let media = "";
-					for (let i = 0; i < toot.media_attachments.length; i++) {
-						media += `
-<a href='${toot.media_attachments[i].url}'>
-	<img class='thumbs' src='${toot.media_attachments[i].preview_url}'>
-</a>`;
-					}
-					toot_div.innerHTML = `
-<div class="box">
-	<a href="${toot.account.url}">
-		<img width="48" height="48" alt="" class="u-photo" src="${toot.account.avatar}">
-	</a>
-</div>
-<div class="box">
-	<a class="display-name" href="${toot.account.url}">
-		${toot.account.display_name}
-		<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
-	</a>
-	<a class="toot-time" href="${toot.url}">${timestamp}</a>
-	<div class="e-content" lang="ja" style="display: block; direction: ltr">
-		<p>${content_html}</p>
-	</div>
-	${media}
-</div>`;
-					toot_div.setAttribute("id", `o_${idx}`);
-					toot_div.setAttribute("class", "toot");
-					if (true === registerEvent) {
-						registerEventsToCard(toot_div, idx, "o");
-					}
-					max_index++;
-					setAllAnchorsAsExternalTabSecurely(toot_div);
-					target_div.appendChild(toot_div);
-				} else {
-					console.error(xhr.statusText);
-				}
+	const fetchArray = tootIds.map(tootId => fetchJsonAndCheck(`${instanceFull}/api/v1/statuses/${tootId}`));
+	const toots = await Promise.all(fetchArray);
+	toots
+		.filter(toot => toot)
+		.forEach(toot => {
+			const tootDiv = createTootDiv(toot);
+			const idx = counter.nextIndex();
+			tootDiv.setAttribute("id", `o_${idx}`);
+			if (registerEvent === true) {
+				registerEventsToCard(tootDiv);
 			}
-		};
-		xhr.onerror = function() {
-			console.error(xhr.statusText);
-		};
-		xhr.send(null);
-	}
+			targetDiv.appendChild(tootDiv);
+		});
 
-	card_list = card_list.concat(toot_ids);
+	cardList = cardList.concat(tootIds);
 	genPermalink();
 }
 
@@ -221,7 +237,7 @@ export function handleDrop(e) {
 	}
 	e.dataTransfer.dropEffect = "move";
 	let node = e.target;
-	while (!node.getAttribute("data-dblclickable")) {
+	while (!node.getAttribute("draggable")) {
 		node = node.parentNode;
 	}
 	const src = $(e.dataTransfer.getData("text/plain"));
@@ -230,33 +246,33 @@ export function handleDrop(e) {
 	}
 	const cards = $("cards");
 	const children = cards.childNodes;
-	let src_index = -1;
-	let node_index = -1;
+	let srcIndex = -1;
+	let nodeIndex = -1;
 	for (let i = 0; i < children.length; i++) {
 		if (children[i] === src) {
-			src_index = i;
+			srcIndex = i;
 		}
 		if (children[i] === node) {
-			node_index = i;
+			nodeIndex = i;
 		}
 	}
-	if (src_index < 0) {
+	if (srcIndex < 0) {
 		return;
 	}
-	if (node_index < 0) {
+	if (nodeIndex < 0) {
 		return;
 	}
 
 	cards.removeChild(src);
 	cards.insertBefore(src, node);
 
-	if (src_index < node_index) {
-		card_list.splice(node_index, 0, card_list[src_index]);
-		card_list.splice(src_index, 1);
+	if (srcIndex < nodeIndex) {
+		cardList.splice(nodeIndex, 0, cardList[srcIndex]);
+		cardList.splice(srcIndex, 1);
 	} else {
-		const toot_id = card_list[src_index];
-		card_list.splice(src_index, 1);
-		card_list.splice(node_index, 0, toot_id);
+		const tootId = cardList[srcIndex];
+		cardList.splice(srcIndex, 1);
+		cardList.splice(nodeIndex, 0, tootId);
 	}
 	genPermalink();
 }
@@ -265,13 +281,49 @@ export function handleDragEnd() {
 	// console.log("drag end");
 }
 
-function getHtmlFromContent(str_content) {
+export function createTootDiv(toot) {
+	const tootDiv = document.createElement("div");
+	const timestamp = moment(toot.created_at).format("llll");
+	let strContent = toot.content;
+	for (const emoji of toot.emojis) {
+		strContent = strContent.replace(
+			new RegExp(`:${emoji.shortcode}:`, "g"),
+			`<img class="emoji" alt=":${emoji.shortcode}:" src="${emoji.url}">`
+		);
+	}
+	const contentHtml = getHtmlFromContent(strContent);
+	const media = toot.media_attachments
+		.map(attachment => `<a href='${attachment.url}'><img class='thumbs' src='${attachment.preview_url}'></a>`)
+		.join("");
+	tootDiv.innerHTML = `
+<div class="box">
+	<a href="${toot.account.url}">
+		<img width="48" height="48" alt="avatar" class="u-photo" src="${toot.account.avatar}">
+	</a>
+</div>
+<div class="box">
+	<a class="display-name" href="${toot.account.url}">
+		${toot.account.display_name}
+		<span>@${toot.account.username}@${new URL(toot.account.url).hostname}</span>
+	</a>
+	<a class="toot-time" href="${toot.url}">${timestamp}</a>
+	<div class="e-content" lang="ja" style="display: block; direction: ltr">
+		<p>${contentHtml}</p>
+	</div>
+	${media}
+</div>`;
+	tootDiv.setAttribute("class", "toot");
+	setAllAnchorsAsExternalTabSecurely(tootDiv);
+	return tootDiv;
+}
+
+function getHtmlFromContent(strContent) {
 	const div = document.createElement("div");
-	div.innerHTML = str_content;
+	div.innerHTML = strContent;
 	return div.innerHTML;
 }
 
-export function setAllAnchorsAsExternalTabSecurely(elements) {
+function setAllAnchorsAsExternalTabSecurely(elements) {
 	console.log("Setting all anchor elements as external tab avoiding tabnabbing.");
 	elements.querySelectorAll("a").forEach(anchor => setAnchorWithSecureAttribute(anchor));
 }

@@ -1,3 +1,13 @@
+/* baloo-bhai-regular - latin-ext_latin */
+@font-face {
+  font-family: 'Baloo Bhai';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Baloo Bhai Regular'), local('BalooBhai-Regular'),
+       url('../fonts/baloo-bhai-v5-latin-ext_latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('../fonts/baloo-bhai-v5-latin-ext_latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 input, button, textarea, select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -118,6 +128,16 @@ div.area>div p, div.area>div p input[type="text"] {
 	word-break: keep-all;
 }
 
+.preview-inner {
+	border: 1px dashed #aaa;
+	padding: 20px;
+	width: 100%;
+}
+
+.readme-md {
+	padding: 0.5em;
+}
+
 button {
 	font-size: 15px;
 	padding: .5em;
@@ -126,6 +146,7 @@ button {
 	background-color: #52b03b;
 	color: #fff;
 	box-shadow: none;
+	cursor: pointer;
 }
 
 button:last-child{
@@ -157,6 +178,12 @@ button:focus {
 
 .e-content p {
 	word-break: break-word;
+}
+
+img.emoji {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
 }
 
 img.thumbs {
@@ -249,6 +276,14 @@ i:hover .hint {
 	animation-timing-function: ease-out;
 }
 
+/* for introJS hack... */
+.introjs-helperNumberLayer {
+	top: -16px !important;
+	left: -16px !important;
+}
+.introjs-button {
+	color: black !important;
+}
 /* end */
 
 @keyframes appear {
