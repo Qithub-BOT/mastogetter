@@ -12,11 +12,11 @@
     "test": "ava"
   },
   "devDependencies": {
-    "ava": "^2.4.0",
+    "ava": "^3.5.0",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-prettier": "^6.10.0",
     "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsdoc": "^20.3.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
