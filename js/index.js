@@ -11,9 +11,7 @@ async function showPreview() {
 		instanceFull = "https://qiitadon.com";
 		$("instance").value = instanceFull;
 	}
-	const tootId = $("toot-id")
-		.value.split("/")
-		.reverse()[0];
+	const tootId = $("toot-id").value.split("/").reverse()[0];
 	if (!tootId) {
 		return;
 	}
@@ -32,11 +30,7 @@ function addCard() {
 	const idx = counter.nextIndex();
 	clone.setAttribute("id", `c_${idx}`);
 	impl.registerEventsToCard(clone);
-	impl.cardList.push(
-		$("toot-id")
-			.value.split("/")
-			.reverse()[0]
-	);
+	impl.cardList.push($("toot-id").value.split("/").reverse()[0]);
 
 	if ($("cards").hasChildNodes() && $("cards").firstChild.nodeName === "#text") {
 		$("cards").removeChild($("cards").firstChild);
