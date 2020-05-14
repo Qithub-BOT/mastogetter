@@ -54,7 +54,8 @@
 				"singleQuote": false,
 				"trailingComma": "es5",
 				"printWidth": 120,
-				"useTabs": true
+				"useTabs": true,
+				"arrowParens": "avoid"
 			}
 		],
 		"jsdoc/require-description": "off",
