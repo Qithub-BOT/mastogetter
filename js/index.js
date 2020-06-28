@@ -1,17 +1,16 @@
 import * as counter from "./class/counter.js";
 import * as impl from "./common.js";
 
-function $(id) {
-	return document.getElementById(id);
-}
-
 async function showPreview() {
-	let instanceFull = $("instance").value;
+	let instanceFull = impl.$("instance").value;
 	if (instanceFull.trim() === "") {
 		instanceFull = "https://qiitadon.com";
-		$("instance").value = instanceFull;
+		impl.$("instance").value = instanceFull;
 	}
-	const tootId = $("toot-id").value.split("/").reverse()[0];
+	const tootId = impl
+		.$("toot-id")
+		.value.split("/")
+		.reverse()[0];
 	if (!tootId) {
 		return;
 	}
@@ -20,27 +19,32 @@ async function showPreview() {
 		return;
 	}
 	const tootDiv = impl.createTootDiv(toot);
-	$("card-preview").innerHTML = tootDiv.outerHTML;
+	impl.$("card-preview").innerHTML = tootDiv.outerHTML;
 }
 
 function addCard() {
-	const cardPreview = $("card-preview");
+	const cardPreview = impl.$("card-preview");
 	if (!cardPreview) return;
-	const clone = $("card-preview").firstElementChild.cloneNode(true);
+	const clone = impl.$("card-preview").firstElementChild.cloneNode(true);
 	const idx = counter.nextIndex();
 	clone.setAttribute("id", `c_${idx}`);
 	impl.registerEventsToCard(clone);
-	impl.cardList.push($("toot-id").value.split("/").reverse()[0]);
+	impl.cardList.push(
+		impl
+			.$("toot-id")
+			.value.split("/")
+			.reverse()[0]
+	);
 
-	if ($("cards").hasChildNodes() && $("cards").firstChild.nodeName === "#text") {
-		$("cards").removeChild($("cards").firstChild);
+	if (impl.$("cards").hasChildNodes() && impl.$("cards").firstChild.nodeName === "#text") {
+		impl.$("cards").removeChild(impl.$("cards").firstChild);
 	}
-	$("cards").appendChild(clone);
+	impl.$("cards").appendChild(clone);
 	impl.genPermalink();
 }
 
 function flipCards() {
-	const cards = $("cards");
+	const cards = impl.$("cards");
 	if (!cards) return;
 	const cardNodes = [];
 	while (cards.hasChildNodes()) {
@@ -63,13 +67,13 @@ function copyPermalink() {
 		return false;
 	}
 	impl.genPermalink();
-	$("permalink").select();
+	impl.$("permalink").select();
 	document.execCommand("copy");
 }
 
 function loadPermalink() {
-	const permalinkObj = impl.decodePermalink(new URL($("load").value).searchParams);
-	$("instance").value = permalinkObj.instance_full;
+	const permalinkObj = impl.decodePermalink(new URL(impl.$("load").value).searchParams);
+	impl.$("instance").value = permalinkObj.instance_full;
 	impl.showCards(permalinkObj, true).catch(err => console.error(err));
 }
 
@@ -79,7 +83,7 @@ function alertUsageNoPermalink() {
 }
 
 function isEmptyPermalink() {
-	return !$("permalink").value;
+	return !impl.$("permalink").value;
 }
 
 function focusSelect(e) {
@@ -87,26 +91,26 @@ function focusSelect(e) {
 }
 
 impl.ready(() => {
-	$("load").addEventListener("focus", e => focusSelect(e));
-	$("instance").addEventListener("focus", e => focusSelect(e));
-	$("toot-id").addEventListener("focus", e => focusSelect(e));
-	$("permalink").addEventListener("focus", e => focusSelect(e));
-	$("loadPermalink").addEventListener("click", () => {
+	impl.$("load").addEventListener("focus", e => focusSelect(e));
+	impl.$("instance").addEventListener("focus", e => focusSelect(e));
+	impl.$("toot-id").addEventListener("focus", e => focusSelect(e));
+	impl.$("permalink").addEventListener("focus", e => focusSelect(e));
+	impl.$("loadPermalink").addEventListener("click", () => {
 		loadPermalink();
 	});
-	$("showPreview").addEventListener("click", () => {
+	impl.$("showPreview").addEventListener("click", () => {
 		showPreview().catch(err => console.error(err));
 	});
-	$("addCard").addEventListener("click", () => {
+	impl.$("addCard").addEventListener("click", () => {
 		addCard();
 	});
-	$("copylink").addEventListener("click", () => {
+	impl.$("copylink").addEventListener("click", () => {
 		copyPermalink();
 	});
-	$("flip").addEventListener("click", () => {
+	impl.$("flip").addEventListener("click", () => {
 		flipCards();
 	});
-	$("usage").addEventListener("click", () => {
+	impl.$("usage").addEventListener("click", () => {
 		introJs().start();
 	});
 });

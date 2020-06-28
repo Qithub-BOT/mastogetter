@@ -10,7 +10,7 @@ export function ready(loaded) {
 	}
 }
 
-function $(id) {
+export function $(id) {
 	return document.getElementById(id);
 }
 
@@ -124,32 +124,38 @@ function UncompressOrPassThroughTootId(id) {
  * Permalinkの分解
  *
  * @param {URLSearchParams} searchParams
- * @param {number | undefined} page
+ * @param {number | undefined} pageSize
  * @returns {{instance_full: string, instance: string, toot_ids: string[]}}
  */
-export function decodePermalink(searchParams, page = undefined) {
+export function decodePermalink(searchParams, pageSize = undefined) {
 	if (!searchParams.has("t")) {
 		throw new Error("t must be required.");
 	}
 	const instanceFull = searchParams.has("i") ? searchParams.get("i") : "https://qiitadon.com";
-	return {
+	const page = $("page");
+	const permalinkObj = {
 		instance_full: instanceFull,
 		instance: new URL(instanceFull).hostname,
 		toot_ids: searchParams
 			.get("t")
 			.split(",")
-			.filter((e, i) => {
-				if (page === undefined) {
-					return i >= 0;
-				} else {
-					return i >= page * 10 - 9 && i <= page * 10;
-				}
-			})
 			// 末尾が,で終わると空文字列が最終要素に来る
 			.filter(e => e !== "")
 			.map(id => UncompressOrPassThroughTootId(id))
-			.filter(e => e !== null),
+			.filter(e => e !== null)
+			.filter((e, i) => {
+				if (pageSize === undefined) {
+					return i >= 0;
+				} else {
+					return i >= page.value * pageSize - pageSize - 1 && i <= page.value * pageSize;
+				}
+			}),
 	};
+	page.value++;
+	if (permalinkObj.toot_ids.length <= 0) {
+		$("btnload").style.display = "none";
+	}
+	return permalinkObj;
 }
 
 export function genPermalink() {
