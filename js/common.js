@@ -124,9 +124,10 @@ function UncompressOrPassThroughTootId(id) {
  * Permalinkの分解
  *
  * @param {URLSearchParams} searchParams
+ * @param {number | undefined} page
  * @returns {{instance_full: string, instance: string, toot_ids: string[]}}
  */
-export function decodePermalink(searchParams) {
+export function decodePermalink(searchParams, page = undefined) {
 	if (!searchParams.has("t")) {
 		throw new Error("t must be required.");
 	}
@@ -137,6 +138,13 @@ export function decodePermalink(searchParams) {
 		toot_ids: searchParams
 			.get("t")
 			.split(",")
+			.filter((e, i) => {
+				if (page === undefined) {
+					return i >= 0;
+				} else {
+					return i >= page * 10 - 9 && i <= page * 10;
+				}
+			})
 			// 末尾が,で終わると空文字列が最終要素に来る
 			.filter(e => e !== "")
 			.map(id => UncompressOrPassThroughTootId(id))

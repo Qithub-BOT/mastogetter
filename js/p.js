@@ -4,7 +4,14 @@ function $(id) {
 }
 
 function showPreview() {
-	impl.showCards(impl.decodePermalink(new URLSearchParams(location.search)));
+	const page = $("page");
+	const permalinkObj = impl.decodePermalink(new URLSearchParams(location.search), page.value);
+	if (permalinkObj.toot_ids.length > 0) {
+		impl.showCards(permalinkObj);
+		page.value++;
+	} else {
+		$("btnload").style.display = "none";
+	}
 	$("matomain").addEventListener("mouseover", removeAllDraggable, false);
 }
 
@@ -17,4 +24,7 @@ function removeAllDraggable() {
 }
 impl.ready(() => {
 	showPreview();
+	$("btnload").addEventListener("click", () => {
+		showPreview();
+	});
 });
