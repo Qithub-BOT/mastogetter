@@ -1,5 +1,6 @@
+import * as counter from "./class/counter.js";
+
 export let cardList = [];
-let maxIndex = 0;
 
 export function ready(loaded) {
 	if (["interactive", "complete"].includes(document.readyState)) {
@@ -55,11 +56,10 @@ export function inputParser(input, onPURL, onToot) {
 }
 
 /**
- * @param {number} index
- * @param {string} prefix
+ * @param {string} elementId
  */
-export function deleteCard(index, prefix) {
-	const card = $(`${prefix}_${index}`);
+export function deleteCard(elementId) {
+	const card = $(elementId);
 	const cards = $("cards").childNodes;
 	let idx = 0;
 	for (let i = 0; i < cards.length; i++) {
@@ -164,15 +164,10 @@ export function genPermalink() {
 /**
  *
  * @param {Element} element DOM Element
- * @param {number} index
- * @param {string} prefix
  */
-export function registerEventsToCard(element, index, prefix) {
-	element.addEventListener("dblclick", () => {
-		deleteCard(index, prefix);
-	});
+export function registerEventsToCard(element) {
+	element.addEventListener("dblclick", () => deleteCard(element.id));
 	element.setAttribute("draggable", "true");
-	element.setAttribute("data-dblclickable", "true");
 	element.addEventListener("dragstart", e => handleDragStart(e), false);
 	element.addEventListener("dragover", e => handleDragOver(e), false);
 	element.addEventListener("drop", e => handleDrop(e), false);
@@ -180,42 +175,45 @@ export function registerEventsToCard(element, index, prefix) {
 }
 
 /**
+ * @param {Request | string} input
+ * @returns {Promise<any>}
+ */
+export async function fetchJsonAndCheck(input) {
+	try {
+		const r = await fetch(input);
+		if (r.ok) {
+			return await r.json();
+		}
+		throw new Error(`Request failed: ${r.status}`);
+	} catch (e) {
+		console.error(e);
+		return null;
+	}
+}
+
+/**
  *
  * @param {{instance_full: string, instance: string, toot_ids: string[]}} permalinkObj created by `decodePermalink`
  * @param {boolean | undefined} registerEvent
  */
-export function showCards(permalinkObj, registerEvent = false) {
+export async function showCards(permalinkObj, registerEvent = false) {
 	const instanceFull = permalinkObj.instance_full;
 	const tootIds = permalinkObj.toot_ids;
-	const xhr = new XMLHttpRequest();
 	const targetDiv = $("cards");
-	let tootUrl = "";
 
-	for (let i = 0; i < tootIds.length; i++) {
-		tootUrl = instanceFull + "/api/v1/statuses/" + tootIds[i];
-		xhr.open("GET", tootUrl, false);
-		xhr.onload = function() {
-			if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					const toot = JSON.parse(xhr.responseText);
-					const idx = maxIndex;
-					const tootDiv = createTootDiv(toot);
-					tootDiv.setAttribute("id", `o_${idx}`);
-					if (registerEvent === true) {
-						registerEventsToCard(tootDiv, idx, "o");
-					}
-					maxIndex++;
-					targetDiv.appendChild(tootDiv);
-				} else {
-					console.error(xhr.statusText);
-				}
+	const fetchArray = tootIds.map(tootId => fetchJsonAndCheck(`${instanceFull}/api/v1/statuses/${tootId}`));
+	const toots = await Promise.all(fetchArray);
+	toots
+		.filter(toot => toot)
+		.forEach(toot => {
+			const tootDiv = createTootDiv(toot);
+			const idx = counter.nextIndex();
+			tootDiv.setAttribute("id", `o_${idx}`);
+			if (registerEvent === true) {
+				registerEventsToCard(tootDiv);
 			}
-		};
-		xhr.onerror = function() {
-			console.error(xhr.statusText);
-		};
-		xhr.send(null);
-	}
+			targetDiv.appendChild(tootDiv);
+		});
 
 	cardList = cardList.concat(tootIds);
 	genPermalink();
@@ -247,7 +245,7 @@ export function handleDrop(e) {
 	}
 	e.dataTransfer.dropEffect = "move";
 	let node = e.target;
-	while (!node.getAttribute("data-dblclickable")) {
+	while (!node.getAttribute("draggable")) {
 		node = node.parentNode;
 	}
 	const src = $(e.dataTransfer.getData("text/plain"));

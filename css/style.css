@@ -140,6 +140,16 @@ div.area>div p, div.area>div p input[type="text"] {
 	word-break: keep-all;
 }
 
+.preview-inner {
+	border: 1px dashed #aaa;
+	padding: 20px;
+	width: 100%;
+}
+
+.readme-md {
+	padding: 0.5em;
+}
+
 button {
 	font-size: 15px;
 	padding: .5em;
@@ -148,6 +158,7 @@ button {
 	background-color: #52b03b;
 	color: #fff;
 	box-shadow: none;
+	cursor: pointer;
 }
 
 button:last-child{
@@ -277,6 +288,14 @@ i:hover .hint {
 	animation-timing-function: ease-out;
 }
 
+/* for introJS hack... */
+.introjs-helperNumberLayer {
+	top: -16px !important;
+	left: -16px !important;
+}
+.introjs-button {
+	color: black !important;
+}
 /* end */
 
 @keyframes appear {
